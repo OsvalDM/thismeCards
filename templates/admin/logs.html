@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        <title>Cards Carnival</title>
+        <link rel="icon" href="{{  url_for('static', filename='img/icon.webp') }}">
+        <style>
+            #imgHover:hover{
+                opacity: 100;
+            }
+        </style>
+    </head>
+
+    <body class="overflow-x-hidden	">
+
+        <div class="w-full flex justify-between items-center h-[15vh]">
+            <img src="{{ url_for('static', filename='img/carnivalLogo.png') }}" alt="logo carnival" class="w-60 ml-8 mt-6 ">
+        
+            <div class="flex justify-between items-center">
+                <h2 class="font-semibold">{{ userName }}</h2>
+                <a href="/logout" class="bg-[#C44890] hover:bg-pink-600 h-fit py-2 px-4 rounded-xl text-white mx-8">
+                        Salir 
+                </a>
+            </div>
+        
+        </div>
+
+        <div class="flex justify-center">
+
+            <div class="w-1/5 h-[85vh] flex flex-col items-center sticky top-0 z-10 bg-white" >                                                        
+                <a type="button" data-modal-target="static-modal" data-modal-toggle="static-modal" class="w-52 bg-[#C44890] hover:bg-pink-600 h-fit py-2 px-4 rounded-xl text-white mt-8"> 
+                    Agregar admin
+                </a>
+                <a type="button" data-modal-target="static-modal-delete" data-modal-toggle="static-modal-delete" class="w-52 bg-[#C44890] hover:bg-pink-600 h-fit py-2 px-4 rounded-xl text-white mt-8"> 
+                    Eliminar admin
+                </a>
+                <a href="/admin/" class="w-52 bg-[#C44890] hover:bg-pink-600 h-fit py-2 px-4 rounded-xl text-white mt-8"> 
+                    Tarjetas
+                </a>
+                <a href="/admin/logs" class="w-52 bg-[#C44890] hover:bg-pink-600 h-fit py-2 px-4 rounded-xl text-white mt-8"> 
+                    Registro de cambios
+                </a>
+            </div>
+            
+            <!-- Main modal -->
+            <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow ">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 class="text-xl font-semibold text-gray-900 ">
+                                Agrega un Administrador
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center " data-modal-hide="static-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-4 md:p-5 space-y-4">
+                            <form class="flex justify-center items-center flex-col w-96" action="/addAdmin" method="post" enctype="multipart/form-data" >
+                                <div class="mb-5">
+                                    <label for="idWorker" class="block mb-2 text-sm font-medium text-gray-900">Numero de empleado</label>
+                                    <input type="text" id="idWorker" name="idWorker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                                </div>
+
+                                <button data-modal-hide="static-modal" type="submit" class="text-white bg-[#C44890] hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-fuchsia-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+             <!-- Main modal -->
+             <div id="static-modal-delete" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow ">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 class="text-xl font-semibold text-gray-900 ">
+                                Elimina un Administrador
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center " data-modal-hide="static-modal-delete">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-4 md:p-5 space-y-4">
+                            <form class="flex justify-center items-center flex-col w-96" action="/deleteAdmin" method="post" enctype="multipart/form-data" >
+                                <div class="mb-5">
+                                    <label for="idWorker" class="block mb-2 text-sm font-medium text-gray-900">Numero de empleado</label>
+                                    <input type="text" id="idWorker" name="idWorker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                                </div>
+
+                                <button data-modal-hide="static-modal" type="submit" class="text-white bg-[#C44890] hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-fuchsia-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <div class="w-4/5" >
+
+                {% if logs %}
+
+                    <div class="w-4/5 overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 w-16">
+                                        Id
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-40">
+                                        Usuario
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-40">
+                                        Movimiento
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-16">
+                                        Fecha
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in logs %}
+                                    <tr class="bg-white border-b hover:bg-gray-50 ">
+                                        <th scope="row" class="px-8 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            {{log[0]}}
+                                        </th>
+                                        <td class="px-8 py-4">
+                                            {{log[1]}}
+                                        </td>
+                                        <td class="px-8 py-4">
+                                            {{log[2]}}
+                                        </td>
+                                        <td class="px-8 py-4 text-right">
+                                            {{log[3]}}
+                                        </td>
+                                    </tr>                                
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <p class="text-xs">
+                            Usuario: numeroDeEmpleado_NombreUsuario
+                            <br>
+                            Movimiento: accion-(Usuario | tarjeta)
+                        </p>
+                    </div>
+                {% else %}
+                    <p>No hay registros disponibles</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    </body>
+</html>

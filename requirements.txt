@@ -1,0 +1,5 @@
+flask
+flask_mysqldb
+Pillow
+qrcode[pil]
+flask_cors
