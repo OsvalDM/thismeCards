@@ -1,87 +1,154 @@
-CREATE TABLE usuario (
-    id VARCHAR(20),
-    nombreUsuario VARCHAR(30),
-    psw VARCHAR(200),
-    admin BOOLEAN DEFAULT 0,
-    PRIMARY KEY(id)
-);
+START TRANSACTION;
 
-CREATE TABLE tarjeta (
+CREATE TABLE USERCARD (
     id INT AUTO_INCREMENT,
-    nombre VARCHAR(40),
-    apellidoPat VARCHAR(40),
-    apellidoMat VARCHAR(40),
-    correo VARCHAR(200),
-    telefono VARCHAR(15),
-    sobreMi VARCHAR(500),
-    ubicacion VARCHAR(500),
-    lat VARCHAR(100),
-    lng VARCHAR(100),
-    usuario VARCHAR(20),
-    cargo VARCHAR(200),
-    titulo VARCHAR(10),
-    PRIMARY KEY(id),
-    FOREIGN KEY(usuario) REFERENCES usuario(id)
+    email VARCHAR(500) NOT NULL,
+    userName VARCHAR(100) NOT NULL,
+    psw VARCHAR(200) NOT NULL,
+    status VARCHAR(100) NOT NULL DEFAULT "ACTIVE",
+    admin BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE redSocial(
-    tarjeta INT,
-    plataforma VARCHAR(30),
-    nombre VARCHAR(100),
-    FOREIGN KEY(tarjeta) REFERENCES tarjeta(id),
-    PRIMARY KEY (tarjeta, plataforma)
-);
-
-CREATE TABLE imgPortafolio(
-    tarjeta INT,
-    rutaPortafolio VARCHAR(400),
-    PRIMARY KEY ( tarjeta, rutaPortafolio ),
-    FOREIGN KEY(tarjeta) REFERENCES tarjeta(id)
-);
-
-CREATE TABLE imgPerfil(
-    tarjeta INT,
-    rutaPerfil VARCHAR(400),
-    PRIMARY KEY (tarjeta, rutaPerfil),
-    FOREIGN KEY(tarjeta) REFERENCES tarjeta(id)
-);
-
-CREATE TABLE cliente(
+-- Base data card
+CREATE TABLE CARD(
     id INT AUTO_INCREMENT,
-    nombre VARCHAR(200),
-    imgLogo VARCHAR(400),
-    tarjeta INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY(tarjeta) REFERENCES tarjeta(id)
+    user INT NOT NULL,
+    name VARCHAR(500) NOT NULL,
+    lastFat VARCHAR(500) NOT NULL,
+    lastMot VARCHAR(500) NOT NULL,
+    imgProfile VARCHAR(500) NOT NULL,
+    activationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY user REFERENCES USERCARDCARD(id)    
 );
 
-CREATE TABLE movimientos(
+CREATE TABLE EMAIL(
+    card INT NOT NULL,
+    email VARCHAR(500) NOT NULL,
+    PRIMARY KEY(card, email),
+    FOREIGN KEY(card) REFERENCES CARD(id)
+);
+
+CREATE TABLE PHONE(
+    card INT NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    PRIMARY KEY(card, phone),
+    FOREIGN KEY(card) REFERENCES CARD(id)
+);
+
+CREATE TABLE SOCIAL(
     id INT AUTO_INCREMENT,
-    usuario VARCHAR(200),
-    accion VARCHAR(200),
-    fecha TIMESTAMP,
-    PRIMARY KEY(id)
+    user INT NOT NULL,
+    name VARCHAR(100),
+    brand VARCHAR(500),
+    link VARCHAR(1000),
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(user) REFERENCES USERCARD(id)
 );
 
-CREATE TABLE pregunta(
+-- Administration
+
+CREATE TABLE LOGS (
     id INT AUTO_INCREMENT,
-    contenido VARCHAR(300),
-    PRIMARY KEY(id)
+    user INT NOT NULL,
+    detail VARCHAR(500) NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,    
+    PRIMARY KEY (id, user),
+    FOREIGN KEY (user) REFERENCES USERCARD(id)
 );
 
-CREATE TABLE recuperacionContrasena(
+CREATE TABLE PAYMENT (
     id INT AUTO_INCREMENT,
-    usuario VARCHAR(20),
-    pregunta INT,
-    respuesta VARCHAR(300),
-    PRIMARY KEY(id),
-    FOREIGN KEY (usuario) REFERENCES usuario(id),
-    FOREIGN KEY (pregunta) REFERENCES pregunta(id)
+    user INT NOT NULL,
+    detail VARCHAR(500) NOT NULL,
+    mount INT NOT NULL,
+    comprobant VARCHAR(500) NOT NULL,
+    confirm BOOLEAN NOT NULL DEFAULT 0,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,    
+    userTarget INT NOT NULL,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(user) REFERENCES USERCARD(id),
+    FOREIGN KEY(userTarget) REFERENCES USERCARD(id)
 );
 
-INSERT INTO pregunta(contenido) VALUES
-    ('¿En qué ciudad se conocieron tus padres?'),
-    ('¿A qué primaria asististe?'),
-    ('¿En qué lugar conociste a tu mejor amigo?'),
-    ('¿A qué ciudad siempre quisiste ir?')
-;
+-- Personalitation
+CREATE TABLE STYLE (
+    id INT AUTO_INCREMENT,
+    user INT NOT NULL,
+    color VARCHAR(7) NOT NULL DEFAULT "#F04E4E",
+    background VARCHAR(500) NOT NULL DEFAULT "img/background.jpg",
+    template INT NOT NULL DEFAULT 0,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(user) REFERENCES USERCARD(id)
+);
+
+-- Content
+-- Especialization
+CREATE TABLE COMPONENT(
+    id INT AUTO_INCREMENT,
+    user INT NOT NULL,
+    order INT NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL DEFAULT "ACTIVE",
+    PRIMARY KEY(id, user), 
+    FOREIGN KEY(user) REFERENCES USERCARD(id)
+);
+
+-- Generalizations
+CREATE TABLE ABOUTME(
+    id INT NOT NULL,
+    user INT NOT NULL,
+    content VARCHAR(3000) NOT NULL,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(id) REFERENCES COMPONENT(id),
+    FOREIGN KEY(user) REFERENCES COMPONENT(user)
+);
+
+CREATE TABLE BRIEFCASE(
+    id INT NOT NULL,
+    user INT NOT NULL,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(id) REFERENCES COMPONENT(id),
+    FOREIGN KEY(user) REFERENCES COMPONENT(user)
+);
+
+CREATE TABLE BRIEFCASE_IMAGE(
+    id INT NOT NULL,
+    user INT NOT NULL,
+    urlImg VARCHAR(500) NOT NULL,
+    PRIMARY KEY(id, user, urlImg),
+    FOREIGN KEY(id) REFERENCES BRIEFCASE(id),
+    FOREIGN KEY(user) REFERENCES BRIEFCASE(user)
+);
+
+CREATE TABLE UBICATION(
+    id INT NOT NULL,
+    user INT NOT NULL,
+    lat VARCHAR(100) NOT NULL,
+    long VARCHAR(100) NOT NULL,
+    address VARCHAR(500) NOT NULL,
+    tittle VARCHAR(100) NOT NULL,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(id) REFERENCES COMPONENT(id),
+    FOREIGN KEY(user) REFERENCES COMPONENT(user)
+);
+
+CREATE TABLE COSTUMER(
+    id INT NOT NULL,
+    user INT NOT NULL,
+    PRIMARY KEY(id, user),
+    FOREIGN KEY(id) REFERENCES COMPONENT(id),
+    FOREIGN KEY(user) REFERENCES COMPONENT(user)
+);
+
+CREATE TABLE COSTUMER_DATA(
+    id INT AUTO_INCREMENT,
+    costumer INT NOT NULL,
+    name VARCHAR(500) NOT NULL,
+    img VARCHAR(500) NOT NULL,
+    PRIMARY KEY(id, costumer),
+    FOREIGN KEY(costumer) REFERENCES COSTUMER(id)
+);
+
+COMMIT;
