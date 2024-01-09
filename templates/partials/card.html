@@ -9,10 +9,7 @@
     <div class="absolute top-10 sm:top-40">
         <div class="block sm:hidden w-[90vw] sm:w-[70vw] mb-4 flex justify-center" id="profilePic">
             <div class="h-40 w-40">
-                <img class="h-full w-full p-1 rounded-full ring-2 ring-gray-300 object-cover object-center" src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Bordered avatar">
-                {% if content.profilePicData[1] %}                    
-                    <img src="{{ url_for('static', filename=content.profilePicData[1][1]) }}" id="imgHover" alt="Hover Image" class="h-full w-40 p-1 rounded-full ring-2 ring-gray-300 object-cover object-center absolute top-0 opacity-0 transition duration-300 ease-in-out ">
-                {% endif %}
+                <img class="h-full w-full p-1 rounded-full ring-2 ring-gray-300 object-cover object-center" src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Bordered avatar">                
             </div>            
         </div>            
 
@@ -20,13 +17,7 @@
             <div class="flex px-4 py-4">
                 <div class="w-[40%] hidden sm:flex justify-center">
                     <!-- Original image -->
-                    <img src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Imagen de perfil" class="h-80 object-contain object-center rounded-lg">
-                    
-                    {% if content.profilePicData[1] %}
-                        <div class="h-80 absolute w-[40%] transition duration-300 ease-in-out transform" >
-                            <img src="{{ url_for('static', filename=content.profilePicData[1][1]) }}" id="imgHover" alt="Hover Image" class="h-80 w-full object-cover object-center rounded-lg absolute top-0 left-0 opacity-0 transition duration-300 ease-in-out ">
-                        </div>
-                    {% endif %}
+                    <img src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Imagen de perfil" class="h-80 object-cover object-center rounded-lg">
                 </div>
                 
                 <div class="w-full sm:w-[60%] flex flex-col items-center pt-2">
