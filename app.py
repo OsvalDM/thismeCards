@@ -79,6 +79,10 @@ def deleteFile(name):
         os.remove(file_Img)
 
 #Methods get
+#Verified endpoint
+@app.route('/')
+def landing():
+    return render_template('landing.html')
         
 #Verified endpoint
 @app.route('/login')
@@ -120,7 +124,7 @@ def restoreConfirm(id):
         return redirect(url_for('restore'))
 
 #Verified endpoint
-@app.route('/')
+@app.route('/user')
 def home():
     userInfo = getUserCookie()
     if userInfo:
