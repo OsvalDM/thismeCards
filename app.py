@@ -1,123 +1,69 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify, send_file, abort
+from flask import Flask, render_template, redirect, url_for, request, make_response
 from flask_mysqldb import MySQL
 import hashlib
-import qrcode
 import os
-import urllib.parse
-from PIL import Image
 from datetime import datetime
-from flask_cors import CORS
+
+from controllers.postController import *
+from utils.utils import *
 
 app = Flask(__name__)
 
-# Configuración de la base de datos
-# app.config['MYSQL_HOST'] = '198.12.240.41'
-# app.config['MYSQL_USER'] = 'adminRE'
-# app.config['MYSQL_PASSWORD'] = '12345*'
-# app.config['MYSQL_DB'] = 'rostroempresarial'
-
-app.config['MYSQL_HOST'] = '198.12.216.200'
-app.config['MYSQL_USER'] = 'i9694026_wp1'
-app.config['MYSQL_PASSWORD'] = 'C4rn1v4L2311*'
-app.config['MYSQL_DB'] = 'cardscarnival'
+#Configuración de la base de datos
+app.config['MYSQL_HOST'] = '198.12.240.41'
+app.config['MYSQL_USER'] = 'adminRE'
+app.config['MYSQL_PASSWORD'] = 'R0str03mP%'
+app.config['MYSQL_DB'] = 'rostroempresarial'
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
 mysql = MySQL(app)
 
-def getUserCookie():
-    myCookie = request.cookies.get('user')
-
-    if myCookie:        
-        userId, userName, haveCard, admin = myCookie.split(':')
-        return (userId, userName, haveCard, admin)
-    else:
-        return None
-    
-def getAskCookie():
-    myCookie = request.cookies.get('ask')
-
-    if myCookie:
-        userId, ressult = myCookie.split(':')
-        return (userId, ressult)
-    else:
-        return None
-    
-def get_filename(url):
-    parsed_url = urllib.parse.urlparse(url)
-    filename = parsed_url.netloc + parsed_url.path.replace('/', '_')
-    return filename + '.png'
-
-def generateQr(url):
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-
-    qr.add_data(url)
-    qr.make(fit=True)
-
-    img = qr.make_image(fill_color="black", back_color="white")
-    
-    filename = get_filename(url)
-    static_folder = os.path.join(os.getcwd(), 'static/data')
-    img_path = os.path.join(static_folder, filename)
-
-    img.save(img_path, 'PNG')
-
-    return ('data/' + filename, img_path)
-    
-def generate_filename(id, field, fileExtension):
-    return f"{id}_{field}.{fileExtension}"
-
-def deleteFile(name):
-    file_Img = 'static/' + name
-    if os.path.exists(file_Img):                        
-        os.remove(file_Img)
-
 #Methods get
-#Verified endpoint
+#Verified endpoint +
 @app.route('/')
 def landing():
     return render_template('landing.html')
 
+#Verified endpoint +
 @app.route('/signup')
-def signup():
+def signup():        
     return render_template('signup.html')
         
-#Verified endpoint
+#Verified endpoint +
 @app.route('/login')
 def login():
     return render_template('login.html')
 
+#Verified endpoint +
+@app.route('/example')
+def example():
+    return render_template('example.html')
+
+
+
+#Methods post
+
+@app.route('/token', methods=['POST'])
+def postToken():
+    token = request.form['token']
+    result = verifySignToken(mysql, token)
+    return result
+
+
+#Error handler
+#Verified endpoint
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error404.html'), 404
+
+
+#----------------------------------------------------------------------
 #Verified endpoint
 @app.route('/restore')
 def restore():
     return render_template('restorePSW.html')
-
-#Verified endpoint
-@app.route('/restore/ask/<id>')
-def restoreAsk(id):
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM recuperacionContrasena AS RC JOIN pregunta AS P ON RC.pregunta = P.id WHERE RC.usuario = %s', (id,))
-    user = cur.fetchone()
-
-    if user:
-        return render_template('restorePSWAsk.html', content = user)
-    else:
-        return redirect(url_for('restore'))
-
-#Verified endpoint
-@app.route('/restore/confirm/<id>')
-def restoreConfirm(id):
-    askInfo = getAskCookie()
-    if askInfo and askInfo[0] == id:
-        return render_template('restorePSWConfirm.html', id = id)
-    else:
-        return redirect(url_for('restore'))
 
 #Verified endpoint
 @app.route('/user')
@@ -337,11 +283,6 @@ def mycard(id):
 
     return render_template('mycard.html', content=content)
 
-#Verified endpoint
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('error404.html'), 404
-
 #Methods get admin
 
 #Verified endpoint
@@ -398,39 +339,6 @@ def logs():
     
     else:        
         return redirect(url_for('login'))
-
-#Methods get - Android
-    
-#Verified endpoint
-@app.route('/getQr/<id>')
-def getQr(id):
-    image_path = f'static/data/cardscarnival.com_mycard_{id}.png'
-    
-    if not os.path.exists(image_path):
-        return {'result': 'failed', 'message': 'Image not found'}
-
-    image_url = request.url_root + image_path
-    return {'result': 'success', 'imageUrl': image_url}
-
-#Verified endpoint
-@app.route('/login/<id>')
-def loginAndroid(id):
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuario WHERE id = %s', (id,))
-        user_data = cur.fetchone()
-
-        if user_data:
-           return {'result': 'success', 'id': id, 'name': user_data[1]}
-        else:
-            return {'result': 'failed', 'message': 'User not found'}
-
-    except Exception as e:
-        print(e)
-        return {'result': 'failed', 'message': 'User not found'}
-
-    finally:
-        cur.close()
 
 #Midleware routes get
         
@@ -511,70 +419,6 @@ def signupPost():
             cur.close()
 
     return  redirect(url_for('login'))
-
-#Verified endpoint
-@app.route('/restore', methods=['POST'])
-def restorePost():
-    askInfo = getAskCookie()
-    idWorker = request.form['idWorker']
-    if askInfo and askInfo[0] == idWorker:
-        try:
-            idWorker = request.form['idWorker']
-            password = request.form['password']
-            hashedPassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-            cur = mysql.connection.cursor()
-
-            cur.execute('SELECT * FROM usuario WHERE id = %s', (idWorker,))
-            user_data = cur.fetchone()
-
-            if user_data:
-                cur.execute('UPDATE usuario SET psw = %s WHERE id = %s', (hashedPassword, idWorker))
-                mysql.connection.commit()
-
-                resp = make_response(redirect(url_for('login')))
-                resp.delete_cookie('ask')
-                return resp
-            else:
-                return redirect(url_for('restore'))
-
-        except Exception as e:
-            print(e)
-            return redirect(url_for('restore'))
-
-        finally:
-            cur.close()
-    else:
-        return redirect(url_for('restore'))
-
-#Verified endpoint
-@app.route('/restore/ask/<id>', methods=['POST'])
-def restoreAskPost(id):
-    try:
-        respuesta = request.form['respuesta']    
-
-        cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM recuperacionContrasena AS RC JOIN pregunta AS P ON RC.pregunta = P.id WHERE RC.usuario = %s', (id,))
-        user_data = cur.fetchone()
-        
-        if user_data:            
-            answerBD = user_data[3].upper().replace(" ", "")
-            respuesta = respuesta.upper().replace(" ", "")            
-            if answerBD == respuesta:
-                resp = make_response(redirect('/restore/confirm/'+ str(id)))
-                resp.set_cookie('ask', f'{id}:{True}', max_age=3600)
-                return resp
-            else:
-                return redirect('/restore/ask/'+ str(id))
-        else:            
-            return redirect('/restore')
-
-    except Exception as e:
-        print(e)
-        return redirect(url_for('login'))
-
-    finally:
-        cur.close()
 
 #Verified endpoint
 @app.route('/createCard', methods=['POST'])
