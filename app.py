@@ -83,19 +83,15 @@ def deleteFile(name):
 @app.route('/')
 def landing():
     return render_template('landing.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
         
 #Verified endpoint
 @app.route('/login')
 def login():
     return render_template('login.html')
-
-#Verified endpoint
-@app.route('/signup')
-def signup():
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM pregunta')
-    cardData = cur.fetchall()
-    return render_template('signup.html', preguntas = cardData)
 
 #Verified endpoint
 @app.route('/restore')
