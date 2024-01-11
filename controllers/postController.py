@@ -4,12 +4,15 @@ def verifySignToken(mysql, token):
     try:
         cur = mysql.connection.cursor()
         cur.execute('SELECT * FROM TOKEN WHERE content = %s', (token,))
-        token = cur.fetchone()
+        token = cur.fetchone()        
 
         # todo: manejar resultados
-        return {'result' : 'success', 'token' : token}
+        if token != None:
+            return {'result' : 'success'}
+        else:
+            return {'result' : 'failed'}
     except Exception as e:
         print(e)        
-        return {'result' : 'failed', 'token' : None}
+        return {'result' : 'failed'}
     finally:
         cur.close()

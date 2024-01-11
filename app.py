@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response
+from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify
 from flask_mysqldb import MySQL
 import hashlib
 import os
@@ -47,9 +47,10 @@ def example():
 
 @app.route('/token', methods=['POST'])
 def postToken():
-    token = request.form['token']
+    data = request.get_json()    
+    token = data['token']
     result = verifySignToken(mysql, token)
-    return result
+    return jsonify(result)
 
 
 #Error handler
