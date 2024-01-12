@@ -8,9 +8,13 @@
     <script src="https://unpkg.com/scrollreveal"></script>
     <title>Rostro empresarial</title>
     <link rel="icon" href="{{  url_for('static', filename='img/icon.webp') }}">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 </head>
 
-<body class="overflow-hidden	">
+<body class="overflow-hidden">
     <div class="w-screen h-screen">
         <img src="{{ url_for('static', filename='img/landing/background.jpg') }}" alt="background landing page" class="w-full h-full object-cover object-center">
     </div>
@@ -23,12 +27,17 @@
             <div class="">
                 <a href="/" class="px-2 py-1 text-white font-bold text-xl underline
                     transition ease-in-out hover:text-gray-300">
-                    < Inicio</a>
+                    < Inicio
+                </a>
+                <a href="/login" class="px-2 py-1 text-white font-bold text-xl underline
+                    transition ease-in-out hover:text-gray-300">
+                    Inicio de sesion
+                </a>
             </div>            
         </div>   
     
-        <div class="flex justify-end h-[85vh] py-8">
-            <div class="flex flex-col items-center w-[40vw]">
+        <div class="flex justify-end h-[85vh] pb-8">
+            <div class="flex flex-col items-center w-[40vw]" id="mainContainer">
 
                 <!-- Validate token -->
                 <div id="tokenContainer">
@@ -36,44 +45,15 @@
                         <h3 class="font-bold text-3xl w-full text-center mb-2 text-white">Registrate</h3>
                         <p class="w-full text-center mb-8 text-white">Introduce tu token de registro</p>
             
-                        <form class="flex justify-center items-center flex-col w-96" action="" method="post" id="signupForm">
+                        <form class="flex justify-center items-center flex-col w-96" action="" method="post" id="tokenForm">
                             <div class="mb-5">                            
                                 <input type="text" id="token" name="token" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                             </div>
                             
                             <button type="button" id="btnToken" class="text-white bg-[#ff4a4a] hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
-                        </form>                    
+                        </form>
                     </div>
-                </div>                
-                
-                <!-- create account -->
-                <div class="flex justify-center flex-col px-8 py-4 h-fit hidden">
-                    <h3 class="font-bold text-3xl w-full text-center mb-2 text-white">Registrate</h3>
-                    <p class="w-full text-center mb-8 text-white">Introduce tu informacion</p>
-        
-                    <form class="flex justify-center items-center flex-col w-96" action="" method="post" id="signupForm">
-                        <div class="mb-5">
-                            <label for="name" class="block mb-2 text-sm font-medium text-white">Nombre de usuario</label>
-                            <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
-                        </div>
-                        <div class="mb-5">
-                            <label for="name" class="block mb-2 text-sm font-medium text-white">Correo electronico</label>
-                            <input type="email" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
-                        </div>
-                        <div class="mb-5">
-                            <label for="password" class="block mb-2 text-sm font-medium text-white">Contraseña</label>
-                            <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block  w-96 p-2.5 " required>
-                        </div>
-        
-                        <div class="mb-5">
-                            <label for="passwordVerify" class="block mb-2 text-sm font-medium text-white">Verifica contraseña</label>
-                            <input type="password" id="passwordVerify" name="passwordVerify" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block  w-96 p-2.5 " required>
-                        </div>
-                        
-                        <button type="button" onclick="validatePasswords()" class="text-white bg-[#ff4a4a] hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
-                    </form>                    
-                </div>
-
+                </div>                                                
 
             </div>                
     
@@ -93,7 +73,8 @@
         }
     </script>
 
-    <script src="{{ url_for('static', filename='js/token.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/token.js') }}" type="module"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}" type="module"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 </body>

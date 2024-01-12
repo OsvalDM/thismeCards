@@ -2,11 +2,14 @@ import utils from "./utils.js";
 const btnToken = document.getElementById('btnToken');
 
 const verifyToken = async ()=> {
-    const value = document.getElementById('token').value;
-    const url = '/token';
+    const email = document.getElementById('email').value;
+    const psw = document.getElementById('password').value;
+
+    const url = '/login';
 
     const body = {
-        token: value
+        email: email,
+        psw: psw
     }
 
     try {
@@ -26,11 +29,10 @@ const verifyToken = async ()=> {
         
 
         if (data.result == 'success'){            
-            utils.removeElement('tokenContainer');
-            utils.enableSignUp('mainContainer');
+            window.location.href = 'dashboard';
         }else{            
             utils.removeElement('noti')
-            utils.makeAlert('Introduce un token valido.', 'tokenContainer')
+            utils.makeAlert('Email o contraseña incorrecto.', 'loginContainer')
         }
     }catch(err){
         console.log('Error en la solicitud: ', err.message);

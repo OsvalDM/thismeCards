@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 
 from controllers.postController import *
+from controllers.loginController import signup as signupCtrl, login as loginCtrl
 from utils.utils import *
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.config['MYSQL_DB'] = 'rostroempresarial'
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+app.secret_key = 'esta es la mejor clave secreta del universo'
 
 mysql = MySQL(app)
 
@@ -41,7 +43,10 @@ def login():
 def example():
     return render_template('example.html')
 
-
+#Verified endpoint +
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 #Methods post
 
@@ -52,13 +57,33 @@ def postToken():
     result = verifySignToken(mysql, token)
     return jsonify(result)
 
+#Verified endpoint
+@app.route('/signup', methods=['POST'])
+def signupPost():
+    data = {        
+        'userName' : request.form['name'],
+        'psw' : request.form['password'],
+        'email' : request.form['email']
+    }    
+    
+    result = signupCtrl(mysql, data)
+
+    if result:
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('signup'))
+
+@app.route('/login', methods=['POST'])
+def postLogin():
+    data = request.get_json()        
+    result = loginCtrl(mysql, data)
+    return jsonify(result)
 
 #Error handler
 #Verified endpoint
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('error404.html'), 404
-
 
 #----------------------------------------------------------------------
 #Verified endpoint
@@ -391,35 +416,6 @@ def loginPost():
 
     finally:
         cur.close()
-
-#Verified endpoint
-@app.route('/signup', methods=['POST'])
-def signupPost():
-    cur = None
-    try:
-        idWorker = request.form['idWorker']
-        name = request.form['name']
-        password = request.form['password']
-        pregunta = request.form['pregunta']
-        respuesta = request.form['respuesta']
-        hashedPassword = hashlib.sha256(password.encode('utf-8')).hexdigest()        
-
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO usuario(id, nombreUsuario, psw) VALUES (%s, %s, %s)', (idWorker, name, hashedPassword) )
-        mysql.connection.commit()
-
-        cur.execute('INSERT INTO recuperacionContrasena(usuario, pregunta, respuesta) VALUES (%s, %s, %s)', (idWorker, pregunta, respuesta) )
-        mysql.connection.commit()
-
-    except Exception as e:
-        print(e)
-        return  redirect(url_for('signup'))
-
-    finally:
-        if cur:
-            cur.close()
-
-    return  redirect(url_for('login'))
 
 #Verified endpoint
 @app.route('/createCard', methods=['POST'])

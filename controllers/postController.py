@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session
 
 def verifySignToken(mysql, token):
     try:
@@ -8,6 +8,7 @@ def verifySignToken(mysql, token):
 
         # todo: manejar resultados
         if token != None:
+            session['token'] = token
             return {'result' : 'success'}
         else:
             return {'result' : 'failed'}
