@@ -86,10 +86,6 @@ def page_not_found(error):
     return render_template('error404.html'), 404
 
 #----------------------------------------------------------------------
-#Verified endpoint
-@app.route('/restore')
-def restore():
-    return render_template('restorePSW.html')
 
 #Verified endpoint
 @app.route('/user')

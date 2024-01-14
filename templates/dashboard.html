@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>    
+    <title>Rostro empresarial </title>
+    <link rel="icon" href="{{  url_for('static', filename='img/icon.webp') }}">
 </head>
-<body>
-    dashboard
+
+<body class="overflow-x-hidden bg-gray-200">
+            
+    <div class="flex w-screen">
+
+        {% include 'partials/aside.html' %}
+    
+        <div class="flex flex-1 flex-col items-center  ml-64">
+            <h3 class="font-bold text-3xl w-full text-center mb-8">Mi tarjeta</h3>
+            <p>Aun no cuentas con una tarjeta de presentacion, por favor crea una.</p>
+            <a href="/createCard" class="bg-[#C44890] hover:bg-pink-600 h-fit w-fit py-2 px-4 rounded-xl text-white mt-8"> 
+                Crear mi tarjeta
+            </a>
+        </div>
+
+        <!-- {% if ( haveCard ) %}
+            <div class="w-4/5" >
+                {% extends 'partials/card.html' %}
+
+                {% block footer %}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+
+                <script>
+                    function validateFile(fileInp) {
+                        var filePath = fileInp.value;
+                        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                    
+                        if (!allowedExtensions.exec(filePath)) {
+                            alert('Por favor, selecciona un archivo de imagen válido (jpg, jpeg, png, gif).');
+                            fileInp.value = '';
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+                </body>
+                </html>
+                {% endblock %}
+                {% block additional_content %}
+                    {% with content=content %}
+                        {{ super() }}
+                    {% endwith %}
+                {% endblock %}
+            </div>
+
+        </div>
+
+        {% else %} -->
+                    
+        <!-- {% endif %} -->
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 </body>
 </html>
