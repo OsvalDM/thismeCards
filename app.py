@@ -55,6 +55,15 @@ def dashboard():
     else:
         return redirect(url_for('login'))
 
+#Verified endpoint
+@app.route('/createCard')
+def createCard():
+    user = verifySignIn()
+    if user:        
+            return render_template('createCard.html', user = user)
+    else:
+        return redirect(url_for('login'))
+
 #Methods post
 
 @app.route('/token', methods=['POST'])
@@ -162,18 +171,6 @@ def home():
             return render_template('home.html', haveCard = True, userName = userInfo[1], qrSource = urlQr, content = content)
         else:
             return render_template('home.html', haveCard = False, userName = userInfo[1], qrSource = urlQr, content = content)
-    else:        
-        return redirect(url_for('login'))
-
-#Verified endpoint
-@app.route('/createCard')
-def createCard():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'False':
-            return render_template('createCard.html', userName = userInfo[1])
-        else:
-            return redirect(url_for('home'))
     else:        
         return redirect(url_for('login'))
 
