@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <title>Rostro empresarial</title>
-    <link rel="icon" href="{{  url_for('static', filename='img/icon.webp') }}">
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-</head>
+{% include 'partials/base.html' %}
 
 <body class="overflow-hidden">
     <div class="w-screen h-screen">
@@ -38,8 +24,7 @@
     
         <div class="flex justify-end h-[85vh] pb-8">
             <div class="flex flex-col items-center w-[40vw]" id="mainContainer">
-
-                <!-- Validate token -->
+                
                 <div id="loginContainer">
                     <div class="flex justify-center flex-col px-8 py-4 h-fit">
                         <h3 class="font-bold text-3xl w-full text-center mb-2 text-white">Inicio de sesion</h3>                        
@@ -67,6 +52,4 @@
     <script src="{{ url_for('static', filename='js/login.js') }}" type="module"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}" type="module"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-</body>
-</html>
+{% include 'partials/baseEnd.html' %}

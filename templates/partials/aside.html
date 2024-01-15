@@ -2,16 +2,16 @@
     <div class="w-full h-full py-4 flex flex-col items-center justify-between bg-white">
         <div class=" px-3 overflow-y-auto  flex flex-col items-center">
             <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo rostro empresarial" class="w-40 mx-4 ">
-            <h2 class="font-semibold">{{ userName }}</h2>
-            <img  id="qrImage" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="myQRCode" class="w-1/2">                
+            <h2 class="font-extrabold text-2xl">{{ userData[2] }}</h2>
+            <img  id="qrImage" src="{{ url_for('static', filename= url ) }}" alt="myQRCode" class="w-1/2">                
             
             <ul class="space-y-2 font-medium w-full">
                 <li>
-                    <a href="/example" target="_blank" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group">                                
+                    <a href="mycard/{{ userData[2] }}" target="_blank" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group">                                
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 " aria-hidden="true" fill="currentColor">
                             <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
                         </svg>
-                        <span class="ms-3">mycard/example</span>
+                        <span class="ms-3">mycard/{{ userData[2] }}</span>
                     </a>
                 </li>
                 <li>
@@ -43,7 +43,7 @@
             </ul>                    
         </div>
 
-        <a href="/logout" class="bg-red-400 hover:bg-red-600 h-fit text-sm py-1 px-2 rounded-xl text-white mx-4">
+        <a href="/logout" id="btnLogout" class="bg-red-400 hover:bg-red-600 h-fit text-sm py-1 px-2 rounded-xl text-white mx-4">
             Cerrar sesion
         </a>
     </div>            
@@ -62,3 +62,5 @@
         document.body.removeChild(link);
     }
 </script>
+
+<script src="{{ url_for('static', filename='js/logout.js') }}" type="module"></script>

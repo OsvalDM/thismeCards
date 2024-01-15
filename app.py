@@ -4,8 +4,9 @@ import hashlib
 import os
 from datetime import datetime
 
-from controllers.postController import *
+from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl
+from controllers.userController import *
 from utils.utils import *
 
 app = Flask(__name__)
@@ -23,22 +24,22 @@ app.secret_key = 'esta es la mejor clave secreta del universo'
 mysql = MySQL(app)
 
 #Methods get
-#Verified endpoint +
+#Verified endpoint
 @app.route('/')
 def landing():
     return render_template('landing.html')
 
-#Verified endpoint +
+#Verified endpoint
 @app.route('/signup')
 def signup():        
     return render_template('signup.html')
         
-#Verified endpoint +
+#Verified endpoint
 @app.route('/login')
 def login():
     return render_template('login.html')
 
-#Verified endpoint +
+#Verified endpoint
 @app.route('/example')
 def example():
     return render_template('example.html')
@@ -46,7 +47,13 @@ def example():
 #Verified endpoint +
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    user = verifySignIn()
+    if user:
+        urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
+        data = getUserData(mysql, user[0])
+        return render_template('dashboard.html', data = data, urlQr = urlQr[0], user = user)
+    else:
+        return redirect(url_for('login'))
 
 #Methods post
 
@@ -77,6 +84,11 @@ def signupPost():
 def postLogin():
     data = request.get_json()        
     result = loginCtrl(mysql, data)
+    return jsonify(result)
+
+@app.route('/logout', methods=['POST'])
+def postLogout():
+    result = logoutAux()
     return jsonify(result)
 
 #Error handler
@@ -363,17 +375,6 @@ def logs():
         return redirect(url_for('login'))
 
 #Midleware routes get
-        
-#Verified endpoint
-@app.route('/logout')
-def logout():
-    userInfo = getUserCookie()
-    if userInfo:
-        resp = make_response(redirect(url_for('login')))
-        resp.delete_cookie('user')
-        return resp
-    else:
-        return redirect(url_for('login'))
 
 #Methods post
     

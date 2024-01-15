@@ -1,4 +1,4 @@
-from flask import render_template, session
+from flask import session
 
 def verifySignToken(mysql, token):
     try:

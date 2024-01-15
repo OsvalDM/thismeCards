@@ -1,4 +1,4 @@
-from flask import render_template, session
+from flask import session
 
 def signup(mysql, data):
     token = session.get('token', None)
@@ -34,9 +34,9 @@ def signup(mysql, data):
     
 
 def login(mysql, data):
-    try:
-        cur = mysql.connection.cursor()        
-        cur.execute('SELECT * FROM USERCARD WHERE email = %s and psw = %s', (data['email'], data['psw']))
+    cur = mysql.connection.cursor()
+    try:        
+        cur.execute('SELECT * FROM USERCARD WHERE email = %s and psw = %s and state = "ACTIVE" ', (data['email'], data['psw']))
         user = cur.fetchone()        
 
         # todo: manejar resultados

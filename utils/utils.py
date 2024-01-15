@@ -1,21 +1,18 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify, send_file, abort
-from flask_mysqldb import MySQL
-import hashlib
+from flask import session
 import qrcode
 import os
 import urllib.parse
-from PIL import Image
-from datetime import datetime
-from flask_cors import CORS
 
-def getUserCookie():
-    myCookie = request.cookies.get('user')
-
-    if myCookie:        
-        userId, userName, haveCard, admin = myCookie.split(':')
-        return (userId, userName, haveCard, admin)
+def verifySignIn():
+    user = session.get('user', None)
+    if user:
+        return user
     else:
         return None
+    
+def logoutAux():
+    session.clear()
+    return {'result' : 'success'}
     
 def get_filename(url):
     parsed_url = urllib.parse.urlparse(url)
@@ -36,12 +33,12 @@ def generateQr(url):
     img = qr.make_image(fill_color="black", back_color="white")
     
     filename = get_filename(url)
-    static_folder = os.path.join(os.getcwd(), 'static/data')
+    static_folder = os.path.join(os.getcwd(), 'static/data/qr')
     img_path = os.path.join(static_folder, filename)
 
     img.save(img_path, 'PNG')
 
-    return ('data/' + filename, img_path)
+    return ('data/qr/' + filename, img_path)
     
 def generate_filename(id, field, fileExtension):
     return f"{id}_{field}.{fileExtension}"
