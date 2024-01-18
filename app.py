@@ -100,6 +100,103 @@ def postLogout():
     result = logoutAux()
     return jsonify(result)
 
+#Verified endpoint
+@app.route('/createCard', methods=['POST'])
+def createCardPost():
+    user = verifySignIn()
+    if user:        
+        cur = None
+        try:
+            id  = userInfo[0]            
+            
+            #Campos extra
+
+            nombre = request.form['name']
+            apellidoPat = request.form['lastNameFather']
+            apellidoMat = request.form['lastNameMother']
+            correo = request.form['email']
+            telefono = request.form['telephone']
+            titulo = request.form['titulo']
+            cargo = request.form['cargo']
+            lat = request.form['latitude']
+            lng = request.form['longitude']
+            usuario = userInfo[0]
+
+            cur = mysql.connection.cursor()
+            cur.execute('''INSERT INTO tarjeta(nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
+                        (nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) )
+            mysql.connection.commit()
+
+            cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
+            cardData = cur.fetchone()
+
+            cur.execute('INSERT INTO movimientos(usuario, accion) VALUES (%s, %s)', (str(usuario) + "_" + nombre + apellidoPat, 'Create card - ' + str(cardData[0]) ) )            
+            mysql.connection.commit()
+        except Exception as e:
+            print(e)
+            return  redirect(url_for('createCard'))
+
+        #Imagenes
+        try:
+            cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
+            cardData = cur.fetchone()
+
+            if cardData:
+                #profile picture
+                profilePictureMain = request.files['profilePictureMain']      
+                if profilePictureMain:      
+                    file_extension = profilePictureMain.filename.rsplit('.', 1)[1].lower()
+                    filename_profilePictureMain = generate_filename(id,'profilePictureMain' ,file_extension)
+                    filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
+                    profilePictureMain.save(f'static/{filename_profilePictureMain}')
+
+                    cur = mysql.connection.cursor()
+                    cur.execute('INSERT INTO imgPerfil VALUES (%s, %s)', (cardData[0], filename_profilePictureMain) )
+                    mysql.connection.commit()
+
+                #Redes sociales
+                facebook = request.form['facebook']
+                if facebook != '':
+                    cur = mysql.connection.cursor()
+                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
+                    mysql.connection.commit()
+
+                instagram = request.form['instagram']
+                if instagram != '':
+                    cur = mysql.connection.cursor()
+                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
+                    mysql.connection.commit()
+
+                twitter = request.form['twitter']
+                if twitter != '':
+                    cur = mysql.connection.cursor()
+                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
+                    mysql.connection.commit()
+
+                linkedin = request.form['linkedin']
+                if linkedin != '':
+                    cur = mysql.connection.cursor()
+                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
+                    mysql.connection.commit()
+
+                #Update cookie                        
+                resp = make_response(redirect(url_for('home')))
+                resp.set_cookie('user', f'{userInfo[0]}:{userInfo[1]}:{True}:{userInfo[3]}', max_age=7200)
+                return resp
+
+            else:
+                return redirect(url_for('createCard'))
+        except Exception as e:
+            print(e)
+            return  redirect(url_for('createCard'))
+
+        finally:
+            if cur:
+                cur.close()
+    else:        
+        return redirect(url_for('login'))    
+
 #Error handler
 #Verified endpoint
 @app.errorhandler(404)
@@ -410,187 +507,6 @@ def loginPost():
 
     finally:
         cur.close()
-
-#Verified endpoint
-@app.route('/createCard', methods=['POST'])
-def createCardPost():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'False':
-            cur = None
-            try:
-                id  = userInfo[0]            
-                
-                #Campos extra
-
-                nombre = request.form['name']
-                apellidoPat = request.form['lastNameFather']
-                apellidoMat = request.form['lastNameMother']
-                correo = request.form['email']
-                telefono = request.form['telephone']
-                sobreMi = request.form['message']
-                ubicacion = request.form['ubication']
-                titulo = request.form['titulo']
-                cargo = request.form['cargo']
-                lat = request.form['latitude']
-                lng = request.form['longitude']
-                usuario = userInfo[0]
-
-                cur = mysql.connection.cursor()
-                cur.execute('''INSERT INTO tarjeta(nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) 
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
-                            (nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) )
-                mysql.connection.commit()
-
-                cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-                cardData = cur.fetchone()
-
-                cur.execute('INSERT INTO movimientos(usuario, accion) VALUES (%s, %s)', (str(usuario) + "_" + nombre + apellidoPat, 'Create card - ' + str(cardData[0]) ) )            
-                mysql.connection.commit()
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            #Imagenes
-            try:
-                cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-                cardData = cur.fetchone()
-
-                if cardData:
-                    #profile picture
-                    profilePictureMain = request.files['profilePictureMain']      
-                    if profilePictureMain:      
-                        file_extension = profilePictureMain.filename.rsplit('.', 1)[1].lower()
-                        filename_profilePictureMain = generate_filename(id,'profilePictureMain' ,file_extension)
-                        filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
-                        profilePictureMain.save(f'static/{filename_profilePictureMain}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPerfil VALUES (%s, %s)', (cardData[0], filename_profilePictureMain) )
-                        mysql.connection.commit()
-
-                    profilePictureSecond = request.files['profilePictureSecond']            
-                    if profilePictureSecond:
-                        file_extension = profilePictureSecond.filename.rsplit('.', 1)[1].lower()
-                        filename_profilePictureSecond = generate_filename(id,'profilePictureSecond' ,file_extension)
-                        filename_profilePictureSecond = 'data/profilePictureSecond/' + filename_profilePictureSecond
-                        profilePictureSecond.save(f'static/{filename_profilePictureSecond}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPerfil VALUES (%s, %s)', (cardData[0], filename_profilePictureSecond) )
-                        mysql.connection.commit()
-
-                    #portafolio
-                    content1 = request.files['content1']            
-                    if content1:
-                        file_extension = content1.filename.rsplit('.', 1)[1].lower()
-                        filename_content1 = generate_filename(id,'content1' ,file_extension)
-                        filename_content1 = 'data/content1/' + filename_content1
-                        content1.save(f'static/{filename_content1}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content1) )
-                        mysql.connection.commit()
-
-                    content2 = request.files['content2']            
-                    if content2:
-                        file_extension = content2.filename.rsplit('.', 1)[1].lower()
-                        filename_content2 = generate_filename(id,'content2' ,file_extension)
-                        filename_content2 = 'data/content2/' + filename_content2
-                        content2.save(f'static/{filename_content2}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content2) )
-                        mysql.connection.commit()
-
-                    content3 = request.files['content3']            
-                    if content3:
-                        file_extension = content3.filename.rsplit('.', 1)[1].lower()
-                        filename_content3 = generate_filename(id,'content3' ,file_extension)
-                        filename_content3 = 'data/content3/' + filename_content3
-                        content3.save(f'static/{filename_content3}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content3) )
-                        mysql.connection.commit()
-
-                    content4 = request.files['content4']            
-                    if content4:
-                        file_extension = content4.filename.rsplit('.', 1)[1].lower()
-                        filename_content4 = generate_filename(id,'content4' ,file_extension)
-                        filename_content4 = 'data/content4/' + filename_content4
-                        content4.save(f'static/{filename_content4}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content4) )
-                        mysql.connection.commit()
-
-                    content5 = request.files['content5']            
-                    if content5:
-                        file_extension = content5.filename.rsplit('.', 1)[1].lower()
-                        filename_content5 = generate_filename(id,'content5' ,file_extension)
-                        filename_content5 = 'data/content5/' + filename_content5
-                        content5.save(f'static/{filename_content5}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content5) )
-                        mysql.connection.commit()
-
-                    content6 = request.files['content6']            
-                    if content6:
-                        file_extension = content6.filename.rsplit('.', 1)[1].lower()
-                        filename_content6 = generate_filename(id,'content6' ,file_extension)
-                        filename_content6 = 'data/content6/' + filename_content6
-                        content6.save(f'static/{filename_content6}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content6) )
-                        mysql.connection.commit()
-
-
-                    #Redes sociales
-                    facebook = request.form['facebook']
-                    if facebook != '':
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
-                        mysql.connection.commit()
-
-                    instagram = request.form['instagram']
-                    if instagram != '':
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
-                        mysql.connection.commit()
-
-                    twitter = request.form['twitter']
-                    if twitter != '':
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
-                        mysql.connection.commit()
-
-                    linkedin = request.form['linkedin']
-                    if linkedin != '':
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
-                        mysql.connection.commit()
-
-                    #Update cookie                        
-                    resp = make_response(redirect(url_for('home')))
-                    resp.set_cookie('user', f'{userInfo[0]}:{userInfo[1]}:{True}:{userInfo[3]}', max_age=7200)
-                    return resp
-
-                else:
-                    return redirect(url_for('createCard'))
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            finally:
-                if cur:
-                    cur.close()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))    
 
 #Verified endpoint
 @app.route('/addClient', methods=['POST'])

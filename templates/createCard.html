@@ -1,9 +1,9 @@
 {% include 'partials/base.html' %}
 
-<body class="overflow-x-hidden	">
+<body class="overflow-x-hidden	bg-gray-200">
 
-    <div class="w-full flex justify-between items-center h-[15vh]">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo rostro empresarial" class="w-60 ml-8 mt-6 ">
+    <div class="w-full flex justify-between items-center h-[10vh]">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo rostro empresarial" class="w-40 ml-8 mt-6 ">
     
         <div class="flex items-center">
             <h2 class="font-semibold">{{ user[2] }}</h2>
@@ -16,7 +16,7 @@
 
     <div class="flex justify-center mb-8">
 
-        <div class="bg-neutral-50 flex justify-center flex-col px-8 py-4 mb-8 rounded-xl shadow-lg h-fit">
+        <div class="bg-neutral-50 flex justify-center flex-col px-8 py-4 mb-8 rounded-xl shadow-2xl h-fit">
             <h3 class="font-bold text-3xl w-full text-center mb-8">Mi tarjeta de presentacion</h3> 
 
             <form class="flex justify-center items-center flex-col" action="/createCard" method="post" enctype="multipart/form-data" id="cardForm">
@@ -25,60 +25,44 @@
                         <div class="mb-5">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
                             <div class="flex w-96">
-                                <select id="titulo" name="titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-1/4 p-2.5 " required>
+                                <select id="titulo" name="titulo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-1/4 p-2.5 " required>
                                     <option>Lic.</option>
                                     <option>Ing.</option>
                                     <option>Ph.D.</option>
                                     <option>Mtro.</option>
                                     <option>Mtr.</option>
+                                    <option>Ninguno</option>
                                 </select>
         
-                                <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 w-3/4 block p-2.5 " required>
+                                <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 w-3/4 block p-2.5 " required>
                             </div>                            
                         </div>
         
                         <div class="mb-5">
                             <label for="lastNameFather" class="block mb-2 text-sm font-medium text-gray-900">Apellido paterno</label>
-                            <input type="text" id="lastNameFather" name="lastNameFather" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                            <input type="text" id="lastNameFather" name="lastNameFather" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                         </div>
         
                         <div class="mb-5">
                             <label for="lastNameMother" class="block mb-2 text-sm font-medium text-gray-900">Apellido materno</label>
-                            <input type="text" id="lastNameMother" name="lastNameMother" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                            <input type="text" id="lastNameMother" name="lastNameMother" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                         </div>
         
                         <div class="mb-5">
                             <label for="cargo" class="block mb-2 text-sm font-medium text-gray-900">Cargo</label>
-                            <input type="text" id="cargo" name="cargo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                            <input type="text" id="cargo" name="cargo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                         </div>
                         
                         <div class="mb-5">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Correo electronico</label>
-                            <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                            <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                         </div>
         
                         <div class="mb-5">
                             <label for="telephone" class="block mb-2 text-sm font-medium text-gray-900">Numero de celular</label>
-                            <input type="text" id="telephone" name="telephone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
+                            <input type="text" id="telephone" name="telephone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " required>
                         </div>
         
-                        <div class="mb-5">
-                            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Sobre mi</label>
-                            <textarea id="message" name="message" rows="10" class="block w-96 p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-fuchsia-500 focus:border-fuchsia-500 placeholder="Habla sobre ti..." required></textarea>
-                        </div>       
-                        
-                        <div class="mb-5">
-                            <label for="ubication" class="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
-                            <input type="text" id="ubication" name="ubication" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " required>
-                        </div>     
-                        
-                        <!-- Campos ocultos para latitud y longitud -->
-                        <input type="hidden" id="latitude" name="latitude" value="20.095271706069948">
-                        <input type="hidden" id="longitude" name="longitude" value="-98.75850677490234">
-                        <div class="mb-5">
-                            <p class="block mb-2 text-sm text-gray-900">Mueve el marcador a tu direccion</p>
-                            <div id="map" style="height: 400px;"></div>
-                        </div>
                         
                     </div>
     
@@ -88,43 +72,30 @@
     
                         <div class="mb-5">
                             <label for="facebook" class="block mb-2 text-sm font-medium text-gray-900">Facebook</label>
-                            <input type="url" id="facebook" name="facebook" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " >
+                            <input type="url" id="facebook" name="facebook" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " >
                         </div>
                         <div class="mb-5">
                             <label for="instagram" class="block mb-2 text-sm font-medium text-gray-900">Instagram</label>
-                            <input type="url" id="instagram" name="instagram" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " >
+                            <input type="url" id="instagram" name="instagram" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " >
                         </div>
                         <div class="mb-5">
                             <label for="twitter" class="block mb-2 text-sm font-medium text-gray-900">X - Twitter </label>
-                            <input type="url" id="twitter" name="twitter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " >
+                            <input type="url" id="twitter" name="twitter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " >
                         </div>
                         <div class="mb-5">
                             <label for="linkedin" class="block mb-2 text-sm font-medium text-gray-900">LinkedIn</label>
-                            <input type="url" id="linkedin" name="linkedin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-500 focus:border-fuchsia-500 block w-96 p-2.5 " >
+                            <input type="url" id="linkedin" name="linkedin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-96 p-2.5 " >
                         </div>
     
                         <div class="mb-5">
                             <label class="block mb-2 text-sm font-medium text-gray-900 " for="profilePictureMain">Foto de perfil</label>                    
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="profilePictureMain" name="profilePictureMain" type="file" required accept="image/*" onchange="validateFile(document.getElementById('profilePictureMain'))" >
-                            <p class="block mb-2 text-sm text-gray-900">Puedes subir una foto de perfil extra</p>
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="profilePictureSecond" name="profilePictureSecond" type="file"  accept="image/*" onchange="validateFile(document.getElementById('profilePictureSecond'))">
+                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="profilePictureMain" name="profilePictureMain" type="file" required accept="image/*" onchange="validateFile(document.getElementById('profilePictureMain'))" >                            
                         </div>
-                        
-                        <div class="mb-5">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 " for="content1">Portafolio</label>
-                            <p class="block mb-2 text-sm text-gray-900">Sube almenos 1 imagen para tu portafolio</p>
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content1" name="content1" type="file" required  accept="image/*" onchange="validateFile(document.getElementById('content1'))" >
-                            <p class="block mb-2 text-sm text-gray-900">Complementa tu portafolio con hasta 5 imagenes</p>
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content2" name="content2" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content2'))">
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content3" name="content3" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content3'))">
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content4" name="content4" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content4'))">
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content5" name="content5" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content5'))">
-                            <input class="block w-96 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content6" name="content6" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content6'))">
-                        </div>
+                                                
                     </div>
                 </div>                
 
-                <button type="submit" class="text-white bg-[#C44890] hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-fuchsia-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>          
+                <button type="submit" class="text-white bg-[#ff4a4a] hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>          
             </form>            
              
         </div>
@@ -145,31 +116,5 @@
             return true;
         }
     </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA"></script>
-    <script>
-        var map;
-        var marker;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 20.095271706069948, lng: -98.75850677490234 },
-                zoom: 8
-            });
-
-            marker = new google.maps.Marker({
-                map: map,
-                position: { lat: 20.095271706069948, lng: -98.75850677490234 },
-                draggable: true
-            });
-
-            marker.addListener('dragend', function () {
-                var position = marker.getPosition();
-                document.getElementById('latitude').value = position.lat();
-                document.getElementById('longitude').value = position.lng();
-            });
-        }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA&callback=initMap"></script>
         
 {% include 'partials/baseEnd.html' %}
