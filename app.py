@@ -105,95 +105,69 @@ def postLogout():
 def createCardPost():
     user = verifySignIn()
     if user:        
-        cur = None
+        cur = mysql.connection.cursor()
         try:
-            id  = userInfo[0]            
+            id  = user[0]            
             
             #Campos extra
 
-            nombre = request.form['name']
-            apellidoPat = request.form['lastNameFather']
-            apellidoMat = request.form['lastNameMother']
-            correo = request.form['email']
-            telefono = request.form['telephone']
-            titulo = request.form['titulo']
-            cargo = request.form['cargo']
-            lat = request.form['latitude']
-            lng = request.form['longitude']
-            usuario = userInfo[0]
+            name = request.form['name']
+            lastFat = request.form['lastNameFather']
+            lastMot = request.form['lastNameMother']
+            email = request.form['email']
+            cellphone = request.form['telephone']
+            tittle = request.form['titulo']
+            charge = request.form['cargo']
+            user = id
 
-            cur = mysql.connection.cursor()
-            cur.execute('''INSERT INTO tarjeta(nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
-                        (nombre, apellidoPat, apellidoMat, correo, telefono, sobreMi, ubicacion, usuario, titulo, cargo, lat, lng) )
+            #profile picture
+            profilePictureMain = request.files['profilePictureMain']      
+            if profilePictureMain:
+                file_extension = profilePictureMain.filename.rsplit('.', 1)[1].lower()
+                filename_profilePictureMain = generate_filename(id,'profilePictureMain' ,file_extension)
+                filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
+                profilePictureMain.save(f'static/{filename_profilePictureMain}')                
+            
+            cur.execute('''INSERT INTO CARD(user, name, lastFat, lastMot, imgProfile, charge, email, cellphone, tittle) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
+                        (user, name, lastFat, lastMot, filename_profilePictureMain, charge, email, cellphone, tittle) )
             mysql.connection.commit()
-
-            cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
+            
+            cur.execute('SELECT id FROM CARD WHERE user = %s', (id,))
             cardData = cur.fetchone()
 
-            cur.execute('INSERT INTO movimientos(usuario, accion) VALUES (%s, %s)', (str(usuario) + "_" + nombre + apellidoPat, 'Create card - ' + str(cardData[0]) ) )            
+            #Redes sociales
+            facebook = request.form['facebook']
+            if facebook != '':                
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
+                mysql.connection.commit()
+
+            instagram = request.form['instagram']
+            if instagram != '':                
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
+                mysql.connection.commit()
+
+            twitter = request.form['twitter']
+            if twitter != '':                
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
+                mysql.connection.commit()
+
+            linkedin = request.form['linkedin']
+            if linkedin != '':                
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
+                mysql.connection.commit()
+            
+            cur.execute('INSERT INTO LOGS(user, detail) VALUES (%s, %s)', (id, 'Create card - ' + str(cardData[0]) ) )            
             mysql.connection.commit()
+
+            return  redirect(url_for('dashboard'))
+
         except Exception as e:
             print(e)
             return  redirect(url_for('createCard'))
 
-        #Imagenes
-        try:
-            cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-            cardData = cur.fetchone()
-
-            if cardData:
-                #profile picture
-                profilePictureMain = request.files['profilePictureMain']      
-                if profilePictureMain:      
-                    file_extension = profilePictureMain.filename.rsplit('.', 1)[1].lower()
-                    filename_profilePictureMain = generate_filename(id,'profilePictureMain' ,file_extension)
-                    filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
-                    profilePictureMain.save(f'static/{filename_profilePictureMain}')
-
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO imgPerfil VALUES (%s, %s)', (cardData[0], filename_profilePictureMain) )
-                    mysql.connection.commit()
-
-                #Redes sociales
-                facebook = request.form['facebook']
-                if facebook != '':
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
-                    mysql.connection.commit()
-
-                instagram = request.form['instagram']
-                if instagram != '':
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
-                    mysql.connection.commit()
-
-                twitter = request.form['twitter']
-                if twitter != '':
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
-                    mysql.connection.commit()
-
-                linkedin = request.form['linkedin']
-                if linkedin != '':
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
-                    mysql.connection.commit()
-
-                #Update cookie                        
-                resp = make_response(redirect(url_for('home')))
-                resp.set_cookie('user', f'{userInfo[0]}:{userInfo[1]}:{True}:{userInfo[3]}', max_age=7200)
-                return resp
-
-            else:
-                return redirect(url_for('createCard'))
-        except Exception as e:
-            print(e)
-            return  redirect(url_for('createCard'))
-
-        finally:
-            if cur:
-                cur.close()
+        finally:            
+            cur.close()
     else:        
         return redirect(url_for('login'))    
 
