@@ -4,20 +4,15 @@
             
     <div class="flex w-screen">
 
-        {% set url = urlQr %}
-        {% set userData = user %}
-        {% include 'partials/aside.html' %}        
-
-        {% if ( data ) %}            
-            {% include 'partials/card.html' %}
-            
-            {% block additional_content %}
-                {% with content=content %}
-                    {{ super() }}
-                {% endwith %}
-            {% endblock %}
-
-        {% else %}
+        {% if ( content ) %}
+            {% set url = urlQr %}
+            {% set userData = user %}
+            {% include 'partials/aside.html' %}        
+            <div class="ml-64 flex-1">
+                {% set content = content %}
+                {% include 'partials/card.html' %} 
+            </div>                                              
+        {% else %}            
             <div class="flex flex-1 flex-col items-center  ml-72 mt-8 mx-8 px-8 py-4 bg-white shadow-lg rounded-lg">
                 <h3 class="font-bold text-3xl w-full text-center mb-8">Mi tarjeta</h3>
                 <p>Aun no haz registrado tu informacion, por favor da click y comienza la creacion.</p>

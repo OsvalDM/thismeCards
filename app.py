@@ -7,6 +7,7 @@ from datetime import datetime
 from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl
 from controllers.userController import *
+from controllers.cardController import *
 from utils.utils import *
 
 app = Flask(__name__)
@@ -50,10 +51,15 @@ def dashboard():
     user = verifySignIn()
     if user:
         urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
-        data = getUserData(mysql, user[0])
-        return render_template('dashboard.html', data = data, urlQr = urlQr[0], user = user)
+        data = getUserData(mysql, user[2])
+        return render_template('dashboard.html', content = data, urlQr = urlQr[0], user = user)
     else:
         return redirect(url_for('login'))
+
+@app.route('/mycard/<id>')
+def mycard(id):            
+    data = getUserData(mysql, id)
+    return render_template('mycard.html', content = data)
 
 #Verified endpoint
 @app.route('/createCard')
@@ -61,6 +67,17 @@ def createCard():
     user = verifySignIn()
     if user:        
             return render_template('createCard.html', user = user)
+    else:
+        return redirect(url_for('login'))
+
+#Verified endpoint
+@app.route('/component')
+def component():
+    user = verifySignIn()
+    if user:        
+        urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
+        data = getUserData(mysql, user[2])
+        return render_template('components.html', user = user, data = data, urlQr = urlQr[0])
     else:
         return redirect(url_for('login'))
 
@@ -73,7 +90,6 @@ def postToken():
     result = verifySignToken(mysql, token)
     return jsonify(result)
 
-#Verified endpoint
 @app.route('/signup', methods=['POST'])
 def signupPost():
     data = {        
@@ -100,25 +116,13 @@ def postLogout():
     result = logoutAux()
     return jsonify(result)
 
-#Verified endpoint
 @app.route('/createCard', methods=['POST'])
 def createCardPost():
     user = verifySignIn()
     if user:        
         cur = mysql.connection.cursor()
         try:
-            id  = user[0]            
-            
-            #Campos extra
-
-            name = request.form['name']
-            lastFat = request.form['lastNameFather']
-            lastMot = request.form['lastNameMother']
-            email = request.form['email']
-            cellphone = request.form['telephone']
-            tittle = request.form['titulo']
-            charge = request.form['cargo']
-            user = id
+            id  = user[0]                                                
 
             #profile picture
             profilePictureMain = request.files['profilePictureMain']      
@@ -128,38 +132,26 @@ def createCardPost():
                 filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
                 profilePictureMain.save(f'static/{filename_profilePictureMain}')                
             
-            cur.execute('''INSERT INTO CARD(user, name, lastFat, lastMot, imgProfile, charge, email, cellphone, tittle) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''', 
-                        (user, name, lastFat, lastMot, filename_profilePictureMain, charge, email, cellphone, tittle) )
-            mysql.connection.commit()
-            
-            cur.execute('SELECT id FROM CARD WHERE user = %s', (id,))
-            cardData = cur.fetchone()
+            data = {
+                'name' : request.form['name'],
+                'lastFat' : request.form['lastNameFather'],
+                'lastMot' : request.form['lastNameMother'],
+                'email' : request.form['email'],
+                'cellphone' : request.form['telephone'],
+                'tittle' : request.form['titulo'],
+                'charge' : request.form['cargo'],
+                'user' : id,
+                'file' : filename_profilePictureMain
+            }
 
-            #Redes sociales
-            facebook = request.form['facebook']
-            if facebook != '':                
-                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
-                mysql.connection.commit()
+            socials = {
+                'facebook' : request.form['facebook'],
+                'instagram' : request.form['instagram'],
+                'twitter' : request.form['twitter'],
+                'linkedin' : request.form['linkedin']
+            }
 
-            instagram = request.form['instagram']
-            if instagram != '':                
-                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
-                mysql.connection.commit()
-
-            twitter = request.form['twitter']
-            if twitter != '':                
-                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
-                mysql.connection.commit()
-
-            linkedin = request.form['linkedin']
-            if linkedin != '':                
-                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
-                mysql.connection.commit()
-            
-            cur.execute('INSERT INTO LOGS(user, detail) VALUES (%s, %s)', (id, 'Create card - ' + str(cardData[0]) ) )            
-            mysql.connection.commit()
-
+            createCardBase(mysql, data, socials)
             return  redirect(url_for('dashboard'))
 
         except Exception as e:
@@ -170,6 +162,19 @@ def createCardPost():
             cur.close()
     else:        
         return redirect(url_for('login'))    
+    
+@app.route('/aboutme', methods=['POST'])
+def aboutmePost():
+    user = verifySignIn()
+    if user:        
+        data = {        
+            'content' : request.form['content'],
+            'user' : user[0]
+        }    
+        addAboutme(mysql, data)        
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
 
 #Error handler
 #Verified endpoint
@@ -178,72 +183,6 @@ def page_not_found(error):
     return render_template('error404.html'), 404
 
 #----------------------------------------------------------------------
-
-#Verified endpoint
-@app.route('/user')
-def home():
-    userInfo = getUserCookie()
-    if userInfo:
-        cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM tarjeta WHERE usuario = %s', (userInfo[0],))
-        cardData = cur.fetchone()
-
-        urlQr = generateQr( 'http://cardscarnival.com/mycard/' + userInfo[0] )
-
-
-        ##Traer datos
-        content = { 
-            'cardData': None,
-            'profilePicData': None,
-            'imgPortafolio': None,
-            'redSocial': None,
-            'clientes' : None
-        }
-        
-        cardData = None  # Initialize cardData here
-
-        try:
-            cur = mysql.connection.cursor()
-
-            cur.execute('SELECT * FROM tarjeta WHERE usuario = %s', (userInfo[0],))
-            cardData = cur.fetchone()
-
-            if cardData:
-                content['cardData'] = cardData
-
-                cur.execute('SELECT * FROM imgPerfil WHERE tarjeta = %s', (cardData[0],))
-                profilePicData = cur.fetchall()
-                if profilePicData:
-                    content['profilePicData'] = profilePicData
-
-                cur.execute('SELECT * FROM imgPortafolio WHERE tarjeta = %s', (cardData[0],))
-                imgPortafolio = cur.fetchall()
-                if imgPortafolio:
-                    content['imgPortafolio'] = imgPortafolio
-
-                cur.execute('SELECT * FROM redSocial WHERE tarjeta = %s', (cardData[0],))
-                redSocial = cur.fetchall()
-                if redSocial:
-                    content['redSocial'] = redSocial
-
-                cur.execute('SELECT * FROM cliente WHERE tarjeta = %s', (cardData[0],))
-                clientes = cur.fetchall()
-                if clientes:
-                    content['clientes'] = clientes
-
-        except Exception as e:
-            print(e)
-            return redirect(url_for('restore'))
-
-        finally:
-            cur.close()
-
-        if cardData != None:
-            return render_template('home.html', haveCard = True, userName = userInfo[1], qrSource = urlQr, content = content)
-        else:
-            return render_template('home.html', haveCard = False, userName = userInfo[1], qrSource = urlQr, content = content)
-    else:        
-        return redirect(url_for('login'))
 
 #Verified endpoint
 @app.route('/editCard')
@@ -331,60 +270,6 @@ def editCard():
     else:        
         return redirect(url_for('login'))
 
-#Verified endpoint
-@app.route('/mycard/<id>')
-def mycard(id):
-    content = { 
-        'cardData': None,
-        'profilePicData': None,
-        'imgPortafolio': None,
-        'redSocial': None,
-        'clientes' : None
-    }
-    
-    cardData = None
-
-    try:
-        cur = mysql.connection.cursor()
-
-        cur.execute('SELECT * FROM tarjeta WHERE usuario = %s', (id,))
-        cardData = cur.fetchone()
-
-        if cardData:
-            content['cardData'] = cardData
-
-            cur.execute('SELECT * FROM imgPerfil WHERE tarjeta = %s', (cardData[0],))
-            profilePicData = cur.fetchall()
-            if profilePicData:
-                content['profilePicData'] = profilePicData
-
-            cur.execute('SELECT * FROM imgPortafolio WHERE tarjeta = %s', (cardData[0],))
-            imgPortafolio = cur.fetchall()
-            if imgPortafolio:
-                content['imgPortafolio'] = imgPortafolio
-
-            cur.execute('SELECT * FROM redSocial WHERE tarjeta = %s', (cardData[0],))
-            redSocial = cur.fetchall()
-            if redSocial:
-                content['redSocial'] = redSocial
-
-            cur.execute('SELECT * FROM cliente WHERE tarjeta = %s', (cardData[0],))
-            clientes = cur.fetchall()
-            if clientes:
-                content['clientes'] = clientes
-
-        else:
-            return redirect(url_for('login'))
-
-    except Exception as e:
-        print(e)
-        return redirect(url_for('login'))
-
-    finally:
-        cur.close()
-
-    return render_template('mycard.html', content=content)
-
 #Methods get admin
 
 #Verified endpoint
@@ -445,42 +330,6 @@ def logs():
 #Midleware routes get
 
 #Methods post
-    
-#Verified endpoint
-@app.route('/login', methods=['POST'])
-def loginPost():
-    try:
-        idWorker = request.form['idWorker']
-        password = request.form['password']
-        hashedPassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-        cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuario WHERE id = %s', (idWorker,))
-        user_data = cur.fetchone()
-
-        cur.execute('SELECT * FROM tarjeta WHERE usuario = %s', (idWorker,))
-        card_data = cur.fetchone()
-
-        haveCard = False
-        if card_data:
-            haveCard = True
-
-        if user_data:
-            if user_data[2] == hashedPassword:                
-                resp = make_response(redirect(url_for('home')))
-                resp.set_cookie('user', f'{user_data[0]}:{user_data[1]}:{haveCard}:{user_data[3]}', max_age=7200)
-                return resp
-            else:
-                return redirect(url_for('login'))
-        else:            
-            return redirect(url_for('login'))
-
-    except Exception as e:
-        print(e)
-        return  redirect(url_for('login'))
-
-    finally:
-        cur.close()
 
 #Verified endpoint
 @app.route('/addClient', methods=['POST'])

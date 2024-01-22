@@ -1,15 +1,15 @@
 {% block additional_content %}
-<div class="flex flex-col items-center ">
-    <div class="h-[30vh] sm:h-[60vh] w-screen relative">
-        <img src="{{ url_for('static', filename='img/background.jpg') }}" alt="Imagen de fondo" class="object-cover object-center h-full w-full">
+<div class="flex flex-col items-center w-full">
+    <div class="h-[30vh] sm:h-[60vh] w-full relative">
+        <img src="{{ url_for('static', filename='img/landing/background.jpg') }}" alt="Imagen de fondo" class="object-cover object-center h-full w-full">
     
-        <div class="absolute inset-0 bg-pink-300 opacity-40"></div>
+        <div class="absolute inset-0 bg-red-300 opacity-40"></div>
     </div>
 
     <div class="absolute top-10 sm:top-40">
         <div class="block sm:hidden w-[90vw] sm:w-[70vw] mb-4 flex justify-center" id="profilePic">
             <div class="h-40 w-40">
-                <img class="h-full w-full p-1 rounded-full ring-2 ring-gray-300 object-cover object-center" src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Bordered avatar">                
+                <img class="h-full w-full p-1 rounded-full ring-2 ring-gray-300 object-cover object-center" src="{{ url_for('static', filename=content['cardData'][5]) }}" alt="Bordered avatar">                
             </div>            
         </div>            
 
@@ -17,27 +17,27 @@
             <div class="flex px-4 py-4">
                 <div class="w-[40%] hidden sm:flex justify-center">
                     <!-- Original image -->
-                    <img src="{{ url_for('static', filename=content.profilePicData[0][1]) }}" alt="Imagen de perfil" class="h-80 object-cover object-center rounded-lg">
+                    <img src="{{ url_for('static', filename=content['cardData'][5]) }}" alt="Imagen de perfil" class="h-80 object-cover object-center rounded-lg">
                 </div>
                 
                 <div class="w-full sm:w-[60%] flex flex-col items-center pt-2">
-                    <h1 class="font-semibold text-xl sm:text-2xl">{{ content.cardData[12] }} {{ content.cardData[1] }} {{ content.cardData[2] }} {{ content.cardData[3] }}</h1>
-                    <h2 class="font-semibold text-lg sm:text-2xl">{{ content.cardData[11] }}</h2>
-                    <div class="bg-pink-300 h-1 w-2/3 rounded- my-2"></div>
+                    <h1 class="font-semibold text-xl sm:text-2xl">{{ content['cardData'][10] }} {{ content['cardData'][2] }} {{ content['cardData'][3] }} {{ content['cardData'][4] }}</h1>
+                    <h2 class="font-semibold text-lg sm:text-2xl">{{ content['cardData'][7] }}</h2>
+                    <div class="bg-red-300 h-1 w-2/3 rounded- my-2"></div>
     
                     <!--Social media-->
-                    {% if content.redSocial %}
+                    {% if content['socials'] %}
                         <div class="flex justify-center">
-                            {% for redSocialData in content.redSocial %}
+                            {% for redSocialData in content['socials'] %}
                                 <div class="rounded-full mx-4">
-                                    <a href="{{ redSocialData[2] }}" target="_blank">
-                                        {% if redSocialData[1] == 'facebook' %}
+                                    <a href="{{ redSocialData[4] }}" target="_blank">
+                                        {% if redSocialData[2] == 'facebook' %}
                                             <img src="{{ url_for('static', filename='img/socials/facebook.png') }}" alt="facebook" class="w-8 sm:w-12">
-                                        {% elif redSocialData[1] == 'instagram' %}
+                                        {% elif redSocialData[2] == 'instagram' %}
                                             <img src="{{ url_for('static', filename='img/socials/instagram.png') }}" alt="instagram" class="w-8 sm:w-12">
-                                        {% elif redSocialData[1] == 'twitter' %}
+                                        {% elif redSocialData[2] == 'twitter' %}
                                             <img src="{{ url_for('static', filename='img/socials/gorjeo.png') }}" alt="twitter" class="w-8 sm:w-12">
-                                        {% elif redSocialData[1] == 'linkedin' %}
+                                        {% elif redSocialData[2] == 'linkedin' %}
                                             <img src="{{ url_for('static', filename='img/socials/linkedin.png') }}" alt="linkedin" class="w-8 sm:w-12">                                    
                                         {% endif %}
                                     </a>
@@ -45,13 +45,14 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    
     
                     <div class="mt-8 w-full sm:w-2/3">
                         <div class="mb-8 ">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline mx-4 w-4 sm:w-8 h-4 sm:h-8">
                                 <path d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
                             </svg>
-                            <p class="inline text-nowrap text-base sm:text-lg ">{{ content.cardData[4] }}</p>
+                            <p class="inline text-nowrap text-base sm:text-lg ">{{ content['cardData'][8] }}</p>
                             
                         </div>
     
@@ -59,12 +60,20 @@
                             <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512" class="inline mx-4 w-4 sm:w-8 h-4 sm:h-8">
                                 <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
                             </svg>
-                            <p class="inline text-nowrap text-base sm:text-lg  ">{{ content.cardData[5] }}</p>
+                            <p class="inline text-nowrap text-base sm:text-lg  ">{{ content['cardData'][9] }}</p>
                             
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="aboutme">
+            <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Sobre mi</h2>
+            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+            <p class="py-4 px-2">            
+                {{ content['aboutme'][0][7] }}
+            </p>
         </div>
 
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-2" id="credits">

@@ -1,6 +1,6 @@
 from flask import session
 
-def getUserData(mysql, id):
+def getUserData(mysql, userName):
     #Data
     content = { 
         'cardData': None,
@@ -16,7 +16,10 @@ def getUserData(mysql, id):
 
     try:    
         #get basic data            
-        cur.execute('SELECT * FROM CARD WHERE user = %s', (id,))
+        cur.execute('''SELECT id FROM USERCARD WHERE userName = %s''', (userName,))
+        id = cur.fetchone()[0]
+
+        cur.execute('''SELECT * FROM CARD WHERE user = %s''', (id,))
         cardData = cur.fetchone()
 
         if cardData:
@@ -73,6 +76,7 @@ def getUserData(mysql, id):
             if costumer:
                 content['costumer'] = costumer
             
+            print(content)
             return content
         else:
             return None
