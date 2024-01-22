@@ -68,6 +68,7 @@
             </div>
         </div>
 
+        {% if content['aboutme'] %}
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="aboutme">
             <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Sobre mi</h2>
             <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
@@ -75,6 +76,50 @@
                 {{ content['aboutme'][0][7] }}
             </p>
         </div>
+        {% endif %}
+
+        {% if content['briefcase'] %}
+        <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="content">
+            <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mi portafolio</h2>
+            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+            
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {% for content in content['briefcase'] %}              
+                    <div class="flex flex-col items-center justify-center">                    
+                        <img class="h-40 sm:h-60 object-contain object-center rounded-lg" src="{{ url_for('static', filename= content[1]) }}" alt="">                    
+                    </div>                             
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if content['costumers'] %}
+            <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="clients">
+                <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mis clientes</h2>
+                <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {% for client in content.clientes %}        
+                        <div class="flex flex-col items-center justify-center">                    
+                            <img class="h-40 sm:h-60 object-contain object-center rounded-lg" src="{{ url_for('static', filename= client[2] ) }}" alt="">
+                            <h2 class="w-full text-center font-bold"> {{ client[1] }} </h2>
+                        </div>                             
+                    {% endfor %}
+                </div>
+                
+            </div>
+        {% endif %}
+
+        {% if content['ubication'] %}
+        <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="ubication">
+            <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mi ubicacion</h2>
+            <h2 class="text-xs sm:text-base sm:font-bold"> {{ content.cardData[7] }} </h2>
+            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+
+            <div id="map" class="h-[400px] sm:h-[400px]"></div>
+        </div>
+        {% endif %}
 
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-2" id="credits">
             <p class="text-xs">Tarjeta de presentacion creada en RostroEmpresarial.com</p>
