@@ -17,7 +17,7 @@ const logout = async ()=> {
         }
 
         const data = await response.json();
-        window.location.href = '';
+        window.location.href = '/';
     }catch(err){
         console.log('Error en la solicitud: ', err.message);
     }
