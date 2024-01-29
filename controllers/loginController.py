@@ -6,7 +6,8 @@ def signup(mysql, data):
     if token:
         cur = mysql.connection.cursor()
         try:
-            cur.execute('INSERT INTO USERCARD(email, userName, psw) VALUES (%s, %s, %s)', (data['email'], data['userName'], data['psw']) )
+            userName = data['userName'].replace(" ", "_")
+            cur.execute('INSERT INTO USERCARD(email, userName, psw) VALUES (%s, %s, %s)', (data['email'], userName, data['psw']) )
             mysql.connection.commit()            
 
             cur.execute('SELECT id FROM USERCARD WHERE email = %s', (data['email'], ) )

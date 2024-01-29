@@ -41,7 +41,7 @@ def getUserData(mysql, userName):
             #get aboutme
             cur.execute('''SELECT * 
                             FROM COMPONENT AS c
-                            JOIN ABOUTME AS a ON c.id = a.id
+                            NATURAL JOIN ABOUTME AS a
                             WHERE c.user = %s''', (id,))
             aboutme = cur.fetchall()
             if aboutme:
