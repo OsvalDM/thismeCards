@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 from flask_mysqldb import MySQL
 import hashlib
 import os
-from datetime import datetime
 
 from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl
@@ -176,6 +175,39 @@ def aboutmePost():
     else:
         return redirect(url_for('login'))
 
+@app.route('/ubication', methods=['POST'])
+def ubicationPost():
+    user = verifySignIn()
+    if user:        
+        data = {                    
+            'user' : user[0],
+            'lat' : request.form['latitude'],
+            'lon' : request.form['longitude'],
+            'address' : request.form['ubication']
+        }    
+        addUbication(mysql, data)
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/costumers', methods=['POST'])
+def costumersPost():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]
+        urlCostumer = saveFile(request.files['logo'], 'imgLogo', id, True)
+
+        data = {
+            'user' : user[0],
+            'name' : request.form['name'],
+            'img' : urlCostumer
+        }
+        
+        addClient(mysql,data)
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))    
+
 #Error handler
 #Verified endpoint
 @app.errorhandler(404)
@@ -330,48 +362,6 @@ def logs():
 #Midleware routes get
 
 #Methods post
-
-#Verified endpoint
-@app.route('/addClient', methods=['POST'])
-def addClientPost():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            cur = None
-            try:
-                id  = userInfo[0]
-                cur = mysql.connection.cursor()
-                cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-                cardData = cur.fetchone()
-
-                if cardData:                    
-                    nombre = request.form['name']
-                    imgLogo = request.files['logo']
-                    extTime = datetime.now().strftime("%Y%m%d%H%M%S")
-
-                    if imgLogo:
-                        file_extension = imgLogo.filename.rsplit('.', 1)[1].lower()
-                        filename_imgLogo = generate_filename(id,'imgLogo' + extTime ,file_extension)
-                        filename_imgLogo = 'data/imgLogo/' + filename_imgLogo
-                        imgLogo.save(f'static/{filename_imgLogo}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('INSERT INTO cliente(nombre, imgLogo, tarjeta) VALUES (%s, %s, %s)', (nombre, filename_imgLogo, cardData[0]) )
-                        mysql.connection.commit()
-
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            finally:
-                if cur:
-                    cur.close()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('home'))
 
 #Verified endpoint
 @app.route('/editContent', methods=['POST'])

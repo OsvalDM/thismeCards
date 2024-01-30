@@ -44,13 +44,67 @@ def addAboutme(mysql, data):
     cur = mysql.connection.cursor()
 
     try:        
-        cur.execute('INSERT INTO COMPONENT (id, user, category) VALUES (1, %s, %s)',
+        cur.execute('INSERT INTO COMPONENT (user, category) VALUES (%s, %s)',
                     (data['user'], 'ABOUTME'))
         mysql.connection.commit()    
     
-        cur.execute('INSERT INTO ABOUTME VALUES(1, %s, %s)', 
-                    (data['user'], data['content']))
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'ABOUTME'))
+        idRow = cur.fetchone()[0]
+    
+        cur.execute('INSERT INTO ABOUTME VALUES(%s, %s, %s)', 
+                    (idRow, data['user'], data['content']))
         mysql.connection.commit()
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+def addUbication(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('INSERT INTO COMPONENT (user, category) VALUES (%s, %s)',
+                    (data['user'], 'UBICATION'))
+        mysql.connection.commit()    
+
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'UBICATION'))
+        idRow = cur.fetchone()[0]
+
+        cur.execute('INSERT INTO UBICATION VALUES(%s, %s, %s, %s, %s, "")', 
+                    (idRow, data['user'], data['lat'], data['lon'], data['address']))
+        mysql.connection.commit()
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+def addClient(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('INSERT INTO COMPONENT (user, category) VALUES (%s, %s)',
+                    (data['user'], 'COSTUMER'))
+        mysql.connection.commit()    
+
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'COSTUMER'))
+        idRow = cur.fetchone()[0]
+
+        cur.execute('INSERT INTO COSTUMER VALUES(%s, %s)', 
+                    (idRow, data['user']))
+        mysql.connection.commit()
+        
+        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img) VALUES(%s, %s, %s)', 
+                    (idRow, data['name'], data['img']))
+        mysql.connection.commit()
+
         return True
     
     except Exception as e:

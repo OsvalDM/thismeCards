@@ -2,6 +2,7 @@ from flask import session
 import qrcode
 import os
 import urllib.parse
+from datetime import datetime
 
 def verifySignIn():
     user = session.get('user', None)
@@ -47,3 +48,14 @@ def deleteFile(name):
     file_Img = 'static/' + name
     if os.path.exists(file_Img):                        
         os.remove(file_Img)
+
+def saveFile(file, field, id, extraField = False):    
+    file_extension = file.filename.rsplit('.', 1)[1].lower()
+    if extraField:         
+        filename = generate_filename(id, field + datetime.now().strftime("%Y%m%d%H%M%S") ,file_extension)
+    else:
+        filename = generate_filename(id, field ,file_extension)
+    filename = 'data/' + field + '/' + filename
+    file.save(f'static/{filename}')
+
+    return filename

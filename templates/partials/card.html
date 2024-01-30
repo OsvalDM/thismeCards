@@ -71,7 +71,7 @@
         {% if content['aboutme'] %}
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="aboutme">
             <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Sobre mi</h2>
-            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+            <div class="bg-red-300 h-1 w-4/5 rounded- my-2"></div>
             <p class="py-4 px-2">            
                 {{ content['aboutme'][0][5] }}
             </p>
@@ -81,7 +81,7 @@
         {% if content['briefcase'] %}
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="content">
             <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mi portafolio</h2>
-            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+            <div class="bg-red-300 h-1 w-4/5 rounded- my-2"></div>
             
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -97,7 +97,7 @@
         {% if content['costumers'] %}
             <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="clients">
                 <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mis clientes</h2>
-                <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+                <div class="bg-red-300 h-1 w-4/5 rounded- my-2"></div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {% for client in content.clientes %}        
@@ -114,8 +114,8 @@
         {% if content['ubication'] %}
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="ubication">
             <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Mi ubicacion</h2>
-            <h2 class="text-xs sm:text-base sm:font-bold"> {{ content.cardData[7] }} </h2>
-            <div class="bg-pink-300 h-1 w-4/5 rounded- my-2"></div>
+            <h2 class="text-xs sm:text-base sm:font-bold"> {{ content['ubication'][0][7] }} </h2>
+            <div class="bg-red-300 h-1 w-4/5 rounded- my-2"></div>
 
             <div id="map" class="h-[400px] sm:h-[400px]"></div>
         </div>
@@ -167,7 +167,25 @@
 		ScrollReveal().reveal('#clients', slideRightQuick);
         ScrollReveal().reveal('#ubication', slideLeft);
 	</script>    
+    {% if content['ubication'] %}
+    <script> 
+        function initMap() {
+            var myLatLng = { lat: {{ content['ubication'][0][5] }}, lng: {{ content['ubication'][0][6] }} };            
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: myLatLng,
+                zoom: 16,
+                disableDefaultUI: true
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Estoy aqui !!'
+            });
+        }
+    </script>
     
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA&callback=initMap"></script>
+    {% endif %}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>

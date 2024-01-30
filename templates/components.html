@@ -78,9 +78,17 @@
                                 </div>
 
                                 <form action="/briefcase" method="post">
-                                    <div class="p-4 md:p-5 space-y-4">                                    
-                                        <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900">Sube imagenes para tu portafolio</label>
-                                        
+                                    <div class="p-4 md:p-5 space-y-4">                                                                            
+                                        <div class="mb-5">                                            
+                                            <p class="block mb-2 text-sm text-gray-900">Sube almenos 1 imagen para tu portafolio</p>
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content1" name="content1" type="file" required  accept="image/*" onchange="validateFile(document.getElementById('content1'))" >
+                                            <p class="block mb-2 text-sm text-gray-900">Complementa tu portafolio con hasta 5 imagenes</p>
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content2" name="content2" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content2'))">
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content3" name="content3" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content3'))">
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content4" name="content4" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content4'))">
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content5" name="content5" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content5'))">
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="content6" name="content6" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content6'))">
+                                        </div>
                                     </div>                            
                                     <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
                                         <button data-modal-hide="briefcase-modal" type="sunmit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Guardar</button>                                
@@ -116,10 +124,19 @@
                                     </button>
                                 </div>
 
-                                <form action="/costumers" method="post">
+                                <form action="/costumers" method="post" enctype="multipart/form-data">
                                     <div class="p-4 md:p-5 space-y-4">                                    
-                                        <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900">Registra la informacion de tus clientes</label>
-                                        
+                                        <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900">Registra la informacion de un cliente, mas adelante podras registrar mas.</label>
+                                        <div class="mb-5">
+                                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+                                            <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 " required>
+                                        </div>
+    
+                                        <div class="mb-5">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 " for="logo">Imagen de logo</label>                                        
+                                            <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none " aria-describedby="user_avatar_help" id="logo" name="logo" type="file" required accept="image/*" onchange="validateFile(document.getElementById('logo'))">    
+                                        </div>
+                                            
                                     </div>                            
                                     <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
                                         <button data-modal-hide="costumers-modal" type="sunmit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Guardar</button>                                
@@ -158,7 +175,18 @@
                                 <form action="/ubication" method="post">
                                     <div class="p-4 md:p-5 space-y-4">                                    
                                         <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900">Registra tu direccion e indica en el mapa la ubicacion</label>
+                                        <div class="mb-5">
+                                            <label for="ubication" class="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
+                                            <input type="text" id="ubication" name="ubication" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 " required>
+                                        </div>     
                                         
+                                        <!-- Campos ocultos para latitud y longitud -->
+                                        <input type="hidden" id="latitude" name="latitude" value="20.095271706069948">
+                                        <input type="hidden" id="longitude" name="longitude" value="-98.75850677490234">
+                                        <div class="mb-5">
+                                            <p class="block mb-2 text-sm text-gray-900">Mueve el marcador a tu direccion</p>
+                                            <div id="map" style="height: 400px;"></div>
+                                        </div>
                                     </div>                            
                                     <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
                                         <button data-modal-hide="ubication-modal" type="sunmit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Guardar</button>                                
@@ -176,4 +204,28 @@
 
     </div>    
 
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.095271706069948, lng: -98.75850677490234 },
+                zoom: 8
+            });
+
+            marker = new google.maps.Marker({
+                map: map,
+                position: { lat: 20.095271706069948, lng: -98.75850677490234 },
+                draggable: true
+            });
+
+            marker.addListener('dragend', function () {
+                var position = marker.getPosition();
+                document.getElementById('latitude').value = position.lat();
+                document.getElementById('longitude').value = position.lng();
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA&callback=initMap"></script>
 {% include 'partials/baseEnd.html' %}
