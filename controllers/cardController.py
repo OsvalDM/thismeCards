@@ -113,3 +113,32 @@ def addClient(mysql, data):
     
     finally:
         cur.close()
+
+def addBriefcase(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('INSERT INTO COMPONENT (user, category) VALUES (%s, %s)',
+                    (data['user'], 'BRIEFCASE'))
+        mysql.connection.commit()    
+
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'BRIEFCASE'))
+        idRow = cur.fetchone()[0]
+
+        cur.execute('INSERT INTO BRIEFCASE VALUES(%s, %s)', 
+                    (idRow, data['user']))
+        mysql.connection.commit()
+        
+        for url in data['content']:
+            cur.execute('INSERT INTO BRIEFCASE_IMAGE(briefcase, urlImg) VALUES(%s, %s)', 
+                        (idRow, url))
+            mysql.connection.commit()
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()

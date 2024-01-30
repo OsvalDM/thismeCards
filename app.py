@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 from flask_mysqldb import MySQL
 import hashlib
 import os
+import time
 
 from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl
@@ -206,7 +207,32 @@ def costumersPost():
         addClient(mysql,data)
         return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('login'))    
+        return redirect(url_for('login'))
+
+@app.route('/briefcase', methods=['POST'])
+def briefcasePost():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]
+
+        urlConten = []
+        nameFields = ['content1', 'content2', 'content3', 'content4', 'content5', 'content6']
+        
+        for name in nameFields:
+            content = request.files[name] 
+            if content:
+                urlConten.append( saveFile(content, 'content', id, True) )
+            time.sleep(1)
+
+        data = {
+            'user' : user[0],
+            'content' : urlConten            
+        }
+        
+        addBriefcase(mysql,data)
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
 
 #Error handler
 #Verified endpoint

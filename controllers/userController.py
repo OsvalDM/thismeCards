@@ -48,10 +48,10 @@ def getUserData(mysql, userName):
                 content['aboutme'] = aboutme
             
             #get briefcase
-            cur.execute('''SELECT * 
+            cur.execute('''SELECT bi.urlImg 
                             FROM COMPONENT AS c
                             NATURAL JOIN BRIEFCASE AS b
-                            NATURAL JOIN BRIEFCASE_IMAGE AS bi
+                            JOIN BRIEFCASE_IMAGE AS bi ON b.id = bi.briefcase
                             WHERE c.user = %s''', (id,))
             briefcase = cur.fetchall()
             if briefcase:
@@ -67,14 +67,15 @@ def getUserData(mysql, userName):
                 content['ubication'] = ubication
             
             #get costumers
-            cur.execute('''SELECT * 
+            cur.execute('''SELECT cod.name, cod.img
                             FROM COMPONENT AS c
                             NATURAL JOIN COSTUMER AS co
-                            NATURAL JOIN COSTUMER_DATA AS cod
+                            JOIN COSTUMER_DATA AS cod ON co.id = cod.costumer
                             WHERE c.user = %s''', (id,))
-            costumer = cur.fetchall()
+                        
+            costumer = cur.fetchall()            
             if costumer:
-                content['costumer'] = costumer
+                content['costumers'] = costumer
             
             print(content)
             return content

@@ -9,12 +9,12 @@
         {% include 'partials/aside.html' %}
         <div class="ml-64 flex-1 h-screen p-8 ">
             <!-- Component list -->
-            <div class="w-full text-center">
+            <div class="w-full text-center bg-white rounded-lg shadow-lg py-4">
                 <p class="text-2xl font-bold">Agrega componentes a tu tarjeta</p>
                 <p>Da click en el componente que deseas agregar y llena la informacion que se te pide</p>
             </div>
             
-            <div class="w-full h-[80%] p-8 flex justify-center items-center">
+            <div class="w-full h-[75%] mt-8 p-8 flex justify-center items-center bg-white rounded-lg shadow-lg">
                 {% if not data['aboutme'] %}
                 <!-- About me -->
                 <div class="m-4">
@@ -77,7 +77,7 @@
                                     </button>
                                 </div>
 
-                                <form action="/briefcase" method="post">
+                                <form action="/briefcase" method="post" enctype="multipart/form-data">
                                     <div class="p-4 md:p-5 space-y-4">                                                                            
                                         <div class="mb-5">                                            
                                             <p class="block mb-2 text-sm text-gray-900">Sube almenos 1 imagen para tu portafolio</p>
@@ -198,6 +198,11 @@
     
                 </div>
                 {% endif %}
+
+                {% if data['ubication'] and data['costumers'] and data['briefcase'] and data['aboutme'] %}
+                    Por el momento haz agregado todos los componentes disponibles, espera mas pronto.
+                {% endif %}
+
             </div>
             
         </div>                                                      
