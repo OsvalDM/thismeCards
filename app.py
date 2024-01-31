@@ -346,13 +346,55 @@ def editBriefcase():
     else:
         return redirect(url_for('login'))       
 
-@app.route('/plantilla', methods=['POST'])
-def plantilla():
+@app.route('/editClient/<id>', methods=['POST'])
+def editClient(id):
+    user = verifySignIn()
+    if user:                                
+        id  = user[0]
+
+        file = request.files['logo']      
+        urlCostumer = request.form['logoid']
+        
+        if file:
+            deleteFile(urlCostumer)
+            urlCostumer = saveFile(file, 'imgLogo', id, True)
+        
+        data = {
+            'id' : id,
+            'name' : request.form['name'],
+            'img' : urlCostumer
+        }
+        
+        editClientF(mysql,data)
+        
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
+
+
+@app.route('/newCostumer', methods=['POST'])
+def newCostumer():
     user = verifySignIn()
     if user:                        
         id  = user[0]
+        urlCostumer = saveFile(request.files['logo'], 'imgLogo', id, True)
+
+        data = {
+            'user' : user[0],
+            'name' : request.form['name'],
+            'img' : urlCostumer
+        }
         
-        
+        addClientItem(mysql,data)
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/deleteClient/<id>')
+def deleteCostumer(id):
+    user = verifySignIn()
+    if user:        
+        deleteClientF(mysql, id)
         
         return redirect(url_for('editCard'))
     else:

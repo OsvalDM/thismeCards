@@ -127,6 +127,26 @@ def addClient(mysql, data):
     finally:
         cur.close()
 
+def addClientItem(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:                
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'COSTUMER'))
+        idRow = cur.fetchone()[0]
+        
+        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img) VALUES(%s, %s, %s)', 
+                    (idRow, data['name'], data['img']))
+        mysql.connection.commit()
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
 def addBriefcase(mysql, data):
     cur = mysql.connection.cursor()
 
@@ -285,6 +305,40 @@ def editBriefcaseF(mysql, data):
             cur.execute('INSERT INTO BRIEFCASE_IMAGE(briefcase, urlImg) VALUES(%s, %s)', 
                         (idRow, url))
             mysql.connection.commit()
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+def editClientF(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:            
+        cur.execute('UPDATE COSTUMER_DATA SET name = %s, img = %s WHERE id = %s', 
+                    (data['name'], data['img'], data['id']))
+        mysql.connection.commit()
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+def deleteClientF(mysql, id):
+    cur = mysql.connection.cursor()
+
+    try:            
+        cur.execute('DELETE FROM COSTUMER_DATA WHERE id = %s', 
+                    (id, ))
+        mysql.connection.commit()
 
         return True
     
