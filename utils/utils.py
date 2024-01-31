@@ -3,7 +3,6 @@ import qrcode
 import os
 import urllib.parse
 from datetime import datetime
-import youtube_dl
 
 def verifySignIn():
     user = session.get('user', None)

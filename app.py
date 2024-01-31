@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify
 from flask_mysqldb import MySQL
 import hashlib
-import os
 
 from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl

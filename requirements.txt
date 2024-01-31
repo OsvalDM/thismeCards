@@ -1,2 +1,8 @@
 flask
 flask_mysqldb
+hashlib
+qrcode
+os
+urllib.parse
+datetime
+re
