@@ -3,6 +3,7 @@ import qrcode
 import os
 import urllib.parse
 from datetime import datetime
+import youtube_dl
 
 def verifySignIn():
     user = session.get('user', None)
@@ -49,9 +50,13 @@ def deleteFile(name):
     if os.path.exists(file_Img):                        
         os.remove(file_Img)
 
-def saveFile(file, field, id, extraField = False):    
+def saveFile(file, field, id, extraField = False, extraId = -1):    
     file_extension = file.filename.rsplit('.', 1)[1].lower()
-    if extraField:         
+    if extraField and extraId >= 0:
+        filename = generate_filename(id, field + datetime.now().strftime("%Y%m%d%H%M%S") + str(extraId) ,file_extension)
+    elif not extraField and extraId >= 0:
+        filename = generate_filename(id, field + str(extraId) ,file_extension)
+    elif extraField and extraId < 0:
         filename = generate_filename(id, field + datetime.now().strftime("%Y%m%d%H%M%S") ,file_extension)
     else:
         filename = generate_filename(id, field ,file_extension)
@@ -59,3 +64,13 @@ def saveFile(file, field, id, extraField = False):
     file.save(f'static/{filename}')
 
     return filename
+
+def getVideoInfo(url):
+    ydl_opts = {
+        'quiet': True,
+        'extract_flat': True,
+    }
+
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        info_dict = ydl.extract_info(url, download=False)
+        return info_dict

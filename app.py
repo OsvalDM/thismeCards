@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 from flask_mysqldb import MySQL
 import hashlib
 import os
-import time
 
 from controllers.tokenController import *
 from controllers.loginController import signup as signupCtrl, login as loginCtrl
@@ -25,27 +24,22 @@ app.secret_key = 'esta es la mejor clave secreta del universo'
 mysql = MySQL(app)
 
 #Methods get
-#Verified endpoint
 @app.route('/')
 def landing():
     return render_template('landing.html')
 
-#Verified endpoint
 @app.route('/signup')
 def signup():        
     return render_template('signup.html')
         
-#Verified endpoint
 @app.route('/login')
 def login():
     return render_template('login.html')
 
-#Verified endpoint
 @app.route('/example')
 def example():
     return render_template('example.html')
 
-#Verified endpoint +
 @app.route('/dashboard')
 def dashboard():
     user = verifySignIn()
@@ -61,7 +55,6 @@ def mycard(id):
     data = getUserData(mysql, id)
     return render_template('mycard.html', content = data)
 
-#Verified endpoint
 @app.route('/createCard')
 def createCard():
     user = verifySignIn()
@@ -70,7 +63,16 @@ def createCard():
     else:
         return redirect(url_for('login'))
 
-#Verified endpoint
+@app.route('/editCard')
+def editCard():
+    user = verifySignIn()
+    if user:        
+            urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
+            data = getUserData(mysql, user[2])
+            return render_template('editCard.html', user = user, data = data, urlQr = urlQr[0])
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/component')
 def component():
     user = verifySignIn()
@@ -169,6 +171,7 @@ def aboutmePost():
     if user:        
         data = {        
             'content' : request.form['content'],
+            'url' : request.form['url'],
             'user' : user[0]
         }    
         addAboutme(mysql, data)        
@@ -218,11 +221,13 @@ def briefcasePost():
         urlConten = []
         nameFields = ['content1', 'content2', 'content3', 'content4', 'content5', 'content6']
         
+        n = 0
         for name in nameFields:
-            content = request.files[name] 
+            content = request.files[name]
+
             if content:
-                urlConten.append( saveFile(content, 'content', id, True) )
-            time.sleep(1)
+                urlConten.append( saveFile(content, 'content', id, True, n) )            
+            n += 1
 
         data = {
             'user' : user[0],
@@ -241,92 +246,6 @@ def page_not_found(error):
     return render_template('error404.html'), 404
 
 #----------------------------------------------------------------------
-
-#Verified endpoint
-@app.route('/editCard')
-def editCard():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            content = { 
-                'cardData': None,
-                'profilePicData': None,
-                'imgPortafolio': None,
-                'redSocial': None,
-                'clientes' : None
-            }
-            
-            cardData = None
-            
-            try:
-                cur = mysql.connection.cursor()
-
-                cur.execute('SELECT * FROM tarjeta WHERE usuario = %s', (userInfo[0],))
-                cardData = cur.fetchone()
-
-                if cardData:
-                    content['cardData'] = cardData
-
-                    cur.execute('SELECT * FROM imgPerfil WHERE tarjeta = %s', (cardData[0],))
-                    profilePicData = cur.fetchall()
-                    if profilePicData:
-                        content['profilePicData'] = profilePicData
-
-                    cur.execute('SELECT * FROM imgPortafolio WHERE tarjeta = %s', (cardData[0],))
-                    imgPortafolio = cur.fetchall()
-                    if imgPortafolio:
-                        noImgPath = 'img/noImg.png'
-                        imgs = [noImgPath, noImgPath, noImgPath, noImgPath, noImgPath, noImgPath]
-
-                        for img in imgPortafolio:
-                            if 'content1' in img[1]:
-                                imgs[0] = img[1]
-                            elif 'content2' in img[1]:
-                                imgs[1] = img[1]
-                            elif 'content3' in img[1]:
-                                imgs[2] = img[1]
-                            elif 'content4' in img[1]:
-                                imgs[3] = img[1]
-                            elif 'content5' in img[1]:
-                                imgs[4] = img[1]
-                            elif 'content6' in img[1]:
-                                imgs[5] = img[1]
-
-                        content['imgPortafolio'] = imgs
-
-                    cur.execute('SELECT * FROM redSocial WHERE tarjeta = %s', (cardData[0],))
-                    redSocial = cur.fetchall()
-                    if redSocial:
-                        socials = ['','','','']
-                        for redSocialData in redSocial:
-                            if redSocialData[1] == 'facebook':
-                                socials[0] = redSocialData[2]
-                            elif redSocialData[1] == 'instagram':
-                                socials[1] = redSocialData[2]
-                            elif redSocialData[1] == 'twitter':
-                                socials[2] = redSocialData[2]
-                            elif redSocialData[1] == 'linkedin':
-                                socials[3] = redSocialData[2]
-                            
-                        content['redSocial'] = socials
-
-                    cur.execute('SELECT * FROM cliente WHERE tarjeta = %s', (cardData[0],))
-                    clientes = cur.fetchall()
-                    if clientes:
-                        content['clientes'] = clientes
-
-            except Exception as e:
-                print(e)
-                return redirect(url_for('restore'))
-
-            finally:
-                cur.close()
-
-            return render_template('editCard.html', userName = userInfo[1], content = content)
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
 
 #Methods get admin
 

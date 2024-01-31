@@ -1,3 +1,5 @@
+import re
+
 def createCardBase(mysql, data, socials):
     cur = mysql.connection.cursor()
 
@@ -44,15 +46,26 @@ def addAboutme(mysql, data):
     cur = mysql.connection.cursor()
 
     try:        
+        pattern = re.compile(r'watch\?v=([^\&]+)')
+
+        match = pattern.search(data['url'])
+
+        if match:
+            url = match.group(1)
+            print("ID del video:", url)
+        else:
+            print("No se encontró ningún ID de video en la URL.")
+            return False
+
         cur.execute('INSERT INTO COMPONENT (user, category) VALUES (%s, %s)',
                     (data['user'], 'ABOUTME'))
         mysql.connection.commit()    
     
         cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'ABOUTME'))
-        idRow = cur.fetchone()[0]
-    
-        cur.execute('INSERT INTO ABOUTME VALUES(%s, %s, %s)', 
-                    (idRow, data['user'], data['content']))
+        idRow = cur.fetchone()[0]        
+
+        cur.execute('INSERT INTO ABOUTME VALUES(%s, %s, %s, %s)', 
+                    (idRow, data['user'], data['content'], url))
         mysql.connection.commit()
         return True
     

@@ -1,5 +1,5 @@
 from flask import session
-
+from utils.utils import *
 def getUserData(mysql, userName):
     #Data
     content = { 

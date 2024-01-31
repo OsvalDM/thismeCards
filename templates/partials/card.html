@@ -72,9 +72,13 @@
         <div class="bg-white w-[90vw] sm:w-[70vw] rounded-lg shadow-md mb-8 px-8 py-12" id="aboutme">
             <h2 class="text-[1.5em] sm:text-[2.5em] font-bold">Sobre mi</h2>
             <div class="bg-red-300 h-1 w-4/5 rounded- my-2"></div>
-            <p class="py-4 px-2">            
-                {{ content['aboutme'][0][5] }}
-            </p>
+            <div class="w-full flex">
+                <p class="p-8 w-1/2">            
+                    {{ content['aboutme'][0][5] }}
+                </p>                
+                <iframe class="rounded-sm w-1/2 h-[315px]" src="https://www.youtube-nocookie.com/embed/{{ content['aboutme'][0][6] }}?si=xxBgOEram01mo9dV&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>                    
+                </iframe>
+            </div>
         </div>
         {% endif %}
 
