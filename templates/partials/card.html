@@ -52,7 +52,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="inline mx-4 w-4 sm:w-8 h-4 sm:h-8">
                                 <path d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
                             </svg>
-                            <p class="inline text-nowrap text-base sm:text-lg ">{{ content['cardData'][8] }}</p>
+                            <a href="mailto:{{ content['cardData'][8] }}" class="inline text-nowrap text-base sm:text-lg ">{{ content['cardData'][8] }}</a>
                             
                         </div>
     
@@ -60,7 +60,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512" class="inline mx-4 w-4 sm:w-8 h-4 sm:h-8">
                                 <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
                             </svg>
-                            <p class="inline text-nowrap text-base sm:text-lg  ">{{ content['cardData'][9] }}</p>
+                            <a href="tel:{{ content['cardData'][9] }}" class="inline text-nowrap text-base sm:text-lg  ">{{ content['cardData'][9] }}</a>
                             
                         </div>
                     </div>
@@ -177,7 +177,7 @@
             var myLatLng = { lat: {{ content['ubication'][0][5] }}, lng: {{ content['ubication'][0][6] }} };            
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: myLatLng,
-                zoom: 16,
+                zoom: 18,
                 disableDefaultUI: true
             });
             var marker = new google.maps.Marker({

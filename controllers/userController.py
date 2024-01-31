@@ -1,6 +1,6 @@
 from flask import session
 from utils.utils import *
-def getUserData(mysql, userName):
+def getUserData(mysql, userName, editFix = False):
     #Data
     content = { 
         'cardData': None,
@@ -29,7 +29,20 @@ def getUserData(mysql, userName):
             cur.execute('SELECT * FROM SOCIAL WHERE user = %s', (id,))
             socials = cur.fetchall()
             if socials:
-                content['socials'] = socials
+                if not editFix:
+                    content['socials'] = socials
+                else:
+                    socialFix = ['','','','']
+                    for social in socials:
+                        if social[2] == 'facebook':
+                            socialFix[0] = social[4]
+                        if social[2] == 'instagram':
+                            socialFix[1] = social[4]
+                        if social[2] == 'twitter':
+                            socialFix[2] = social[4]
+                        if social[2] == 'linkedin':
+                            socialFix[3] = social[4]
+                    content['socials'] = socialFix
 
             #get personalization
             cur.execute('SELECT * FROM STYLE WHERE user = %s', (id, ))
@@ -67,13 +80,13 @@ def getUserData(mysql, userName):
                 content['ubication'] = ubication
             
             #get costumers
-            cur.execute('''SELECT cod.name, cod.img
+            cur.execute('''SELECT cod.name, cod.img, cod.id
                             FROM COMPONENT AS c
                             NATURAL JOIN COSTUMER AS co
                             JOIN COSTUMER_DATA AS cod ON co.id = cod.costumer
                             WHERE c.user = %s''', (id,))
                         
-            costumer = cur.fetchall()            
+            costumer = cur.fetchall()
             if costumer:
                 content['costumers'] = costumer
             

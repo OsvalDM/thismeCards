@@ -155,3 +155,98 @@ def addBriefcase(mysql, data):
     
     finally:
         cur.close()
+
+#-----------------------------------------------------------------------------------------
+#Edit functions
+
+def editAboutmeF(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        pattern = re.compile(r'watch\?v=([^\&]+)')
+
+        match = pattern.search(data['url'])
+
+        if match:
+            url = match.group(1)
+            print("ID del video:", url)
+        else:
+            print("No se encontró ningún ID de video en la URL.")
+            return False  
+
+        cur.execute('UPDATE ABOUTME SET content = %s, url = %s WHERE user = %s', 
+                    (data['content'], url, data['id']))
+        mysql.connection.commit()
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+
+def verifySocial(mysql, name, user):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('SELECT * FROM SOCIAL WHERE name = %s and user = %s', (name, user))
+        result = cur.fetchone()
+        if result: return True
+        else: return False
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+
+def editCardF(mysql, data, socials):
+    cur = mysql.connection.cursor()
+
+    try:
+        cur.execute('''UPDATE CARD SET name = %s , lastFat = %s, lastMot = %s, imgProfile = %s, charge = %s, email = %s, cellphone = %s, tittle = %s WHERE user = %s''', 
+                    (data['name'], data['lastFat'], data['lastMot'], data['file'], data['charge'], data['email'], data['cellphone'], data['tittle'], data['user']) )
+        mysql.connection.commit()
+
+        #Redes sociales        
+        if socials['facebook'] != '':                            
+            if verifySocial(mysql,'facebook', data['user']):
+                cur.execute('UPDATE SOCIAL SET link = %s WHERE name = %s and user = %s', (socials['facebook'], 'facebook', data['user']) )                
+            else:
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (data['user'], 'facebook', socials['facebook']) )
+            
+            mysql.connection.commit()
+        
+        if socials['instagram'] != '':                
+            if verifySocial(mysql, 'instagram', data['user']):
+                cur.execute('UPDATE SOCIAL SET link = %s WHERE name = %s and user = %s', (socials['instagram'], 'instagram', data['user']) )
+            else:
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (data['user'], 'instagram', socials['instagram']) )
+            mysql.connection.commit()
+        
+        if socials['twitter'] != '':    
+            if verifySocial(mysql,'twitter', data['user']):            
+                cur.execute('UPDATE SOCIAL SET link = %s WHERE name = %s and user = %s', (socials['twitter'], 'twitter', data['user']) )
+            else:
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (data['user'], 'twitter', socials['twitter']) )
+            mysql.connection.commit()
+        
+        if socials['linkedin'] != '':                
+            if verifySocial(mysql, 'linkedin', data['user']):
+                cur.execute('UPDATE SOCIAL SET link = %s WHERE name = %s and user = %s', (socials['linkedin'], 'linkedin', data['user']) )
+            else:
+                cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (data['user'], 'linkedin', socials['linkedin']) )
+            mysql.connection.commit()        
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+
+    finally:
+        cur.close()        

@@ -64,13 +64,3 @@ def saveFile(file, field, id, extraField = False, extraId = -1):
     file.save(f'static/{filename}')
 
     return filename
-
-def getVideoInfo(url):
-    ydl_opts = {
-        'quiet': True,
-        'extract_flat': True,
-    }
-
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(url, download=False)
-        return info_dict

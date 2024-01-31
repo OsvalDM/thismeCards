@@ -68,8 +68,8 @@ def editCard():
     user = verifySignIn()
     if user:        
             urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
-            data = getUserData(mysql, user[2])
-            return render_template('editCard.html', user = user, data = data, urlQr = urlQr[0])
+            data = getUserData(mysql, user[2], True)
+            return render_template('editCard.html', user = user, content = data, urlQr = urlQr[0])
     else:
         return redirect(url_for('login'))
 
@@ -239,6 +239,74 @@ def briefcasePost():
     else:
         return redirect(url_for('login'))
 
+@app.route('/editAboutme', methods=['POST'])
+def editAboutme():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]
+        
+        data = {
+            'content' : request.form['message'],
+            'url' : request.form['url'],
+            'id' : id
+        }
+
+        editAboutmeF(mysql, data)
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
+
+#Verified endpoint
+@app.route('/editProfile', methods=['POST'])
+def editProfile():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]     
+        profilePictureMain = request.files['profilePictureMain']      
+        filename_profilePictureMain = request.form['profilePictureMainId']
+
+        if profilePictureMain:
+            deleteFile(filename_profilePictureMain)
+            filename_profilePictureMain = saveFile(profilePictureMain, 'profilePictureMain', id)        
+        #Campos extra
+        data = {
+            'name' : request.form['name'],
+            'lastFat' : request.form['lastNameFather'],
+            'lastMot' : request.form['lastNameMother'],
+            'email' : request.form['email'],
+            'cellphone' : request.form['telephone'],
+            'tittle' : request.form['titulo'],
+            'charge' : request.form['cargo'],
+            'user' : id,
+            'file' : filename_profilePictureMain
+        }
+
+        socials = {
+            'facebook' : request.form['facebook'],
+            'instagram' : request.form['instagram'],
+            'twitter' : request.form['twitter'],
+            'linkedin' : request.form['linkedin']
+        }
+
+        editCardF(mysql, data, socials)
+    
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))   
+
+@app.route('/plantilla', methods=['POST'])
+def plantilla():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]
+        
+        
+        
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
+
+
 #Error handler
 #Verified endpoint
 @app.errorhandler(404)
@@ -303,376 +371,6 @@ def logs():
     
     else:        
         return redirect(url_for('login'))
-
-#Midleware routes get
-
-#Methods post
-
-#Verified endpoint
-@app.route('/editContent', methods=['POST'])
-def editContent():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            cur = None
-            id  = userInfo[0]      
-
-            try:
-                cur = mysql.connection.cursor()    
-                cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-                cardData = cur.fetchone()
-
-                if cardData:
-                    #portafolio
-                    content1 = request.files['content1']            
-                    if content1:
-                        actualImg = request.form['content1id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content1/' + generate_filename(id,'content1' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content1.filename.rsplit('.', 1)[1].lower()
-                        filename_content1 = generate_filename(id,'content1' ,file_extension)
-                        filename_content1 = 'data/content1/' + filename_content1
-                        content1.save(f'static/{filename_content1}')                    
-
-                        cur = mysql.connection.cursor()                    
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content1id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content1) )
-                        mysql.connection.commit()
-
-                    content2 = request.files['content2']            
-                    if content2:
-                        actualImg = request.form['content2id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content2/' + generate_filename(id,'content2' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content2.filename.rsplit('.', 1)[1].lower()
-                        filename_content2 = generate_filename(id,'content2' ,file_extension)
-                        filename_content2 = 'data/content2/' + filename_content2
-                        content2.save(f'static/{filename_content2}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content2id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content2) )
-                        mysql.connection.commit()
-
-                    content3 = request.files['content3']            
-                    if content3:
-                        actualImg = request.form['content3id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content3/' + generate_filename(id,'content3' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content3.filename.rsplit('.', 1)[1].lower()
-                        filename_content3 = generate_filename(id,'content3' ,file_extension)
-                        filename_content3 = 'data/content3/' + filename_content3
-                        content3.save(f'static/{filename_content3}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content3id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content3) )
-                        mysql.connection.commit()
-
-                    content4 = request.files['content4']            
-                    if content4:
-                        actualImg = request.form['content4id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content4/' + generate_filename(id,'content4' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content4.filename.rsplit('.', 1)[1].lower()
-                        filename_content4 = generate_filename(id,'content4' ,file_extension)
-                        filename_content4 = 'data/content4/' + filename_content4
-                        content4.save(f'static/{filename_content4}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content4id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content4) )
-                        mysql.connection.commit()
-
-                    content5 = request.files['content5']            
-                    if content5:
-                        actualImg = request.form['content5id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content5/' + generate_filename(id,'content5' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content5.filename.rsplit('.', 1)[1].lower()
-                        filename_content5 = generate_filename(id,'content5' ,file_extension)
-                        filename_content5 = 'data/content5/' + filename_content5
-                        content5.save(f'static/{filename_content5}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content5id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content5) )
-                        mysql.connection.commit()
-
-                    content6 = request.files['content6']            
-                    if content6:
-                        actualImg = request.form['content6id']
-                        file_extensionImg = actualImg.rsplit('.', 1)[1].lower()                    
-                        file_extensionImg = 'static/data/content6/' + generate_filename(id,'content6' ,file_extensionImg)
-                        if os.path.exists(file_extensionImg):                        
-                            os.remove(file_extensionImg)
-
-                        file_extension = content6.filename.rsplit('.', 1)[1].lower()
-                        filename_content6 = generate_filename(id,'content6' ,file_extension)
-                        filename_content6 = 'data/content6/' + filename_content6
-                        content6.save(f'static/{filename_content6}')
-
-                        cur = mysql.connection.cursor()
-                        cur.execute('DELETE FROM imgPortafolio where rutaPortafolio = %s', (request.form['content6id'],) )
-                        mysql.connection.commit()
-                        cur.execute('INSERT INTO imgPortafolio VALUES (%s, %s)', (cardData[0], filename_content6) )
-                        mysql.connection.commit()
-
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            finally:
-                if cur:
-                    cur.close()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
-
-#Verified endpoint
-@app.route('/editClient/<idClient>', methods=['POST'])
-def editClient(idClient):
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            cur = None
-            id  = userInfo[0]      
-
-            try:
-                name = request.form['name']
-                logo = request.files['logo']   
-                actualImg = request.form['logoid']  
-                extTime = datetime.now().strftime("%Y%m%d%H%M%S")
-                if logo:
-                        file_Img = 'static/' + actualImg
-                        if os.path.exists(file_Img):                        
-                            os.remove(file_Img)
-
-                        file_extension = logo.filename.rsplit('.', 1)[1].lower()
-                        filename_imgLogo = generate_filename(id,'imgLogo' + extTime ,file_extension)
-                        filename_imgLogo = 'data/imgLogo/' + filename_imgLogo
-                        logo.save(f'static/{filename_imgLogo}')
-                        actualImg = filename_imgLogo
-                        
-                cur = mysql.connection.cursor()    
-                cur.execute('UPDATE cliente SET nombre = %s, imgLogo = %s WHERE id = %s', (name,actualImg,idClient))
-                mysql.connection.commit()
-
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            finally:
-                if cur:
-                    cur.close()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
-
-#Verified endpoint
-@app.route('/deleteClient/<idClient>')
-def deleteClient(idClient):
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            try:
-                cur = mysql.connection.cursor()    
-                cur.execute('SELECT imgLogo FROM cliente WHERE id = %s', (idClient,))
-                clientData = cur.fetchone()
-
-                file_Img = 'static/' + clientData[0]
-                if os.path.exists(file_Img):                        
-                    os.remove(file_Img)
-
-                cur = mysql.connection.cursor()    
-                cur.execute('DELETE FROM cliente WHERE id = %s', (idClient, ))
-                mysql.connection.commit()
-                
-            except Exception as e:
-                print(e)
-                return  redirect(url_for('createCard'))
-
-            finally:
-                if cur:
-                    cur.close()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
-
-#Verified endpoint
-@app.route('/editProfile', methods=['POST'])
-def editProfile():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            id  = userInfo[0]            
-                
-            #Campos extra
-            nombre = request.form['name']
-            apellidoPat = request.form['lastNameFather']
-            apellidoMat = request.form['lastNameMother']
-            correo = request.form['email']
-            telefono = request.form['telephone']
-            titulo = request.form['titulo']
-            cargo = request.form['cargo']
-
-            cur = mysql.connection.cursor()    
-            cur.execute('UPDATE tarjeta SET nombre = %s, apellidoPat = %s, apellidoMat = %s, correo = %s, telefono = %s, titulo = %s, cargo = %s WHERE usuario = %s', (nombre,apellidoPat,apellidoMat,correo,telefono, titulo ,cargo,id))
-            mysql.connection.commit()
-
-            #Redes sociales
-            #clean table
-            cur = mysql.connection.cursor()    
-            cur.execute('SELECT id FROM tarjeta WHERE usuario = %s', (id,))
-            cardData = cur.fetchone()
-            
-            cur = mysql.connection.cursor()
-            cur.execute('DELETE FROM redSocial where tarjeta = %s', (cardData[0],) )
-            mysql.connection.commit()
-
-            facebook = request.form['facebook']
-            if facebook != '':
-                cur = mysql.connection.cursor()
-                cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'facebook', facebook) )
-                mysql.connection.commit()
-
-            instagram = request.form['instagram']
-            if instagram != '':
-                cur = mysql.connection.cursor()
-                cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'instagram', instagram) )
-                mysql.connection.commit()
-
-            twitter = request.form['twitter']
-            if twitter != '':
-                cur = mysql.connection.cursor()
-                cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'twitter', twitter) )
-                mysql.connection.commit()
-
-            linkedin = request.form['linkedin']
-            if linkedin != '':
-                cur = mysql.connection.cursor()
-                cur.execute('INSERT INTO redSocial VALUES (%s, %s, %s)', (cardData[0], 'linkedin', linkedin) )
-                mysql.connection.commit()
-
-            #profile pictures
-            profilePictureMain = request.files['profilePictureMain']     
-            profilePictureMainId = request.form['profilePictureMainId'] 
-            if profilePictureMain:      
-                file_Img = 'static/' + profilePictureMainId
-                if os.path.exists(file_Img):                        
-                    os.remove(file_Img)
-
-                file_extension = profilePictureMain.filename.rsplit('.', 1)[1].lower()
-                filename_profilePictureMain = generate_filename(id,'profilePictureMain' ,file_extension)
-                filename_profilePictureMain = 'data/profilePictureMain/' + filename_profilePictureMain
-                profilePictureMain.save(f'static/{filename_profilePictureMain}')
-
-                cur = mysql.connection.cursor()
-                cur.execute('UPDATE imgPerfil SET rutaPerfil = %s WHERE tarjeta = %s AND rutaPerfil = %s', (filename_profilePictureMain, cardData[0], profilePictureMainId) )
-                mysql.connection.commit()
-
-            profilePictureSecond = request.files['profilePictureSecond']      
-            profilePictureSecondId = request.form['profilePictureSecondId']          
-            if profilePictureSecond:
-                if profilePictureSecondId != '':
-                    file_Img = 'static/' + profilePictureSecondId
-                    if os.path.exists(file_Img):                        
-                        os.remove(file_Img)
-                
-                    file_extension = profilePictureSecond.filename.rsplit('.', 1)[1].lower()
-                    filename_profilePictureSecond = generate_filename(id,'profilePictureSecond' ,file_extension)
-                    filename_profilePictureSecond = 'data/profilePictureSecond/' + filename_profilePictureSecond
-                    profilePictureSecond.save(f'static/{filename_profilePictureSecond}')
-
-                    cur = mysql.connection.cursor()
-                    cur.execute('UPDATE imgPerfil SET rutaPerfil = %s WHERE tarjeta = %s AND rutaPerfil = %s', (filename_profilePictureSecond, cardData[0], profilePictureSecondId) )
-                    mysql.connection.commit()
-                else:
-                    file_extension = profilePictureSecond.filename.rsplit('.', 1)[1].lower()
-                    filename_profilePictureSecond = generate_filename(id,'profilePictureSecond' ,file_extension)
-                    filename_profilePictureSecond = 'data/profilePictureSecond/' + filename_profilePictureSecond
-                    profilePictureSecond.save(f'static/{filename_profilePictureSecond}')
-
-                    cur = mysql.connection.cursor()
-                    cur.execute('INSERT INTO imgPerfil VALUES (%s, %s)', (cardData[0], filename_profilePictureSecond) )
-                    mysql.connection.commit()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
-
-#Verified endpoint
-@app.route('/editUbication', methods=['POST'])
-def editUbication():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            id  = userInfo[0]
-
-            ubicacion = request.form['ubication']
-            lat = request.form['latitude']
-            lng = request.form['longitude']
-
-            cur = mysql.connection.cursor()    
-            cur.execute('UPDATE tarjeta SET ubicacion = %s, lat = %s, lng = %s WHERE usuario = %s', (ubicacion, lat, lng, id))
-            mysql.connection.commit()
-        
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
-
-#Verified endpoint
-@app.route('/editAboutme', methods=['POST'])
-def editAboutme():
-    userInfo = getUserCookie()
-    if userInfo:
-        if userInfo[2] == 'True':
-            id  = userInfo[0]
-            sobreMi = request.form['message']
-
-            cur = mysql.connection.cursor()    
-            cur.execute('UPDATE tarjeta SET sobreMi = %s WHERE usuario = %s', (sobreMi, id))
-            mysql.connection.commit()
-        else:
-            return redirect(url_for('home'))
-    else:        
-        return redirect(url_for('login'))
-
-    return  redirect(url_for('editCard'))
 
 #Methods post - admin
 
