@@ -294,6 +294,58 @@ def editProfile():
     else:
         return redirect(url_for('login'))   
 
+@app.route('/editUbication', methods=['POST'])
+def editUbication():
+    user = verifySignIn()
+    if user:                                
+        data = {                    
+            'user' : user[0],
+            'lat' : request.form['latitude'],
+            'lon' : request.form['longitude'],
+            'address' : request.form['ubication']
+        }    
+        editUbicationF(mysql, data)        
+    
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
+
+@app.route('/editBriefcase', methods=['POST'])
+def editBriefcase():
+    user = verifySignIn()
+    if user:                        
+        id  = user[0]                
+
+        urlConten = []
+        urlUpdate = []
+        previousContent = []
+        nameFields = ['content1', 'content2', 'content3', 'content4', 'content5', 'content6']
+        
+        n = 0
+        for name in nameFields:
+            content = request.files[name]
+            previous = request.form[name + 'id']            
+            if previous != '' and content:
+                deleteFile(previous)
+                previousContent.append( previous)
+                urlUpdate.append( saveFile(content, 'content', id, True, n) )
+            elif previous == '' and content:
+                urlConten.append( saveFile(content, 'content', id, True, n) )
+            n += 1
+
+        data = {
+            'user' : user[0],
+            'content' : urlUpdate,
+            'previous' : previousContent,
+            'new' : urlConten
+        }
+        
+        editBriefcaseF(mysql,data)
+        
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
+
 @app.route('/plantilla', methods=['POST'])
 def plantilla():
     user = verifySignIn()

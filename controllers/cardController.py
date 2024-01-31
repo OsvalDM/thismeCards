@@ -250,3 +250,47 @@ def editCardF(mysql, data, socials):
 
     finally:
         cur.close()        
+
+
+def editUbicationF(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('UPDATE UBICATION SET lat = %s, lon = %s, address = %s WHERE user = %s', 
+                    (data['lat'], data['lon'], data['address'],data['user']))
+        mysql.connection.commit()
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
+
+def editBriefcaseF(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:                
+        cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'BRIEFCASE'))
+        idRow = cur.fetchone()[0]        
+        
+        print(data)
+        for i in range(len(data['previous'])):
+            cur.execute('UPDATE BRIEFCASE_IMAGE SET urlImg = %s WHERE urlImg = %s', 
+                        (data['content'][i], data['previous'][i]))
+            mysql.connection.commit()
+
+        for url in data['new']:
+            cur.execute('INSERT INTO BRIEFCASE_IMAGE(briefcase, urlImg) VALUES(%s, %s)', 
+                        (idRow, url))
+            mysql.connection.commit()
+
+        return True
+    
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
