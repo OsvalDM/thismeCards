@@ -46,19 +46,6 @@
         </div>
     </div>
 
-    <script>
-        function validatePasswords() {
-            var password = document.getElementById("password").value;
-            var passwordVerify = document.getElementById("passwordVerify").value;
-
-            if (password === passwordVerify) {
-                document.getElementById("signupForm").submit();
-            } else {
-                alert("Las contraseñas no coinciden, por favor verifícalas.");
-            }
-        }
-    </script>
-
     <script src="{{ url_for('static', filename='js/token.js') }}" type="module"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}" type="module"></script>
 

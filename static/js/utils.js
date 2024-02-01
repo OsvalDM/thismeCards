@@ -45,7 +45,7 @@ utils.enableSignUp = (containerId) => {
                 <input type="password" id="passwordVerify" name="passwordVerify" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block  w-96 p-2.5 " required>
             </div>
             
-            <button type="button" onclick="validatePasswords()" class="text-white bg-[#ff4a4a] hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
+            <button type="button" id="btnSignup" class="text-white bg-[#ff4a4a] hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>
         </form>                        
     `;
     document.getElementById(containerId).appendChild(signupDiv);

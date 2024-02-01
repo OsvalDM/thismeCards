@@ -93,18 +93,10 @@ def postToken():
 
 @app.route('/signup', methods=['POST'])
 def signupPost():
-    data = {        
-        'userName' : request.form['name'],
-        'psw' : request.form['password'],
-        'email' : request.form['email']
-    }    
-    
+    data = request.get_json()    
     result = signupCtrl(mysql, data)
 
-    if result:
-        return redirect(url_for('login'))
-    else:
-        return redirect(url_for('signup'))
+    return jsonify(result)  
 
 @app.route('/login', methods=['POST'])
 def postLogin():

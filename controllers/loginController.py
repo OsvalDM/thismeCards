@@ -6,7 +6,14 @@ def signup(mysql, data):
     if token:
         cur = mysql.connection.cursor()
         try:
+            print(data)
             userName = data['userName'].replace(" ", "_")
+
+            cur.execute('SELECT * FROM USERCARD WHERE email = %s or userName = %s', (data['email'], userName))
+            result = cur.fetchone()
+            if result:
+                return {'result' : 'failed', 'msg' : 'El usuario o email ya existe por favor ingrese otro.'}
+
             cur.execute('INSERT INTO USERCARD(email, userName, psw) VALUES (%s, %s, %s)', (data['email'], userName, data['psw']) )
             mysql.connection.commit()            
 
@@ -21,17 +28,17 @@ def signup(mysql, data):
             cur.execute('INSERT INTO LOGS (user, detail) VALUES (%s, %s)', (userId[0], detail) )
             mysql.connection.commit()
 
-            return True
+            return {'result' : 'success', 'msg' : 'Usuario registrado correctamente'}
         
         except Exception as e:
             print(e)
-            return False
+            return {'result' : 'failed', 'msg' : 'Error en la base de datos.'}
 
         finally:            
                 cur.close()
         
     else:
-        return False
+        return {'result' : 'failed', 'msg' : 'No eexiste un token de registro.'}
     
 
 def login(mysql, data):
