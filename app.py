@@ -340,15 +340,13 @@ def editBriefcase():
 @app.route('/editClient/<id>', methods=['POST'])
 def editClient(id):
     user = verifySignIn()
-    if user:                                
-        id  = user[0]
-
+    if user:
         file = request.files['logo']      
         urlCostumer = request.form['logoid']
         
         if file:
             deleteFile(urlCostumer)
-            urlCostumer = saveFile(file, 'imgLogo', id, True)
+            urlCostumer = saveFile(file, 'imgLogo', user[0], True)
         
         data = {
             'id' : id,

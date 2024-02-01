@@ -108,7 +108,7 @@
     <script>
         function validateFile(fileInp) {
             var filePath = fileInp.value;
-            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.webp)$/i;
         
             if (!allowedExtensions.exec(filePath)) {
                 alert('Por favor, selecciona un archivo de imagen válido (jpg, jpeg, png, gif).');

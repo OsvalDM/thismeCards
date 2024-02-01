@@ -168,16 +168,16 @@
                             <p class="block mb-2 text-sm text-gray-900">Este es tu portafolio actual, puedes agregar o cambiar las imagenes</p>  
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">                                    
                                 <div class="flex flex-col items-center justify-center">                    
-                                    <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][0][0]) }}" alt="">                    
+                                    <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][0][0]) }}" alt="">                    
                                     <input type="hidden" id="content1id" name="content1id" value="{{ content['briefcase'][0][0] }}">
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content1" name="content1" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content1'))" >
                                 </div>                                
                                 <div class="flex flex-col items-center justify-center">                    
                                     {% if content['briefcase'][1] %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][1][0]) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][1][0]) }}" alt="">                    
                                         <input type="hidden" id="content2id" name="content2id" value="{{ content['briefcase'][1][0] }}">
                                     {% else %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
                                         <input type="hidden" id="content2id" name="content2id" value="">
                                     {% endif %}                                
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content2" name="content2" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content2'))" >
@@ -185,40 +185,40 @@
 
                                 <div class="flex flex-col items-center justify-center">                    
                                     {% if content['briefcase'][2] %}    
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][2][0]) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][2][0]) }}" alt="">                    
                                         <input type="hidden" id="content3id" name="content3id" value="{{ content['briefcase'][2][0] }}">
                                     {% else %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
                                         <input type="hidden" id="content3id" name="content3id" value="">
                                     {% endif %}    
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content3" name="content3" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content3'))" >
                                 </div>
                                 <div class="flex flex-col items-center justify-center">                    
                                     {% if content['briefcase'][3] %}    
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][3][0]) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][3][0]) }}" alt="">                    
                                         <input type="hidden" id="content4id" name="content4id" value="{{ content['briefcase'][3][0] }}">
                                     {% else %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
                                         <input type="hidden" id="content4id" name="content4id" value="">
                                     {% endif %}    
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content4" name="content4" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content4'))" >
                                 </div>
                                 <div class="flex flex-col items-center justify-center">                    
                                     {% if content['briefcase'][4] %}    
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][4][0]) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][4][0]) }}" alt="">                    
                                         <input type="hidden" id="content5id" name="content5id" value="{{ content['briefcase'][4][0] }}">
                                     {% else %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
                                         <input type="hidden" id="content5id" name="content5id" value="">
                                     {% endif %}   
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content5" name="content5" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content5'))" >
                                 </div>
                                 <div class="flex flex-col items-center justify-center">                    
                                     {% if content['briefcase'][5] %}    
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][5][0]) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content['briefcase'][5][0]) }}" alt="">                    
                                         <input type="hidden" id="content6id" name="content6id" value="{{ content['briefcase'][5][0] }}">
                                     {% else %}
-                                        <img class="h-40 sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
+                                        <img class="h-40 w-full sm:h-52 object-cover object-center rounded-lg" src="{{ url_for('static', filename= 'img/noImg.png' ) }}" alt="">                    
                                         <input type="hidden" id="content6id" name="content6id" value="">
                                     {% endif %}   
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content6" name="content6" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content6'))" >
@@ -280,7 +280,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             {% for client in content['costumers'] %}    
                                 <div class="flex flex-col items-center justify-center">                    
-                                    <img class="h-40 sm:h-60 object-cover object-center rounded-lg" src="{{ url_for('static', filename= client[1] ) }}" alt="">
+                                    <img class="h-40 w-full sm:h-60 object-cover object-center rounded-lg" src="{{ url_for('static', filename= client[1] ) }}" alt="">
                                     <h2 class="w-full text-center font-bold"> {{ client[0] }} </h2>
                                     <div>
                                         <button type="button" data-modal-target="static-modal{{ loop.index }}" data-modal-toggle="static-modal{{ loop.index }}" class="bg-[#ff4a4a] w-40 hover:bg-red-600 h-fit py-2 px-4 rounded-xl text-white mx-2"> 
@@ -369,7 +369,7 @@
     <script>
         function validateFile(fileInp) {
             var filePath = fileInp.value;
-            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.webp)$/i;
         
             if (!allowedExtensions.exec(filePath)) {
                 alert('Por favor, selecciona un archivo de imagen válido (jpg, jpeg, png, gif).');

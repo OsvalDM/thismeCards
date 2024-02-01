@@ -91,7 +91,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {% for content in content['briefcase'] %}              
                     <div class="flex flex-col items-center justify-center">                    
-                        <img class="h-40 sm:h-60 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content[0]) }}" alt="">                    
+                        <img class="h-40 w-full sm:h-60 object-cover object-center rounded-lg" src="{{ url_for('static', filename= content[0]) }}" alt="">                    
                     </div>                             
                 {% endfor %}
             </div>
@@ -106,7 +106,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {% for client in content['costumers'] %}        
                         <div class="flex flex-col items-center justify-center">                    
-                            <img class="h-40 sm:h-60 object-contain object-center rounded-lg" src="{{ url_for('static', filename= client[1] ) }}" alt="">
+                            <img class="h-40 w-full sm:h-60 object-cover object-center rounded-lg" src="{{ url_for('static', filename= client[1] ) }}" alt="">
                             <h2 class="w-full text-center font-bold"> {{ client[0] }} </h2>
                         </div>                             
                     {% endfor %}
