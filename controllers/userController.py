@@ -61,7 +61,7 @@ def getUserData(mysql, userName, editFix = False):
                 content['aboutme'] = aboutme
             
             #get briefcase
-            cur.execute('''SELECT bi.urlImg 
+            cur.execute('''SELECT bi.urlImg, bi.tittle, bi.description 
                             FROM COMPONENT AS c
                             NATURAL JOIN BRIEFCASE AS b
                             JOIN BRIEFCASE_IMAGE AS bi ON b.id = bi.briefcase
@@ -80,7 +80,7 @@ def getUserData(mysql, userName, editFix = False):
                 content['ubication'] = ubication
             
             #get costumers
-            cur.execute('''SELECT cod.name, cod.img, cod.id
+            cur.execute('''SELECT cod.name, cod.img, cod.id, cod.description
                             FROM COMPONENT AS c
                             NATURAL JOIN COSTUMER AS co
                             JOIN COSTUMER_DATA AS cod ON co.id = cod.costumer
