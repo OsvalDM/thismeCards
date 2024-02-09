@@ -52,7 +52,7 @@ def dashboard():
 @app.route('/mycard/<id>')
 def mycard(id):            
     data = getUserData(mysql, id)
-    return render_template('mycard.html', content = data)
+    return render_template('mycard.html', content = data, template = data['style'][4])
 
 @app.route('/createCard')
 def createCard():

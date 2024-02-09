@@ -30,6 +30,9 @@ def createCardBase(mysql, data, socials):
             cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'linkedin', socials['linkedin']) )
             mysql.connection.commit()
         
+        cur.execute('INSERT INTO STYLE(user) VALUES (%s)', (id, ))
+        mysql.connection.commit()
+
         cur.execute('INSERT INTO LOGS(user, detail) VALUES (%s, %s)', (id, 'Create card - ' + str(cardData[0]) ) )            
         mysql.connection.commit()
 

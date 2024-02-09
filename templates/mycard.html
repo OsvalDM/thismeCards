@@ -1,7 +1,13 @@
 {% include 'partials/base.html' %}
 
-<body class="bg-gray-200">
 {% set content = content %}
-{% include 'partials/card.html' %}
+
+{% if data['style'][4] == 0 %}
+    <body class="bg-gray-200">
+    {% include 'partials/card.html' %}
+{% else %}
+    <body class="bg-slate-950">
+    {% include 'partials/card1.html' %}
+{% endif %}
 
 {% include 'partials/baseEnd.html' %}
