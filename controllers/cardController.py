@@ -226,6 +226,20 @@ def verifySocial(mysql, name, user):
     finally:
         cur.close()
 
+def editStyleFun(mysql, data):
+    cur = mysql.connection.cursor()
+
+    try:        
+        cur.execute('UPDATE STYLE SET template = %s WHERE user = %s', (data['template'], data['user']))
+        mysql.connection.commit()
+
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    
+    finally:
+        cur.close()
 
 def editCardF(mysql, data, socials):
     cur = mysql.connection.cursor()

@@ -45,7 +45,7 @@ def dashboard():
     if user:
         urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
         data = getUserData(mysql, user[2])
-        return render_template('dashboard.html', content = data, urlQr = urlQr[0], user = user)
+        return render_template('dashboard.html', content = data, urlQr = urlQr[0], user = user, template = data['style'][4])
     else:
         return redirect(url_for('login'))
 
@@ -389,6 +389,19 @@ def deleteCostumer(id):
     else:
         return redirect(url_for('login'))       
 
+@app.route('/editStyle', methods=['POST'])
+def editStyle():
+    user = verifySignIn()
+    if user:                                
+        data = {                    
+            'user' : user[0],
+            'template' : request.form['templates'],            
+        }    
+        editStyleFun(mysql, data)        
+    
+        return redirect(url_for('editCard'))
+    else:
+        return redirect(url_for('login'))       
 
 #Error handler
 #Verified endpoint

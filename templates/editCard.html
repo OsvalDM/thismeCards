@@ -52,6 +52,12 @@
                     </button>
                 </li>
                 {% endif %}
+                <li class="me-2" role="presentation">
+                    <button id="personalization-tab" data-tabs-target="#personalization" type="button" role="tab"  aria-selected="false" class="inline-flex items-center px-4 py-3 text-gray-400 rounded-lg hover:text-gray-900 bg-white w-full aria-selected:bg-red-200 aria-selected:text-gray-500 aria-selected:hover:text-gray-900">                        
+                        <svg class="w-4 h-4 me-2 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 576 512"><path d="M339.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L568.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S517.7-4.4 499.1 9.6L262.4 187.2c-24 18-38.2 46.1-38.4 76.1L339.3 367.1zm-19.6 25.4l-116-104.4C143.9 290.3 96 339.6 96 400c0 3.9 .2 7.8 .6 11.6C98.4 429.1 86.4 448 68.8 448H64c-17.7 0-32 14.3-32 32s14.3 32 32 32H208c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg>
+                        Personalizacion
+                    </button>
+                </li>
             </ul>
             <div class="p-6 bg-white text-medium text-gray-500 rounded-lg flex-1" id="default-tab-content">    
                 <!--Tab for profile -->            
@@ -360,7 +366,35 @@
                             <button type="submit" class="text-white bg-[#ff4a4a] hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>          
                         </div>                        
                     </form>
-                </div>                
+                </div> 
+                <!--Tab for personalization -->            
+                <div class="hidden p-4 rounded-lg bg-white " id="personalization" role="tabpanel" aria-labelledby="personalization-tab">
+                    <h3 class="font-bold text-3xl w-full text-center mb-8 text-black">Personalizacion</h3> 
+                    <form class="w-full" action="/editStyle" method="post" enctype="multipart/form-data">
+                        <div class="flex justify-center items-center flex-col w-full">
+                            <fieldset>
+                                <legend class="sr-only">templates</legend>
+                              
+                                <div class="flex items-center mb-4">
+                                  <input id="template-option-1" type="radio" name="templates" value="0" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 " {% if content['style'][4] == 0 %} checked {% endif %}>
+                                  <label for="template-option-1" class="block ms-2  text-sm font-medium text-gray-900 ">
+                                    Diseño 1
+                                  </label>
+                                </div>
+                              
+                                <div class="flex items-center mb-4">
+                                  <input id="template-option-2" type="radio" name="templates" value="1" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 " {% if content['style'][4] == 1 %} checked {% endif %}>
+                                  <label for="template-option-2" class="block ms-2 text-sm font-medium text-gray-900 ">
+                                    Diseño 2
+                                  </label>
+                                </div>
+
+                            </fieldset>
+                            <button type="submit" class="text-white bg-[#ff4a4a] hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-40">Aceptar</button>           
+                        </div>                        
+                    </form>
+
+                </div>               
             </div>
         </div>
 

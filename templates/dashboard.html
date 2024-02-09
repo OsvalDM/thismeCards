@@ -1,6 +1,6 @@
 {% include 'partials/base.html' %}
 
-<body class="overflow-x-hidden bg-gray-200">
+<body class="overflow-x-auto {% if template == 0 %} bg-gray-200 {% else %} bg-slate-950 {% endif %}">
             
     <div class="flex w-screen">
 
@@ -10,7 +10,11 @@
             {% include 'partials/aside.html' %}        
             <div class="ml-64 flex-1">
                 {% set content = content %}
-                {% include 'partials/card.html' %} 
+                {% if template == 0 %}                    
+                    {% include 'partials/card.html' %}
+                {% else %}                    
+                    {% include 'partials/card1.html' %}
+                {% endif %}
             </div>                                              
         {% else %}            
             <div class="flex flex-1 flex-col items-center  ml-72 mt-8 mx-8 px-8 py-4 bg-white shadow-lg rounded-lg">
