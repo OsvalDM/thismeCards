@@ -39,7 +39,7 @@
 
         .window-container {
             position: relative;
-            width: 34.375em;
+            width: auto;
             height: auto;
             padding: 1.5rem;
             border-radius: 0.5em;
@@ -143,7 +143,7 @@
 
     </style>
 
-    <img class="w-screen absolute sm:-top-60 sm:-left-60 -z-50" src="{{ url_for('static', filename='img/esquina.svg' ) }}" alt="fondo">
+    <img class="w-screen absolute sm:-top-60 sm:-left-60 -z-50" src="{{ url_for('static', filename='img/bgPlantilla2/web.png' ) }}" alt="fondo">
 
     <div>        
 
@@ -155,7 +155,7 @@
             </div>
                 
             <div>
-                <h1 class="flex items-center justify-center text-4xl font-bold text-white mb-4">{{ content['cardData'][10] }} {{ content['cardData'][2] }} {{ content['cardData'][3] }} {{ content['cardData'][4] }}</h1>
+                <h1 class="flex items-center justify-center text-4xl text-center font-bold text-white mb-4">{{ content['cardData'][10] }} {{ content['cardData'][2] }} {{ content['cardData'][3] }} {{ content['cardData'][4] }}</h1>
                 <h2 class="flex items-center justify-center text-white">{{ content['cardData'][7] }}</h2>
                
                 <!-- Boton para abrir pop up -->
@@ -212,7 +212,7 @@
             <div class="flex flex-col ml-32 my-8 w-6/12 h-auto contenidoMi">
                 <h2 class="flex text-4xl font-bold text-white mb-4">Sobre mi: </h2>
                 <img class="mb-3 w-max h-10 mt-3 mr-12" src="{{ url_for('static', filename= 'img/linea.png') }}" alt="Linea">
-                <p class="break-words text-white text-xs text-justify" >{{ content['aboutme'][0][5] }}</p>
+                <p class="break-words text-white text-lg text-justify" >{{ content['aboutme'][0][5] }}</p>
             </div>
             
             <div class="sm:ml-52 line-clamp-10 mt-4 w-6/12 videoMi sm:mr-24">                    
