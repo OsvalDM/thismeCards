@@ -5,9 +5,12 @@
 {% if template == 0 %}
     <body class="bg-gray-200">
     {% include 'partials/card.html' %}
-{% else %}
+{% elif template == 1 %}
     <body class="bg-slate-950">
     {% include 'partials/card1.html' %}
+{% elif template == 2 %}
+    <body class="">
+    {% include 'partials/card2.html' %}
 {% endif %}
 
 {% include 'partials/baseEnd.html' %}

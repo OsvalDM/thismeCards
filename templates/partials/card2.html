@@ -1,0 +1,426 @@
+{% block additional_content %}
+
+<div> 
+    
+    <style>
+
+        body{
+            margin: 0;
+            padding: 0;
+            background: rgba(165, 71, 71, 0.5) url("../../static/img/plantilla3/lineas.png") repeat;
+            background-size: 190%;
+            background-position: center; 
+            background-attachment: fixed; 
+        }
+
+        .sobreMi h2 {
+            background-color: rgba(233, 152, 152, 0.5);
+        }   
+
+        @media(max-width: 600px) {
+
+            body {
+                background-size: 600%;
+            }
+
+            .contendorImagenPerfil .imagenEsquina1 {
+                top: 30;
+            }
+
+            .contendorImagenPerfil {
+                margin-top: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .imagenPerfil {
+                width: 100%;
+                height: 30em;
+                top: 0;
+            }
+
+            .imagenEsquina1 {
+                width: 16em;
+                height: 7em;
+                margin-left: 8.4em;
+            }
+
+            .contenedorNS {
+                flex-direction: column;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .contenedorNS h1 {
+                font-size: 2.25rem;
+            }
+
+            .contenedorNS h2 {
+                font-size: 1rem;
+                margin-bottom: 1.5em;
+            }
+
+            .contenedorNS p {
+                font-size: 1.125em;
+            }
+
+            .contenedorSocials {
+                justify-content: center;
+            }
+
+            .contenedorSocials .socialsR {
+                margin-left: 6.5em;
+                justify-content: center;
+            }
+
+            .contenedorSocials .socialsR svg {
+                width: 1.5em;
+                height: 1.5em;
+            }
+
+            .containerAboutme {
+                flex-direction: column;   
+            }
+
+            .containerAboutme .sobreMi {
+                margin-left: 0;
+                width: 80%;
+            }
+
+            .containerAboutme .sobreMi {
+                margin-left: 0;
+                width: 80%;
+                margin-bottom: 0;
+            }
+
+            .containerAboutme .sobreMi h2 {
+                font-size: 1.5rem;
+                width: 5em;
+            }
+
+            .containerAboutme .containerImgSep {
+                transform: rotate(90deg);
+                transform-origin: center;
+                justify-content: center;
+                top: 0;
+                width: 2.5em;
+                height: 2em;
+                margin-left: 17em; 
+                margin-top: 2em;
+            }
+            
+            .containerAboutme .containerImgSep img{
+                margin-left: 0;
+            }
+
+            .containerAboutme .videoMi {
+                width: 80%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .containerPortafolio .containerEstructura .containerImgT img{
+                width: 11em;
+                height: 11em;
+            }
+
+            .containerClientMap {
+                flex-direction: column;
+            }
+
+            .containerClientMap .containerClientes {
+                width: 80%;
+                margin-left: 0;
+            }
+
+            .containerClientMap .containerClientes h2{
+                margin-left: 0;
+                justify-content: center;
+            }
+
+            .containerClientMap .containerMap {
+                width: 80%;
+                justify-content: center;
+            }
+
+            .containerClientMap .containerMap {
+                width: 80%;
+                justify-content: center;
+                margin-right: 0;
+            }
+
+            .containerClientMap .containerMap .map{
+                width: 18.75em;
+                height: 18.75em;
+                margin-bottom: 1,5em;
+                justify-content: center;
+            }
+
+            .containerClientMap .imagenEsquina2 {
+                width: 15em;
+                height: 6em; 
+                margin-top: 60em;
+            }
+        }
+
+    </style>
+
+    <div> 
+
+        <div class=" contendorImagenPerfil">
+
+            <div class="flex flex-wrap">
+
+                <img class="hidden sm:block absolute top-0 right-0 w-3/5 h-96 -z-50 imagenEsquina1" src="{{ url_for('static', filename= 'img/plantilla3/1.png') }}" alt="">
+
+                <div class="sm:flex">
+
+                    <div class="w-full sm:w-1/2 contedorImg">
+                        <img class="w-full h-lvh object-cover imagenPerfil" src="{{ url_for('static', filename=content['cardData'][5]) }}" alt="Imagen de perfil">
+                    </div>               
+                    <img class="block sm:hidden w-full h-96 -z-50 imagenEsquina1" src="{{ url_for('static', filename= 'img/plantilla3/1.png') }}" alt="">
+                    <div class="justify-center w-1/2 contenedorNS">
+        
+                        <h1 class="flex items-center justify-center sm:mt-56 text-6xl font-bold text-white mb-4">{{ content['cardData'][10] }} {{ content['cardData'][2] }} {{ content['cardData'][3] }} {{ content['cardData'][4] }}</h1>
+                        <h2 class=" flex items-center justify-center text-3xl font-bold text-white mb-16">{{ content['cardData'][7] }}</h2>
+                    
+                        {% if content['socials'] %}
+                            <div class="flex flex-col justify-center contenedorSocials">
+                                {% for redSocialData in content['socials'] %} 
+                                    <div class="flex flex-col mb-1 items-start justify-center ml-56 socialsR">
+                                        <a href="{{ redSocialData[4] }}" target="_blank">
+                                            {% if redSocialData[2] == 'facebook' %}
+                                                <div  rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                                    <svg width="40" zoomAndPan="magnify" viewBox="384.673 384.618 40.722 40.547" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                                        <defs>
+                                                          <clipPath id="c130c9b7f5">
+                                                            <path d="M 384.703125 384.703125 L 425.203125 384.703125 L 425.203125 425.203125 L 384.703125 425.203125 Z M 384.703125 384.703125 " clip-rule="nonzero"/>
+                                                          </clipPath>
+                                                        </defs>
+                                                        <g clip-path="url(#c130c9b7f5)">
+                                                          <path fill="#f5f3eb" d="M 425.296875 419.121094 C 425.296875 422.527344 422.535156 425.289062 419.125 425.289062 L 390.871094 425.289062 C 387.464844 425.289062 384.703125 422.527344 384.703125 419.121094 L 384.703125 390.867188 C 384.703125 387.460938 387.464844 384.699219 390.871094 384.699219 L 419.125 384.699219 C 422.535156 384.699219 425.292969 387.460938 425.292969 390.867188 L 425.292969 419.121094 Z M 425.296875 419.121094 " fill-opacity="1" fill-rule="nonzero"/>
+                                                        </g>
+                                                        <path fill="#c89590" d="M 411.597656 408.148438 L 412.253906 403.058594 L 407.214844 403.058594 L 407.214844 399.808594 C 407.214844 398.335938 407.625 397.332031 409.738281 397.332031 L 412.433594 397.328125 L 412.433594 392.777344 C 411.96875 392.714844 410.367188 392.578125 408.503906 392.578125 C 404.621094 392.578125 401.960938 394.949219 401.960938 399.304688 L 401.960938 403.058594 L 397.566406 403.058594 L 397.566406 408.148438 L 401.960938 408.148438 L 401.960938 421.207031 L 407.214844 421.207031 L 407.214844 408.148438 Z M 411.597656 408.148438 " fill-opacity="1" fill-rule="nonzero"/>
+                                                    </svg> 
+                                                    <div>
+                                                        <p class="text-2xl">Facebook</p>
+                                                    </div>
+                                                </div>
+                                            {% elif redSocialData[2] == 'instagram' %}
+                                                <div  rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                                    <svg width="40" zoomAndPan="magnify" viewBox="383.821 384.001 42.377 42.264" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                                        <defs>
+                                                          <clipPath id="16f61b6c81">
+                                                            <path d="M 384.136719 384.136719 L 426 384.136719 L 426 426 L 384.136719 426 Z M 384.136719 384.136719 " clip-rule="nonzero"/>
+                                                          </clipPath>
+                                                        </defs>
+                                                        <g clip-path="url(#16f61b6c81)">
+                                                          <path fill="#f5f3eb" d="M 425.855469 419.515625 C 425.855469 423.011719 423.011719 425.855469 419.515625 425.855469 L 390.476562 425.855469 C 386.980469 425.855469 384.136719 423.011719 384.136719 419.515625 L 384.136719 390.476562 C 384.136719 386.980469 386.980469 384.136719 390.476562 384.136719 L 419.515625 384.136719 C 423.011719 384.136719 425.855469 386.980469 425.855469 390.476562 Z M 425.855469 419.515625 " fill-opacity="1" fill-rule="nonzero"/>
+                                                        </g>
+                                                        <path fill="#c89590" d="M 396.273438 393.386719 L 414.308594 393.386719 C 416.019531 393.386719 417.425781 394.789062 417.425781 396.507812 L 417.425781 414.539062 C 417.425781 416.253906 416.027344 417.652344 414.308594 417.652344 L 396.273438 417.652344 C 394.5625 417.652344 393.15625 416.253906 393.15625 414.539062 L 393.15625 396.507812 C 393.15625 394.789062 394.554688 393.386719 396.273438 393.386719 Z M 410.828125 396.085938 C 410.222656 396.085938 409.738281 396.578125 409.738281 397.179688 L 409.738281 399.800781 C 409.738281 400.402344 410.230469 400.894531 410.828125 400.894531 L 413.5625 400.894531 C 414.164062 400.894531 414.648438 400.402344 414.648438 399.800781 L 414.648438 397.179688 C 414.648438 396.578125 414.15625 396.085938 413.5625 396.085938 Z M 414.679688 403.652344 L 412.546875 403.652344 C 412.742188 404.320312 412.859375 405.007812 412.859375 405.734375 C 412.859375 409.765625 409.476562 413.039062 405.320312 413.039062 C 401.164062 413.039062 397.785156 409.765625 397.785156 405.734375 C 397.785156 405.007812 397.890625 404.3125 398.09375 403.652344 L 395.867188 403.652344 L 395.867188 413.902344 C 395.867188 414.433594 396.304688 414.859375 396.832031 414.859375 L 413.726562 414.859375 C 414.257812 414.859375 414.691406 414.425781 414.691406 413.902344 Z M 405.304688 400.75 C 402.621094 400.75 400.4375 402.867188 400.4375 405.472656 C 400.4375 408.078125 402.621094 410.195312 405.304688 410.195312 C 407.996094 410.195312 410.171875 408.078125 410.171875 405.472656 C 410.179688 402.855469 408.003906 400.75 405.304688 400.75 Z M 405.304688 400.75 " fill-opacity="1" fill-rule="nonzero"/>
+                                                    </svg>
+                                                    <div>
+                                                        <p class="text-2xl">Instagram</p>
+                                                    </div>
+                                                </div>
+                                            {% elif redSocialData[2] == 'twitter' %}
+                                                <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                                    <svg width="40" zoomAndPan="magnify" viewBox="381.926 381.699 45.8 46.332" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                                        <defs>
+                                                        <clipPath id="372bdca107">
+                                                            <path d="M 382.21875 382.152344 L 427.78125 382.152344 L 427.78125 427.894531 L 382.21875 427.894531 Z M 382.21875 382.152344 " clip-rule="nonzero"/>
+                                                        </clipPath>
+                                                        <clipPath id="c42f75a27b">
+                                                            <path d="M 389.71875 382.152344 L 420.28125 382.152344 C 422.269531 382.152344 424.179688 382.941406 425.585938 384.347656 C 426.992188 385.753906 427.78125 387.660156 427.78125 389.652344 L 427.78125 420.347656 C 427.78125 422.335938 426.992188 424.246094 425.585938 425.652344 C 424.179688 427.058594 422.269531 427.847656 420.28125 427.847656 L 389.71875 427.847656 C 387.730469 427.847656 385.820312 427.058594 384.414062 425.652344 C 383.007812 424.246094 382.21875 422.335938 382.21875 420.347656 L 382.21875 389.652344 C 382.21875 387.660156 383.007812 385.753906 384.414062 384.347656 C 385.820312 382.941406 387.730469 382.152344 389.71875 382.152344 Z M 389.71875 382.152344 " clip-rule="nonzero"/>
+                                                        </clipPath>
+                                                        <clipPath id="25ca4301d2">
+                                                            <path d="M 389.542969 390.179688 L 421.929688 390.179688 L 421.929688 419.097656 L 389.542969 419.097656 Z M 389.542969 390.179688 " clip-rule="nonzero"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                        <g clip-path="url(#372bdca107)">
+                                                        <g clip-path="url(#c42f75a27b)">
+                                                            <path fill="#f5f3eb" d="M 382.21875 382.152344 L 427.78125 382.152344 L 427.78125 427.894531 L 382.21875 427.894531 Z M 382.21875 382.152344 " fill-opacity="1" fill-rule="nonzero"/>
+                                                        </g>
+                                                        </g>
+                                                        <g clip-path="url(#25ca4301d2)">
+                                                        <path fill="#c89590" d="M 409.660156 402.0625 L 417.992188 390.179688 L 413.855469 390.179688 L 407.589844 399.117188 L 401.992188 391.199219 L 401.265625 390.210938 L 401.265625 390.179688 L 389.542969 390.179688 L 392.207031 393.921875 L 401.730469 407.464844 L 393.636719 419.003906 L 397.773438 419.003906 L 403.800781 410.40625 L 409.113281 417.96875 L 409.832031 419.003906 L 421.570312 419.003906 L 418.90625 415.191406 Z M 416.9375 416.636719 L 411.082031 416.636719 L 394.175781 392.808594 L 400.140625 392.808594 L 400.113281 392.714844 L 416.945312 416.636719 Z M 416.9375 416.636719 " fill-opacity="1" fill-rule="nonzero"/>
+                                                        </g>
+                                                    </svg>
+                                                    <div>
+                                                        <p class="text-2xl">x / Twitter</p>
+                                                    </div>
+                                                </div>
+                                            
+                                            {% elif redSocialData[2] == 'linkedin' %}
+                                                <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                                    <svg width="40" zoomAndPan="magnify" viewBox="384.174 384.063 41.44 42.006" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                                        <defs>
+                                                        <clipPath id="615af9c822">
+                                                            <path d="M 384.121094 384.121094 L 426 384.121094 L 426 426 L 384.121094 426 Z M 384.121094 384.121094 " clip-rule="nonzero"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                        <g clip-path="url(#615af9c822)">
+                                                        <path fill="#f5f3eb" d="M 422.386719 384.121094 L 387.628906 384.121094 C 385.707031 384.121094 384.164062 385.6875 384.164062 387.589844 L 384.164062 422.40625 C 384.164062 424.328125 385.730469 425.875 387.628906 425.875 L 422.367188 425.875 C 424.289062 425.875 425.832031 424.308594 425.832031 422.40625 L 425.832031 387.589844 C 425.855469 385.6875 424.308594 384.121094 422.386719 384.121094 Z M 396.507812 418.5625 L 390.34375 418.5625 L 390.34375 400.058594 L 396.507812 400.058594 Z M 393.414062 397.824219 C 391.472656 397.824219 389.90625 396.257812 389.90625 394.3125 C 389.90625 392.371094 391.472656 390.804688 393.414062 390.804688 C 395.359375 390.804688 396.925781 392.371094 396.925781 394.3125 C 396.925781 396.257812 395.359375 397.824219 393.414062 397.824219 Z M 419.691406 418.5625 L 413.507812 418.5625 L 413.363281 407.578125 C 413.363281 407.578125 413.507812 404.652344 410.3125 404.675781 C 407.117188 404.695312 406.679688 407.578125 406.679688 407.578125 L 406.679688 418.5625 L 400.453125 418.5625 L 400.453125 400.058594 L 406.429688 400.058594 L 406.429688 402.605469 C 406.429688 402.605469 406.679688 401.769531 408.058594 400.789062 C 409.4375 399.808594 411.714844 399.597656 412.695312 399.640625 C 413.675781 399.683594 415.011719 399.515625 417.25 401.0625 C 419.652344 402.710938 419.714844 407.035156 419.714844 407.035156 Z M 419.691406 418.5625 " fill-opacity="1" fill-rule="nonzero"/>
+                                                        </g>
+                                                    </svg>
+                                                    <div>
+                                                        <p class="text-2xl">Linkedin</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}                                                                                                         
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                <div class="flex flex-col mb-1 items-start justify-center ml-56 socialsR">
+
+                                    <a href="tel:{{ content['cardData'][9] }}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="40" zoomAndPan="magnify" viewBox="383.893 385.054 41.976 39.865" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                            <clipPath id="0830725eb7">
+                                                <path d="M 384.121094 385.15625 L 425.976562 385.15625 L 425.976562 424.84375 L 384.121094 424.84375 Z M 384.121094 385.15625 " clip-rule="nonzero"/>
+                                            </clipPath>
+                                            <clipPath id="f9a43c62b2">
+                                                <path d="M 389.371094 385.15625 L 420.628906 385.15625 C 422.019531 385.15625 423.355469 385.710938 424.339844 386.695312 C 425.324219 387.679688 425.878906 389.015625 425.878906 390.40625 L 425.878906 419.59375 C 425.878906 420.984375 425.324219 422.320312 424.339844 423.304688 C 423.355469 424.289062 422.019531 424.84375 420.628906 424.84375 L 389.371094 424.84375 C 387.980469 424.84375 386.644531 424.289062 385.660156 423.304688 C 384.675781 422.320312 384.121094 420.984375 384.121094 419.59375 L 384.121094 390.40625 C 384.121094 389.015625 384.675781 387.679688 385.660156 386.695312 C 386.644531 385.710938 387.980469 385.15625 389.371094 385.15625 Z M 389.371094 385.15625 " clip-rule="nonzero"/>
+                                            </clipPath>
+                                            <clipPath id="6a56882b84">
+                                                <path d="M 394.019531 393 L 418 393 L 418 417 L 394.019531 417 Z M 394.019531 393 " clip-rule="nonzero"/>
+                                            </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#0830725eb7)">
+                                            <g clip-path="url(#f9a43c62b2)">
+                                                <path fill="#f5f3eb" d="M 384.121094 385.15625 L 425.820312 385.15625 L 425.820312 424.84375 L 384.121094 424.84375 Z M 384.121094 385.15625 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            </g>
+                                            <g clip-path="url(#6a56882b84)">
+                                            <path fill="#c89590" d="M 414.105469 397.230469 C 409.664062 392.789062 402.554688 392.695312 398.226562 397.023438 C 394.425781 400.824219 394.035156 406.773438 397.003906 411.171875 L 394.976562 416.648438 L 400.273438 414.402344 C 404.660156 417.296875 410.542969 416.878906 414.3125 413.109375 C 418.640625 408.78125 418.546875 401.671875 414.105469 397.230469 Z M 414.105469 397.230469 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            <path fill="#f5f3eb" d="M 411.628906 407.648438 C 412.667969 408.273438 412.871094 408.226562 412.871094 408.863281 C 412.871094 409.441406 411.515625 411.320312 409.980469 411.320312 C 407.734375 411.320312 405.28125 409.9375 403.351562 408.0625 C 401.476562 406.132812 400.09375 403.679688 400.09375 401.433594 C 400.09375 399.898438 401.972656 398.542969 402.554688 398.542969 C 403.1875 398.542969 403.140625 398.746094 403.765625 399.785156 C 404.117188 400.363281 404.945312 401.453125 404.789062 401.859375 C 404.5625 402.4375 403.203125 403.117188 403.203125 403.53125 C 403.203125 404.910156 406.503906 408.210938 407.886719 408.210938 C 408.296875 408.210938 408.976562 406.851562 409.558594 406.628906 C 409.960938 406.472656 411.050781 407.296875 411.628906 407.648438 Z M 411.628906 407.648438 " fill-opacity="1" fill-rule="nonzero"/>
+                                            <rect x="583.523" y="580.396" width="4.17" height="6.255" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" transform="matrix(1, 0, 0, 1, -75.579148, -74.015443)"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-2xl">{{ content['cardData'][9] }}</p>
+                                        </div>
+                                    </a>  
+                                
+                                    <a href="mailto:{{ content['cardData'][8] }}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="40" zoomAndPan="magnify" viewBox="384.976 382.486 40.753 40.934" height="40" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                              <clipPath id="c130c9b7f5">
+                                                <path d="M 384.703125 384.703125 L 425.203125 384.703125 L 425.203125 425.203125 L 384.703125 425.203125 Z M 384.703125 384.703125 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#c130c9b7f5)" transform="matrix(1, 0, 0, 1, 0.372762, -2.050143)">
+                                              <path fill="#f5f3eb" d="M 425.296875 419.121094 C 425.296875 422.527344 422.535156 425.289062 419.125 425.289062 L 390.871094 425.289062 C 387.464844 425.289062 384.703125 422.527344 384.703125 419.121094 L 384.703125 390.867188 C 384.703125 387.460938 387.464844 384.699219 390.871094 384.699219 L 419.125 384.699219 C 422.535156 384.699219 425.292969 387.460938 425.292969 390.867188 L 425.292969 419.121094 Z M 425.296875 419.121094 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            <path d="M 405.178 392.134 C 399.154 392.134 394.265 396.997 394.265 402.991 C 394.265 408.984 399.154 413.847 405.178 413.847 C 406.184 413.847 406.997 414.656 406.997 415.657 C 406.997 416.658 406.184 417.467 405.178 417.467 C 397.141 417.467 390.627 410.986 390.627 402.991 C 390.627 394.995 397.141 388.515 405.178 388.515 C 413.215 388.515 419.729 394.995 419.729 402.991 L 419.729 404.8 C 419.729 407.797 417.284 410.228 414.272 410.228 C 412.607 410.228 411.112 409.482 410.112 408.312 C 408.816 409.499 407.082 410.228 405.178 410.228 C 401.16 410.228 397.903 406.988 397.903 402.991 C 397.903 398.992 401.16 395.753 405.178 395.753 C 406.765 395.753 408.23 396.256 409.424 397.115 C 409.747 396.833 410.168 396.657 410.634 396.657 C 411.641 396.657 412.453 397.466 412.453 398.467 L 412.453 402.991 L 412.453 404.8 C 412.453 405.801 413.266 406.61 414.272 406.61 C 415.279 406.61 416.091 405.801 416.091 404.8 L 416.091 402.991 C 416.091 396.997 411.203 392.134 405.178 392.134 Z M 408.816 402.991 C 408.816 400.205 405.784 398.464 403.359 399.856 C 402.234 400.503 401.54 401.697 401.54 402.991 C 401.54 405.777 404.572 407.518 406.997 406.125 C 408.122 405.479 408.816 404.283 408.816 402.991 Z" style="fill: rgb(165, 112, 112);"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-2xl">{{ content['cardData'][8] }}</p>
+                                        </div>
+                                    </a>       
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>   
+        </div>
+        
+
+        {% if content['aboutme'] %}
+        <div class="flex items-center justify-center mt-9 containerAboutme">
+            <div class="flex flex-col ml-14 my-8 w-6/12 h-auto sobreMi">
+                <h2 class="flex text-6xl font-bold text-white mb-4 w-72 justify-center">Sobre mi:</h2>
+                <p class="text-white text-justify">{{ content['aboutme'][0][5] }}</p>                
+            </div>
+
+            <div class="containerImgSep">
+                <img class="w-12 h-80 ml-16" src="{{ url_for('static', filename= 'img/plantilla3/Separacion.png') }}" alt="">
+            </div>
+
+            <div class="ml-28 line-clamp-10 mt-4 w-6/12 videoMi mr-24">
+                <iframe class="h-96 w-full" src="https://www.youtube-nocookie.com/embed/{{ content['aboutme'][0][6] }}?si=xxBgOEram01mo9dV&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if content['briefcase'] %}
+        <div class="containerPortafolio">
+            <h2 class="flex text-4xl font-bold text-white mt-10 mb-10 justify-center"> Mi portafolio </h2>
+            
+            <div class="relative flex flex-wrap items-center justify-center containerEstructura">
+                {% for content in content['briefcase'] %}
+                    <div class="relative flex flex-col items-center m-0.5 containerImgT">                    
+                        <img class="mb-2 w-96 h-96 object-cover" src="{{ url_for('static', filename= content[0]) }}" alt="">     
+                        <div class="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-32">
+                            <p class="text-lg text-white bg-gray-400">{{ content[1] }}</p>
+                        </div>               
+                    </div>                             
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        <!-- Todo: Trabajando aqui con diseño responsive -->
+        <div class="flex items-center justify-center containerClientMap">
+            
+            {% if content['costumers'] %}
+            <div class="ml-32 w-6/12 containerClientes">
+                <h2 class="ml-32 flex text-4xl font-bold text-white mb-5 mt-8 clientesh2">Clientes</h2>
+                <div class="flex flex-col">
+                    {% for client in content['costumers'] %}        
+                    <div class="flex flex-col items-center m-5">     
+                        <h2 class="text-white text-2xl font-bold">{{ client[0] }}</h2>               
+                        <img class="mb-5 w-32 h-6 mt-3" src="{{ url_for('static', filename= 'img/plantilla3/Estrellas.png') }}" alt=""> 
+                        <div class="max-w-xs">
+                            <p class="text-white text-justify text-1xl">{{ client[3] }}</p>
+                        </div>
+                    </div>                             
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if content['ubication'] %}
+            <div class="flex flex-col items-center justify-center m-5 w-1/2 mr-32 containerMap">
+                <div class="h-[200px] w-[200px] sm:h-[400px] sm:w-[600px] flex justify-center mt-8 mb-5 map" id="map"></div>
+                <div>
+                    <h2 class="text-white"> {{ content['ubication'][0][7]}} </h2>
+                </div>
+            </div>
+            {% endif %}
+
+            <img class="absolute button-0 left-0 w-3/5 h-96 -z-50 mt-96 imagenEsquina2" src="{{ url_for('static', filename= 'img/plantilla3/2.png')}}" alt="">
+
+        </div>
+         <!-- Todo: Fin -->
+
+        
+    </div>
+    
+    {% if content['ubication'] %}
+    <script> 
+        function initMap() {
+            var myLatLng = { lat: {{ content['ubication'][0][5] }}, lng: {{ content['ubication'][0][6] }} };            
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: myLatLng,
+                zoom: 18,
+                disableDefaultUI: true
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Estoy aqui !!'
+            });
+        }
+    </script>
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA&callback=initMap"></script>
+    {% endif %}
+</div>
+
+
+{% endblock %}
