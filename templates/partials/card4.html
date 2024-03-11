@@ -1,0 +1,327 @@
+{% block additional_content %}
+<div>
+
+  <style>
+
+    @media(max-width: 600px) {
+
+      /* Configuración Imgen perfil, nombre y redes sociales */
+      .containerComNomImg{
+        flex-direction: column;
+        height: 45em;
+      }
+
+      .containerComNomImg .containerNomImg {
+        margin-left: 0; 
+        width: 80%;
+        justify-content: center;
+      }
+
+      .containerNomImg h1 {
+        font-size: 2em;
+        margin-top: 4em;
+        justify-content: center;
+      }
+
+      .containerNomImg h2 {
+        font-size: 1em;
+        justify-content: center;
+      }
+
+      .containerNomImg .containerSocial {
+        justify-content: center;
+      }
+
+      .containerComNomImg .containerNomImg .imagenPerRes {
+        display: block;
+        height: 20em;
+      }
+
+      .containerComNomImg .containerNomImg .imagenPerRes img{
+        display: block;
+        height: 20em;
+        height: 100%;
+      }
+
+      .containerComNomImg .imagenPer {
+        display: none;
+      }
+
+      /* Configuración Sección Sobre Mi */
+
+      .containerSobreMi {
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .containerSobreMi .containerVideo {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .containerSobreMi .containerText {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .containerSobreMi .containerText h2{
+        margin-left: 0;
+        margin-top: 1.5em;
+        justify-content: center;
+
+      }
+
+      .containerSobreMi .containerText p{
+        margin-left: 2em;
+        margin-right: 2em;
+        justify-content: center;
+      }
+
+      /* Configuración Sección Clientes */
+
+      .containerClientes {
+        margin-left: 0;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      /* Configuración Sección Portafolio */
+
+      .containerPortafolio img{
+        width: 8em;
+        height: 8em;
+      }
+
+      /* Configuración Mapa */
+
+      .containerMapInfo {
+        flex-direction: column;
+      }
+
+      .containerMapInfo .containerMap{
+        width: 80%;
+      }
+
+      .containerMapInfo .containerMap .map{
+        width: 18.75em;
+        height: 12.5em;
+      }
+
+      .containerMapInfo .containerInfo h2{
+        font-size: 1.5em;
+      }
+
+      .containerMapInfo .containerInfo p{
+        font-size: 1em;
+      }
+
+      .containerMapInfo .containerInfo{
+        margin-bottom: 3em;
+      }
+    }
+
+
+  </style>
+
+    <div>        
+
+        <div class="bg-cover bg-center h-screen flex items-center justify-center containerComNomImg" style="background-image: url(../../static/img/plantilla5/2.png);">
+                
+          <div class="ml-36 w-6/12 h-full containerNomImg">
+
+            <!-- !LOGO -->
+            <div>
+
+            </div>
+            <!-- !FIN LOGO -->
+
+            <h1 class="flex text-8xl font-bold text-white w-full mb-3 mt-80">{{ content['cardData'][10] }} {{ content['cardData'][2] }} {{ content['cardData'][3] }} {{ content['cardData'][4] }}</h1>
+            <h2 class="flex text-xl font-bold text-white mb-3">{{ content['cardData'][7] }}</h2>
+
+            <div class="flex justify-center hidden imagenPerRes">
+              <img class="h-5/6 w-full object-cover " src="{{ url_for('static', filename=content['cardData'][5]) }}" alt="Imagen de perfil">
+            </div>
+
+            {% if content['socials'] %}
+            <div class="flex containerSocial">
+                {% for redSocialData in content['socials'] %}
+                    <div class="flex m-2">
+                            <a href="{{ redSocialData[4] }}" target="_blank">                                
+                                {% if redSocialData[2] == 'instagram' %}
+                                    <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="30" zoomAndPan="magnify" viewBox="371.187 370.92 67.456 68.027" height="30" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                              <clipPath id="d2b03f1e5a">
+                                                <path d="M 371.386719 371.386719 L 438.886719 371.386719 L 438.886719 438.886719 L 371.386719 438.886719 Z M 371.386719 371.386719 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#d2b03f1e5a)">
+                                              <path fill="#f5f3eb" d="M 438.605469 428.390625 C 438.605469 434.023438 434.023438 438.605469 428.390625 438.605469 L 381.601562 438.605469 C 375.96875 438.605469 371.386719 434.023438 371.386719 428.390625 L 371.386719 381.601562 C 371.386719 375.96875 375.96875 371.386719 381.601562 371.386719 L 428.390625 371.386719 C 434.023438 371.386719 438.605469 375.96875 438.605469 381.601562 Z M 438.605469 428.390625 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            <path fill="#000000" d="M 390.941406 386.289062 L 419.996094 386.289062 C 422.757812 386.289062 425.023438 388.542969 425.023438 391.316406 L 425.023438 420.371094 C 425.023438 423.128906 422.769531 425.386719 419.996094 425.386719 L 390.941406 425.386719 C 388.183594 425.386719 385.914062 423.128906 385.914062 420.371094 L 385.914062 391.316406 C 385.914062 388.542969 388.171875 386.289062 390.941406 386.289062 Z M 414.386719 390.636719 C 413.417969 390.636719 412.632812 391.433594 412.632812 392.402344 L 412.632812 396.621094 C 412.632812 397.589844 413.429688 398.386719 414.386719 398.386719 L 418.792969 398.386719 C 419.765625 398.386719 420.546875 397.589844 420.546875 396.621094 L 420.546875 392.402344 C 420.546875 391.433594 419.753906 390.636719 418.792969 390.636719 Z M 420.59375 402.828125 L 417.15625 402.828125 C 417.472656 403.902344 417.660156 405.011719 417.660156 406.183594 C 417.660156 412.679688 412.214844 417.953125 405.515625 417.953125 C 398.820312 417.953125 393.371094 412.679688 393.371094 406.183594 C 393.371094 405.011719 393.546875 403.890625 393.875 402.828125 L 390.285156 402.828125 L 390.285156 419.34375 C 390.285156 420.195312 390.988281 420.886719 391.839844 420.886719 L 419.0625 420.886719 C 419.914062 420.886719 420.617188 420.183594 420.617188 419.34375 Z M 405.492188 398.152344 C 401.167969 398.152344 397.648438 401.566406 397.648438 405.761719 C 397.648438 409.957031 401.167969 413.371094 405.492188 413.371094 C 409.828125 413.371094 413.335938 409.957031 413.335938 405.761719 C 413.347656 401.542969 409.839844 398.152344 405.492188 398.152344 Z M 405.492188 398.152344 " fill-opacity="1" fill-rule="nonzero"/>
+                                        </svg>
+                                    </div>
+                                {% elif redSocialData[2] == 'linkedin' %}
+                                    <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="30" zoomAndPan="magnify" viewBox="370.995 370.847 68.09 68.011" height="30" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                              <clipPath id="6bd8b1973a">
+                                                <path d="M 371.230469 371.234375 L 438.730469 371.234375 L 438.730469 438.730469 L 371.230469 438.730469 Z M 371.230469 371.234375 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#6bd8b1973a)">
+                                              <path fill="#f5f3eb" d="M 438.769531 428.5 C 438.769531 434.167969 434.171875 438.761719 428.503906 438.761719 L 381.496094 438.761719 C 375.828125 438.761719 371.234375 434.167969 371.234375 428.5 L 371.234375 381.492188 C 371.234375 375.824219 375.828125 371.226562 381.496094 371.226562 L 428.503906 371.226562 C 434.171875 371.226562 438.769531 375.824219 438.769531 381.492188 Z M 438.769531 428.5 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            <path fill="#000000" d="M 397.9375 395.320312 C 397.9375 395.652344 397.90625 395.980469 397.839844 396.304688 C 397.777344 396.632812 397.679688 396.945312 397.554688 397.253906 C 397.429688 397.558594 397.273438 397.847656 397.089844 398.125 C 396.90625 398.398438 396.695312 398.65625 396.460938 398.890625 C 396.226562 399.125 395.972656 399.332031 395.695312 399.515625 C 395.421875 399.699219 395.128906 399.855469 394.824219 399.984375 C 394.519531 400.109375 394.203125 400.207031 393.878906 400.269531 C 393.554688 400.335938 393.226562 400.367188 392.894531 400.367188 C 392.5625 400.367188 392.234375 400.335938 391.910156 400.269531 C 391.585938 400.207031 391.269531 400.109375 390.964844 399.984375 C 390.65625 399.855469 390.367188 399.699219 390.089844 399.515625 C 389.816406 399.332031 389.5625 399.125 389.328125 398.890625 C 389.09375 398.65625 388.882812 398.398438 388.699219 398.125 C 388.515625 397.847656 388.359375 397.558594 388.234375 397.253906 C 388.105469 396.945312 388.011719 396.632812 387.945312 396.304688 C 387.882812 395.980469 387.847656 395.652344 387.847656 395.320312 C 387.847656 394.992188 387.882812 394.664062 387.945312 394.339844 C 388.011719 394.011719 388.105469 393.699219 388.234375 393.390625 C 388.359375 393.085938 388.515625 392.792969 388.699219 392.519531 C 388.882812 392.242188 389.09375 391.988281 389.328125 391.753906 C 389.5625 391.519531 389.816406 391.3125 390.089844 391.128906 C 390.367188 390.945312 390.65625 390.789062 390.964844 390.660156 C 391.269531 390.535156 391.585938 390.4375 391.910156 390.375 C 392.234375 390.308594 392.5625 390.277344 392.894531 390.277344 C 393.226562 390.277344 393.554688 390.308594 393.878906 390.375 C 394.203125 390.4375 394.519531 390.535156 394.824219 390.660156 C 395.128906 390.789062 395.421875 390.945312 395.695312 391.128906 C 395.972656 391.3125 396.226562 391.519531 396.460938 391.753906 C 396.695312 391.988281 396.90625 392.242188 397.089844 392.519531 C 397.273438 392.792969 397.429688 393.085938 397.554688 393.390625 C 397.679688 393.699219 397.777344 394.011719 397.839844 394.339844 C 397.90625 394.664062 397.9375 394.992188 397.9375 395.320312 Z M 397.9375 395.320312 " fill-opacity="1" fill-rule="nonzero"/>
+                                            <path fill="#000000" d="M 388.542969 404.085938 L 397.210938 404.085938 L 397.210938 431.96875 L 388.542969 431.96875 Z M 388.542969 404.085938 " fill-opacity="1" fill-rule="nonzero"/>
+                                            <path fill="#000000" d="M 402.664062 404.085938 L 410.910156 404.085938 L 410.910156 431.96875 L 402.664062 431.96875 Z M 402.664062 404.085938 " fill-opacity="1" fill-rule="nonzero"/>
+                                            <path fill="#000000" d="M 403.019531 418.929688 L 411.269531 418.929688 L 411.269531 431.96875 L 403.019531 431.96875 Z M 403.019531 418.929688 " fill-opacity="1" fill-rule="nonzero"/>
+                                            <path fill="#000000" d="M 411.269531 418.929688 C 411.269531 418.929688 411.140625 415.316406 412.09375 413.433594 C 412.09375 413.433594 413.046875 411.117188 416.042969 411.105469 C 416.042969 411.105469 419.5625 410.492188 420.570312 413.980469 C 420.570312 413.980469 420.949219 415.914062 420.949219 416.734375 C 420.949219 417.550781 420.976562 431.96875 420.976562 431.96875 L 429.617188 431.96875 L 429.617188 415.996094 C 429.617188 415.996094 430.246094 406.976562 424.828125 404.503906 C 424.828125 404.503906 415.925781 400.507812 411.09375 407.847656 C 411.09375 407.847656 410.039062 408.574219 409.894531 406.539062 C 409.75 404.503906 408.511719 409.664062 408.476562 409.773438 C 408.441406 409.882812 409.894531 420.058594 409.894531 420.058594 Z M 411.269531 418.929688 " fill-opacity="1" fill-rule="nonzero"/>
+                                        </svg>
+                                    </div>
+                                {% elif redSocialData[2] == 'facebook' %}
+                                    <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="30" zoomAndPan="magnify" viewBox="372 371.976 65.49 65.652" height="30" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                              <clipPath id="e638637779">
+                                                <path d="M 372.191406 372.191406 L 437.441406 372.191406 L 437.441406 437.441406 L 372.191406 437.441406 Z M 372.191406 372.191406 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#e638637779)">
+                                              <path fill="#f5f3eb" d="M 437.804688 427.824219 C 437.804688 433.332031 433.339844 437.796875 427.832031 437.796875 L 382.164062 437.796875 C 376.65625 437.796875 372.191406 433.332031 372.191406 427.824219 L 372.191406 382.15625 C 372.191406 376.648438 376.65625 372.183594 382.164062 372.183594 L 427.832031 372.183594 C 433.339844 372.183594 437.804688 376.648438 437.804688 382.15625 Z M 437.804688 427.824219 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                            <path fill="#000000" d="M 415.667969 410.085938 L 416.726562 401.859375 L 408.582031 401.859375 L 408.582031 396.609375 C 408.582031 394.226562 409.246094 392.605469 412.660156 392.605469 L 417.011719 392.601562 L 417.011719 385.242188 C 416.261719 385.144531 413.675781 384.917969 410.667969 384.917969 C 404.382812 384.917969 400.085938 388.753906 400.085938 395.792969 L 400.085938 401.859375 L 392.984375 401.859375 L 392.984375 410.085938 L 400.085938 410.085938 L 400.085938 431.195312 L 408.582031 431.195312 L 408.582031 410.085938 Z M 415.667969 410.085938 " fill-opacity="1" fill-rule="nonzero"/>
+                                        </svg>
+                                    </div>
+                                {% elif redSocialData[2] == 'twitter' %}
+                                    <div rel="noopener noreferrer" class="flex items-center space-x-2 text-white">
+                                        <svg width="30" zoomAndPan="magnify" viewBox="371.098 370.807 67.977 68.219" height="30" preserveAspectRatio="xMidYMid meet" version="1.0" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                              <clipPath id="52b1e3282e">
+                                                <path d="M 371.359375 371.261719 L 438.640625 371.261719 L 438.640625 438.804688 L 371.359375 438.804688 Z M 371.359375 371.261719 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                              <clipPath id="26588e1618">
+                                                <path d="M 382.609375 371.261719 L 427.390625 371.261719 C 433.605469 371.261719 438.640625 376.296875 438.640625 382.511719 L 438.640625 427.488281 C 438.640625 433.703125 433.605469 438.738281 427.390625 438.738281 L 382.609375 438.738281 C 376.394531 438.738281 371.359375 433.703125 371.359375 427.488281 L 371.359375 382.511719 C 371.359375 376.296875 376.394531 371.261719 382.609375 371.261719 Z M 382.609375 371.261719 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                              <clipPath id="678bb44142">
+                                                <path d="M 382.972656 385.175781 L 427.222656 385.175781 L 427.222656 424.925781 L 382.972656 424.925781 Z M 382.972656 385.175781 " clip-rule="nonzero"/>
+                                              </clipPath>
+                                            </defs>
+                                            <g clip-path="url(#52b1e3282e)">
+                                              <g clip-path="url(#26588e1618)">
+                                                <path fill="#f5f3eb" d="M 371.359375 371.261719 L 438.640625 371.261719 L 438.640625 438.804688 L 371.359375 438.804688 Z M 371.359375 371.261719 " fill-opacity="1" fill-rule="nonzero"/>
+                                              </g>
+                                            </g>
+                                            <g clip-path="url(#678bb44142)">
+                                              <path fill="#000000" d="M 410.769531 401.5625 L 422.277344 385.175781 L 416.5625 385.175781 L 407.90625 397.496094 L 400.171875 386.578125 L 399.167969 385.214844 L 399.167969 385.175781 L 382.972656 385.175781 L 386.652344 390.332031 L 399.8125 409.007812 L 388.625 424.925781 L 394.339844 424.925781 L 402.671875 413.066406 L 410.015625 423.492188 L 411.007812 424.925781 L 427.222656 424.925781 L 423.542969 419.667969 Z M 420.824219 421.65625 L 412.734375 421.65625 L 389.371094 388.796875 L 397.617188 388.796875 L 397.574219 388.671875 L 420.832031 421.65625 Z M 420.824219 421.65625 " fill-opacity="1" fill-rule="nonzero"/>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}   
+            
+            
+          </div>
+
+            <div class="ml-28 line-clamp-10 mt-4 w-6/12 mr-24 h-full imagenPer">
+                <img class="h-5/6 w-full object-cover mt-20" src="{{ url_for('static', filename=content['cardData'][5]) }}" alt="Imagen de perfil">
+            </div>
+        </div>
+
+        {% if content['aboutme'] %}
+        <div class="flex mt-20 h-auto containerSobreMi">
+            <div class="w-6/12 h-96 containerVideo">                
+                <iframe class="w-full h-96" src="https://www.youtube-nocookie.com/embed/{{ content['aboutme'][0][6] }}?si=xxBgOEram01mo9dV&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="w-6/12 containerText">
+              <h2 class="flex text-4xl font-bold text-white mb-3 ml-14">Sobre mi</h2>
+              <p class="text-white ml-14 text-justify mr-10">{{ content['aboutme'][0][5] }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        
+        {% if content['costumers'] %}
+        <div class="flex flex-wrap mt-16 justify-center ml-10 containerClientes">   
+          <h2 class="flex text-4xl font-bold text-white mb-5 mt-8 justify-center clientesh2"> Clientes: </h2>
+          
+          {% for client in content['costumers'] %}        
+              <div class="flex flex-col items-center m-10 mb-10">     
+                  <h2 class="text-white text-xl font-bold">{{ client[0] }}</h2>               
+                  <img class="mb-5 w-32 h-6 mt-3" src="{{ url_for('static', filename= 'img/plantilla5/Estrellas.png' ) }}" alt=""> 
+                  <div class="max-w-xs">
+                      <p class="text-white text-justify text-xs">{{ client[3] }}</p>
+                  </div>
+              </div>                             
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        
+        {% if content['briefcase'] %}
+        <div class="containerPortafolio">
+            <h2 class="flex text-4xl font-bold text-white mt-10 mb-10 justify-center"> Mi portafolio</h2>
+            <div class="flex flex-wrap justify-center">
+                {% for content in content['briefcase'] %}
+                    <div class="flex flex-col items-center">                    
+                        <img class="mb-2 w-64 h-60 object-cover" src="{{ url_for('static', filename= content[0]) }}" alt="">                    
+                    </div>                             
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %} 
+
+
+        {% if content['ubication'] %}
+        <div class="flex items-center justify-center containerMapInfo">
+
+          <div class="flex flex-col items-center justify-center m-5 w-6/12 containerMap">
+            <div class="h-[200px] w-[200px] sm:h-[400px] sm:w-[600px] flex justify-center mt-8 mb-5 map" id="map"></div>
+          </div>
+
+          <div class="flex flex-col w-6/12 justify-center items-center containerInfo">
+
+            <div class="flex flex-col justify-center">
+              <h2 class="text-gray-400 text-4xl">Dirección</h2>
+              <p class="text-white text-xl">{{ content['ubication'][0][7] }}</p>
+            
+              <h2 class="text-gray-400 text-4xl mt-10">Número telefónico</h2>
+              <a href="tel:{{ content['cardData'][9] }}"><p class="text-white text-xl">{{ content['cardData'][9] }}</p></a>
+          
+              <h2 class="text-gray-400 text-4xl mt-10">Dirección de correo electrónico</h2>
+              <a href="mailto:{{ content['cardData'][8] }}"><p class="text-white text-xl">{{ content['cardData'][8] }}</p></a>
+            </div>
+
+          </div>
+
+        </div>
+        {% endif %}
+        
+    </div>
+    
+    {% if content['ubication'] %}
+    <script> 
+        function initMap() {
+            var myLatLng = { lat: {{ content['ubication'][0][5] }}, lng: {{ content['ubication'][0][6] }} };            
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: myLatLng,
+                zoom: 18,
+                disableDefaultUI: true
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Estoy aqui !!'
+            });
+        }
+    </script>
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOxlT3Rswp8bJYPGHF6u4bXBuoeo1RAA&callback=initMap"></script>
+    {% endif %}
+</div>
+
+{% endblock %}

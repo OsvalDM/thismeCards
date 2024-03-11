@@ -11,6 +11,12 @@
 {% elif template == 2 %}
     <body class="">
     {% include 'partials/card2.html' %}
+{% elif template == 3 %}
+    <body class="bg-black">
+    {% include 'partials/card3.html' %}
+{% elif template == 4 %}
+    <body class="bg-neutral-900">
+    {% include 'partials/card4.html' %}
 {% endif %}
 
 {% include 'partials/baseEnd.html' %}
