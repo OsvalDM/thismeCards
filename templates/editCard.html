@@ -150,6 +150,7 @@
 
                 </div>
                 <!--Tab for aboutme -->            
+                {% if content['aboutme'] %}
                 <div class="hidden p-4 rounded-lg bg-white " id="aboutme" role="tabpanel" aria-labelledby="aboutme-tab">
                     <h3 class="font-bold text-3xl w-full text-center mb-8 text-black">Sobre mi</h3> 
                     <form class="w-full" action="/editAboutme" method="post" enctype="multipart/form-data">
@@ -166,6 +167,8 @@
                     </form>
 
                 </div>
+                {% endif %}
+                {% if content['briefcase'] %}  
                 <!--Tab for portafolio -->            
                 <div class="hidden p-4 rounded-lg bg-white " id="content" role="tabpanel" aria-labelledby="content-tab">
                     <h3 class="font-bold text-3xl w-full text-center mb-8 text-black">Mi portafolio</h3> 
@@ -282,6 +285,8 @@
                         </div>                        
                     </form>
                 </div>
+                {% endif %}
+                {% if content['costumers'] %}
                 <!--Tab for clientes -->            
                 <div class="hidden p-4 rounded-lg bg-white " id="clients" role="tabpanel" aria-labelledby="clients-tab">
 
@@ -403,6 +408,8 @@
                         <p>No cuenta con clientes registrados aun, por favor registre alguno primero</p>
                     {% endif %}
                 </div>
+                {% endif %}
+                {% if content['ubication'] %}
                 <!--Tab for ubicacion -->            
                 <div class="hidden p-4 rounded-lg bg-white " id="ubicacion" role="tabpanel" aria-labelledby="ubicacion-tab">
                     <h3 class="font-bold text-3xl w-full text-center mb-8 text-black">Mi ubicacion</h3> 
@@ -424,6 +431,7 @@
                         </div>                        
                     </form>
                 </div> 
+                {% endif %}
                 <!--Tab for personalization -->            
                 <div class="hidden p-4 rounded-lg bg-white " id="personalization" role="tabpanel" aria-labelledby="personalization-tab">
                     <h3 class="font-bold text-3xl w-full text-center mb-8 text-black">Personalizacion</h3> 
@@ -491,7 +499,7 @@
             return true;
         }
     </script>
-
+{% if content['ubication'] %}
     <script>
         var map;
         var marker;
@@ -517,6 +525,7 @@
         }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCckDoGKVyi-QaQe6nLYwtmo9V0pgkz_CA&callback=initMap"></script>
+{% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
 {% include 'partials/baseEnd.html' %}
