@@ -199,11 +199,11 @@
                                     {% endif %}                       
                                     <div class="mb-2 w-full">
                                         <label for="tittle2" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                                        <input type="text" id="tittle2" name="tittle2" value="{{ content['briefcase'][1][1] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="tittle2" name="tittle2" {% if content['briefcase'][1] %} value="{{ content['briefcase'][1][1] }}" {% endif %} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>         
                                     <div class="mb-5 w-full">
                                         <label for="desc2" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                                        <input type="text" id="desc2" name="desc2" value="{{ content['briefcase'][1][2] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="desc2" name="desc2" {% if content['briefcase'][1] %} value="{{ content['briefcase'][1][2] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <input class="block w-40 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content2" name="content2" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content2'))" >
                                 </div>
@@ -218,11 +218,11 @@
                                     {% endif %}   
                                     <div class="mb-2 w-full">
                                         <label for="tittle3" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                                        <input type="text" id="tittle3" name="tittle3" value="{{ content['briefcase'][2][1] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="tittle3" name="tittle3" {% if content['briefcase'][2] %} value="{{ content['briefcase'][2][1] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <div class="mb-5 w-full">
                                         <label for="desc3" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                                        <input type="text" id="desc3" name="desc3" value="{{ content['briefcase'][2][2] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="desc3" name="desc3" {% if content['briefcase'][2] %} value="{{ content['briefcase'][2][2] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div> 
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content3" name="content3" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content3'))" >
                                 </div>
@@ -236,11 +236,11 @@
                                     {% endif %}  
                                     <div class="mb-2 w-full">
                                         <label for="tittle4" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                                        <input type="text" id="tittle4" name="tittle4" value="{{ content['briefcase'][3][1] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="tittle4" name="tittle4" {% if content['briefcase'][3] %} value="{{ content['briefcase'][3][1] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <div class="mb-5 w-full">
                                         <label for="desc4" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                                        <input type="text" id="desc4" name="desc4" value="{{ content['briefcase'][3][2] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="desc4" name="desc4" {% if content['briefcase'][3] %} value="{{ content['briefcase'][3][2] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>  
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content4" name="content4" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content4'))" >
                                 </div>
@@ -254,11 +254,11 @@
                                     {% endif %}   
                                     <div class="mb-2 w-full">
                                         <label for="tittle5" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                                        <input type="text" id="tittle5" name="tittle5" value="{{ content['briefcase'][4][1] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="tittle5" name="tittle5" {% if content['briefcase'][4] %} value="{{ content['briefcase'][4][1] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <div class="mb-5 w-full">
                                         <label for="desc5" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                                        <input type="text" id="desc5" name="desc5" value="{{ content['briefcase'][4][2] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="desc5" name="desc5" {% if content['briefcase'][4] %} value="{{ content['briefcase'][4][2] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content5" name="content5" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content5'))" >
                                 </div>
@@ -272,11 +272,11 @@
                                     {% endif %}   
                                     <div class="mb-2 w-full">
                                         <label for="tittle6" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                                        <input type="text" id="tittle6" name="tittle6" value="{{ content['briefcase'][5][1] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="tittle6" name="tittle6" {% if content['briefcase'][5] %} value="{{ content['briefcase'][5][1] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <div class="mb-5 w-full">
                                         <label for="desc6" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                                        <input type="text" id="desc6" name="desc6" value="{{ content['briefcase'][5][2] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
+                                        <input type="text" id="desc6" name="desc6" {% if content['briefcase'][5] %} value="{{ content['briefcase'][5][2] }}" {% endif %}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ">
                                     </div>
                                     <input class="block w-full mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none " aria-describedby="user_avatar_help" id="content6" name="content6" type="file"  accept="image/*" onchange="validateFile(document.getElementById('content6'))" >
                                 </div>
