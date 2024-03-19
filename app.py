@@ -310,6 +310,8 @@ def editBriefcase():
 
         urlConten = []
         urlUpdate = []
+        tittles = []
+        descs = []
         previousContent = []
         nameFields = ['content1', 'content2', 'content3', 'content4', 'content5', 'content6']
         
@@ -323,6 +325,10 @@ def editBriefcase():
                 urlUpdate.append( saveFile(content, 'content', id, True, n) )
             elif previous == '' and content:
                 urlConten.append( saveFile(content, 'content', id, True, n) )
+            
+            if previous!= '' or content:
+                tittles.append( request.form['tittle'+ str(n+1)] )
+                descs.append( request.form['desc'+ str(n+1)] )
             n += 1
 
         data = {
