@@ -61,7 +61,7 @@ def getUserData(mysql, userName, editFix = False):
                 content['aboutme'] = aboutme
             
             #get briefcase
-            cur.execute('''SELECT bi.urlImg, bi.tittle, bi.description 
+            cur.execute('''SELECT bi.urlImg, bi.tittle, bi.description, bi.id
                             FROM COMPONENT AS c
                             NATURAL JOIN BRIEFCASE AS b
                             JOIN BRIEFCASE_IMAGE AS bi ON b.id = bi.briefcase
