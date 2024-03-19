@@ -10,7 +10,7 @@ def createCardBase(mysql, data, socials):
                     (data['user'], data['name'], data['lastFat'], data['lastMot'], data['file'], data['charge'], data['email'], data['cellphone'], data['tittle']) )
         mysql.connection.commit()
         
-        cur.execute('SELECT id FROM CARD WHERE user = %s', (id,))
+        cur.execute('SELECT id FROM CARD WHERE user = %s', (data['user'],))
         cardData = cur.fetchone()
 
         #Redes sociales        
@@ -30,10 +30,10 @@ def createCardBase(mysql, data, socials):
             cur.execute('INSERT INTO SOCIAL(user, name, link) VALUES (%s, %s, %s)', (cardData[0], 'linkedin', socials['linkedin']) )
             mysql.connection.commit()
         
-        cur.execute('INSERT INTO STYLE(user) VALUES (%s)', (id, ))
+        cur.execute('INSERT INTO STYLE(user) VALUES (%s)', (data['user'], ))
         mysql.connection.commit()
 
-        cur.execute('INSERT INTO LOGS(user, detail) VALUES (%s, %s)', (id, 'Create card - ' + str(cardData[0]) ) )            
+        cur.execute('INSERT INTO LOGS(user, detail) VALUES (%s, %s)', (data['user'], 'Create card - ' + str(cardData[0]) ) )            
         mysql.connection.commit()
 
         return True
