@@ -195,6 +195,7 @@ def costumersPost():
         data = {
             'user' : user[0],
             'name' : request.form['name'],
+            'desc' : request.form['desc'],
             'img' : urlCostumer
         }
         
@@ -372,6 +373,7 @@ def newCostumer():
         data = {
             'user' : user[0],
             'name' : request.form['name'],
+            'desc' : request.form['desc'],
             'img' : urlCostumer
         }
         

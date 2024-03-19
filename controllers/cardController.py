@@ -117,8 +117,8 @@ def addClient(mysql, data):
                     (idRow, data['user']))
         mysql.connection.commit()
         
-        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img) VALUES(%s, %s, %s)', 
-                    (idRow, data['name'], data['img']))
+        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img, description) VALUES(%s, %s, %s, %s)', 
+                    (idRow, data['name'], data['img'], data['desc']))
         mysql.connection.commit()
 
         return True
@@ -137,8 +137,8 @@ def addClientItem(mysql, data):
         cur.execute('SELECT id FROM COMPONENT WHERE user = %s and category = %s', (data['user'], 'COSTUMER'))
         idRow = cur.fetchone()[0]
         
-        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img) VALUES(%s, %s, %s)', 
-                    (idRow, data['name'], data['img']))
+        cur.execute('INSERT INTO COSTUMER_DATA(costumer, name, img, description) VALUES(%s, %s,%s, %s)', 
+                    (idRow, data['name'], data['img'], data['desc']))
         mysql.connection.commit()
 
         return True
