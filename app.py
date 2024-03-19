@@ -311,6 +311,7 @@ def editBriefcase():
         urlConten = []
         urlUpdate = []
         contentText = []
+        contentTextNew = []
         previousContent = []
         nameFields = ['content1', 'content2', 'content3', 'content4', 'content5', 'content6']
         
@@ -324,13 +325,19 @@ def editBriefcase():
                 urlUpdate.append( saveFile(content, 'content', id, True, n) )
             elif previous == '' and content:
                 urlConten.append( saveFile(content, 'content', id, True, n) )
+                contentTextNew.append([
+                    request.form['tittle'+ str(n+1)],
+                    request.form['desc'+ str(n+1)]                    
+                ])
             
-            if previous!= '' or content:
+            if previous!= '':
                 contentText.append([
                     request.form['tittle'+ str(n+1)],
                     request.form['desc'+ str(n+1)],
                     request.form['id'+ str(n+1)]
-                ])                
+                ])            
+
+
             n += 1
 
         data = {
@@ -338,7 +345,8 @@ def editBriefcase():
             'content' : urlUpdate,
             'previous' : previousContent,
             'new' : urlConten,
-            'contentText' : contentText
+            'contentText' : contentText,
+            'contentTextNew' :contentTextNew
         }
         
         editBriefcaseF(mysql,data)

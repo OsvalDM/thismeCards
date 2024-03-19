@@ -317,11 +317,12 @@ def editBriefcaseF(mysql, data):
             cur.execute('UPDATE BRIEFCASE_IMAGE SET urlImg = %s WHERE urlImg = %s', 
                         (data['content'][i], data['previous'][i]))
             mysql.connection.commit()
-
+        n = 0
         for url in data['new']:
-            cur.execute('INSERT INTO BRIEFCASE_IMAGE(briefcase, urlImg) VALUES(%s, %s)', 
-                        (idRow, url))
+            cur.execute('INSERT INTO BRIEFCASE_IMAGE(briefcase, urlImg, tittle, description) VALUES(%s, %s, %s, %s)', 
+                        (idRow, url, data['contentTextNew'][n][0], data['contentTextNew'][n][1]))
             mysql.connection.commit()
+            n += 1
         
         for i in range( len(data['contentText']) ):
             cur.execute('UPDATE BRIEFCASE_IMAGE SET tittle = %s, description = %s WHERE id = %s', 
