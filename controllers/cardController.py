@@ -336,8 +336,8 @@ def editClientF(mysql, data):
     cur = mysql.connection.cursor()
 
     try:            
-        cur.execute('UPDATE COSTUMER_DATA SET name = %s, img = %s WHERE id = %s', 
-                    (data['name'], data['img'], data['id']))
+        cur.execute('UPDATE COSTUMER_DATA SET name = %s, img = %s, description = %s WHERE id = %s', 
+                    (data['name'], data['img'], data['desc'], data['id']))
         mysql.connection.commit()
 
         return True

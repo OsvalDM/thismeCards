@@ -351,6 +351,7 @@ def editClient(id):
         data = {
             'id' : id,
             'name' : request.form['name'],
+            'desc' : request.form['desc'],
             'img' : urlCostumer
         }
         
