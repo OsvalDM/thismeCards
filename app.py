@@ -45,7 +45,7 @@ def dashboard():
     if user:
         urlQr = generateQr( 'https://rostroempresarial.com/mycard/' + user[2] )
         data = getUserData(mysql, user[2])
-        return render_template('dashboard.html', content = data, urlQr = urlQr[0], user = user, template = data['style'][4])
+        return render_template('dashboard.html', content = data, urlQr = urlQr[0], user = user)
     else:
         return redirect(url_for('login'))
 
